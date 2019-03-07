@@ -95,9 +95,6 @@ public class Tables extends JFrame{
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
-		JScrollPane scrollPane1 = new JScrollPane();
-		scrollPane1.setBorder(new EmptyBorder(0, 0, 0, 0));
-		
 		JTable table = new JTable();
 		table.setFont(new Font("Calibri", Font.PLAIN, 16));
 		table.setRowHeight(32);
@@ -108,19 +105,6 @@ public class Tables extends JFrame{
 	    header.setBackground(new Color(155, 177, 166));
 	    header.setForeground(Color.WHITE);
 		scrollPane.setViewportView(table);
-		
-		JTable table1 = new JTable();
-		table.setFont(new Font("Calibri", Font.PLAIN, 16));
-		table.setRowHeight(32);
-		table.setBorder(null);
-		
-		JTableHeader header1 = table1.getTableHeader();
-		header1.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
-	    header1.setBackground(new Color(155, 177, 166));
-	    header1.setForeground(Color.WHITE);
-		scrollPane1.setViewportView(table1);
-	
-		
 		
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 		if (defaults.get("Table.alternateRowColor") == null)
@@ -136,7 +120,9 @@ public class Tables extends JFrame{
 				try {
 					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 					Statement stat=conn.createStatement();
-					ResultSet rs=stat.executeQuery("SELECT trans_passportNo AS 'Passport No' "+ 
+					ResultSet rs=stat.executeQuery("SELECT client_id AS 'Client ID',"
+							+ "trans_transId AS 'Transaction ID'" +
+							",trans_passportNo AS 'Passport No' "+ 
 							", trans_tinID AS 'TIN ID' " + 
 							", trans_visaType AS 'Visa Type' " + 
 							", trans_visaStartDate AS 'Visa Start Date' " + 
@@ -147,33 +133,13 @@ public class Tables extends JFrame{
 							", trans_aepID AS 'AEP ID' " + 
 							", trans_aepStartDate AS 'AEP Start Date' " + 
 							", trans_aepEndDate AS 'AEP Expiry Date' " + 
-							" FROM jdl_accounts.transactions");
-					
-					ResultSet rs1 =stat.executeQuery("SELECT trans_passportNo AS 'Passport No' "+ 
-							", trans_tinID AS 'TIN ID' " + 
-							", trans_visaType AS 'Visa Type' " + 
-							", trans_visaStartDate AS 'Visa Start Date' " + 
-							", trans_visaEndDate AS 'Visa Expiry Date' " + 
-							", trans_permitType AS 'Permit Type' " + 
-							", trans_permitStartDate AS 'Permit Start Date' " + 
-							", trans_permitEndDate AS 'Permit Expiry Date' " + 
-							", trans_aepID AS 'AEP ID' " + 
-							", trans_aepStartDate AS 'AEP Start Date' " + 
-							", trans_aepEndDate AS 'AEP Expiry Date' " + 
-							" FROM jdl_accounts.transactions" +
-							" WHERE client_id = "+tables_clientIdTxt.getText());
+							" FROM jdl_accounts.transactions ORDER BY trans_transId DESC");
 					
 					table.setModel(DbUtils.resultSetToTableModel(rs));
 					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 					
 					TableColumnAdjuster tca = new TableColumnAdjuster(table);
 					tca.adjustColumns();
-					
-					table1.setModel(DbUtils.resultSetToTableModel(rs));
-					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-					
-					TableColumnAdjuster tca1 = new TableColumnAdjuster(table1);
-					tca1.adjustColumns();
 
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -573,7 +539,7 @@ public class Tables extends JFrame{
 				Connection conn2;
 				try {
 					String sql = "INSERT INTO jdl_accounts.transactions (trans_passportNo, trans_tinID, trans_visaType, trans_visaStartDate, trans_visaEndDate, trans_permitType, trans_permitStartDate, trans_permitEndDate, trans_aepID, "
-							+ "trans_aepStartDate, trans_aepEndDate) values (?,?,?,?,?,?,?,?,?,?,?) WHERE client_id= ?)";
+							+ "trans_aepStartDate, trans_aepEndDate, client_id) values (?,?,?,?,?,?,?,?,?,?,?,?)";
 					
 					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 					PreparedStatement statement1 = conn2.prepareStatement(sql);
@@ -611,6 +577,8 @@ public class Tables extends JFrame{
 						statement1.setDate(11, null);
 					else
 						statement1.setDate(11, java.sql.Date.valueOf(aepEndPick.getJFormattedTextField().getText().toString()));
+					statement1.setString(12, tables_clientIdTxt.getText());
+					
 					statement1.setString(12, tables_clientIdTxt.getText());
 					
 					statement1.executeUpdate();
