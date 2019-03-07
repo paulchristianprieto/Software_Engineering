@@ -95,6 +95,9 @@ public class Tables extends JFrame{
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
+		JScrollPane scrollPane1 = new JScrollPane();
+		scrollPane1.setBorder(new EmptyBorder(0, 0, 0, 0));
+		
 		JTable table = new JTable();
 		table.setFont(new Font("Calibri", Font.PLAIN, 16));
 		table.setRowHeight(32);
@@ -105,6 +108,18 @@ public class Tables extends JFrame{
 	    header.setBackground(new Color(155, 177, 166));
 	    header.setForeground(Color.WHITE);
 		scrollPane.setViewportView(table);
+		
+		JTable table1 = new JTable();
+		table.setFont(new Font("Calibri", Font.PLAIN, 16));
+		table.setRowHeight(32);
+		table.setBorder(null);
+		
+		JTableHeader header1 = table1.getTableHeader();
+		header1.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
+	    header1.setBackground(new Color(155, 177, 166));
+	    header1.setForeground(Color.WHITE);
+		scrollPane1.setViewportView(table1);
+	
 		
 		
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
@@ -134,11 +149,31 @@ public class Tables extends JFrame{
 							", trans_aepEndDate AS 'AEP Expiry Date' " + 
 							" FROM jdl_accounts.transactions");
 					
+					ResultSet rs1 =stat.executeQuery("SELECT trans_passportNo AS 'Passport No' "+ 
+							", trans_tinID AS 'TIN ID' " + 
+							", trans_visaType AS 'Visa Type' " + 
+							", trans_visaStartDate AS 'Visa Start Date' " + 
+							", trans_visaEndDate AS 'Visa Expiry Date' " + 
+							", trans_permitType AS 'Permit Type' " + 
+							", trans_permitStartDate AS 'Permit Start Date' " + 
+							", trans_permitEndDate AS 'Permit Expiry Date' " + 
+							", trans_aepID AS 'AEP ID' " + 
+							", trans_aepStartDate AS 'AEP Start Date' " + 
+							", trans_aepEndDate AS 'AEP Expiry Date' " + 
+							" FROM jdl_accounts.transactions" +
+							" WHERE client_id = "+tables_clientIdTxt.getText());
+					
 					table.setModel(DbUtils.resultSetToTableModel(rs));
 					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 					
 					TableColumnAdjuster tca = new TableColumnAdjuster(table);
 					tca.adjustColumns();
+					
+					table1.setModel(DbUtils.resultSetToTableModel(rs));
+					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					
+					TableColumnAdjuster tca1 = new TableColumnAdjuster(table1);
+					tca1.adjustColumns();
 
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -537,8 +572,9 @@ public class Tables extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				Connection conn2;
 				try {
-					String sql = "UPDATE jdl_accounts.transactions SET trans_passportNo = ?, trans_tinID = ?, trans_visaType = ?, trans_visaStartDate = ?, trans_visaEndDate = ?, trans_permitType = ?, trans_permitStartDate = ?, trans_permitEndDate = ?, trans_aepID = ?, trans_aepStartDate = ?,"
-							+ "trans_aepEndDate = ? WHERE client_id =?";
+					String sql = "INSERT INTO jdl_accounts.transactions (trans_passportNo, trans_tinID, trans_visaType, trans_visaStartDate, trans_visaEndDate, trans_permitType, trans_permitStartDate, trans_permitEndDate, trans_aepID, "
+							+ "trans_aepStartDate, trans_aepEndDate) values (?,?,?,?,?,?,?,?,?,?,?) WHERE client_id= ?)";
+					
 					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 					PreparedStatement statement1 = conn2.prepareStatement(sql);
 					
@@ -600,7 +636,7 @@ public class Tables extends JFrame{
 		lblClientInformation.setBounds(20, 11, 400, 41);
 		tables_inputPanel.add(lblClientInformation);
 		
-		JLabel tables_clientTransactionTableLbl = new JLabel("Client Transaction Table", SwingConstants.CENTER);
+		JLabel tables_clientTransactionTableLbl = new JLabel("Create New Transaction", SwingConstants.CENTER);
 		tables_clientTransactionTableLbl.setForeground(Color.WHITE);
 		tables_clientTransactionTableLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
@@ -634,62 +670,79 @@ public class Tables extends JFrame{
 		tables_line.setHorizontalAlignment(SwingConstants.CENTER);
 		tables_line.setForeground(Color.WHITE);
 		tables_line.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		
+		JLabel lblUpdateATransaction = new JLabel("Update Transaction", SwingConstants.CENTER);
+		lblUpdateATransaction.setForeground(Color.LIGHT_GRAY);
+		lblUpdateATransaction.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		
+		JLabel lblAddAClient = new JLabel("Add New Client", SwingConstants.CENTER);
+		lblAddAClient.setForeground(Color.LIGHT_GRAY);
+		lblAddAClient.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(tables_titlePanel, GroupLayout.PREFERRED_SIZE, 1551, GroupLayout.PREFERRED_SIZE)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(360)
-					.addComponent(label, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tables_clientTransactionTableLbl, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
-					.addGap(31)
-					.addComponent(tables_clientStatusTableLbl, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(tables_clientRemarksTableLbl, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(25)
-					.addComponent(tables_inputSectionLbl, GroupLayout.PREFERRED_SIZE, 255, GroupLayout.PREFERRED_SIZE)
-					.addGap(235)
-					.addComponent(tables_line, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-					.addGap(671)
-					.addComponent(tables_orderByBtn, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(tables_reloadBtn, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(25)
-					.addComponent(tables_inputPanel, GroupLayout.PREFERRED_SIZE, 450, GroupLayout.PREFERRED_SIZE)
-					.addGap(14)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 1040, GroupLayout.PREFERRED_SIZE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(tables_titlePanel, GroupLayout.PREFERRED_SIZE, 1551, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(25)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(tables_inputSectionLbl, GroupLayout.PREFERRED_SIZE, 255, GroupLayout.PREFERRED_SIZE)
+									.addGap(963)
+									.addComponent(tables_orderByBtn, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+									.addGap(10)
+									.addComponent(tables_reloadBtn, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblAddAClient, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(tables_clientTransactionTableLbl)
+									.addGap(69)
+									.addComponent(lblUpdateATransaction, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE)
+									.addGap(54)
+									.addComponent(tables_clientStatusTableLbl, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(label, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tables_clientRemarksTableLbl, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(25)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(tables_line, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+								.addComponent(tables_inputPanel, GroupLayout.PREFERRED_SIZE, 450, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 1040, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(tables_titlePanel, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(11)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(tables_clientTransactionTableLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-								.addComponent(tables_clientStatusTableLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+									.addComponent(lblAddAClient, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+									.addComponent(tables_clientTransactionTableLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblUpdateATransaction, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
+									.addComponent(tables_clientStatusTableLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 								.addComponent(tables_clientRemarksTableLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(23)
+									.addGap(29)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addComponent(tables_inputSectionLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 										.addComponent(tables_orderByBtn, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 										.addComponent(tables_reloadBtn, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(tables_line, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(label, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(tables_line, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(label, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
 					.addGap(11)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(tables_inputPanel, GroupLayout.PREFERRED_SIZE, 721, GroupLayout.PREFERRED_SIZE)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 721, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 529, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		
 		getContentPane().setLayout(groupLayout);
