@@ -156,6 +156,7 @@ public class TablesStatus extends JFrame{
 		JComboBox tables_comboBox = new JComboBox();
 		tables_comboBox.addItem("Select a registered client last name");
 		
+		
 		Connection conn1;
 		try {
 			conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
