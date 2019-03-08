@@ -591,13 +591,15 @@ public class Tables extends JFrame{
 		
 		JButton tables_registerBtn = new JButton("Register Info");
 		
+		java.util.Date date=new java.util.Date();
+		java.sql.Date sqlDate=new java.sql.Date(date.getTime());
 		
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn2;
 				try {
 					String sql = "INSERT INTO jdl_accounts.transactions (trans_passportNo, trans_tinID, trans_visaType, trans_visaStartDate, trans_visaEndDate, trans_permitType, trans_permitStartDate, trans_permitEndDate, trans_aepID, "
-							+ "trans_aepStartDate, trans_aepEndDate, client_id) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "trans_aepStartDate, trans_aepEndDate, client_id, trans_transTimestamp) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					
 					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 					PreparedStatement statement1 = conn2.prepareStatement(sql);
@@ -638,6 +640,7 @@ public class Tables extends JFrame{
 					statement1.setString(12, tables_clientIdTxt.getText());
 					
 					statement1.setString(12, tables_clientIdTxt.getText());
+					statement1.setDate(13, sqlDate);
 					
 					statement1.executeUpdate();
 					tables_inputPanel.revalidate();
