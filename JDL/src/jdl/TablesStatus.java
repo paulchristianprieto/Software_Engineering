@@ -1,47 +1,52 @@
 package jdl;
 
+import java.awt.EventQueue;
+import java.awt.Toolkit;
+
+import javax.swing.JFrame;
+
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import javax.swing.JTable;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.table.JTableHeader;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
+import java.util.Properties;
+
+import net.proteanit.sql.DbUtils;
+
+import javax.swing.JScrollPane;
+import javax.swing.JButton;
 import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
-
-import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JComboBox;
+import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.JTableHeader;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
-
-import net.proteanit.sql.DbUtils;
-
-public class TablesStatus extends JFrame {
+public class TablesStatus extends JFrame{
 	
 	private JTextField tables_passportNoTxt;
 	private JTextField tables_tinIdTxt;
@@ -52,7 +57,7 @@ public class TablesStatus extends JFrame {
 	private JTextField tables_clientFirstNameTxt;
 	private JTextField tables_clientIdTxt;
 	private boolean tables_validator = true;
-
+	private JTable table_1;
 	/**
 	 * Launch the application.
 	 */
@@ -60,7 +65,7 @@ public class TablesStatus extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TablesStatus window = new TablesStatus();
+					Tables window = new Tables();
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -73,11 +78,11 @@ public class TablesStatus extends JFrame {
 	 * Create the application.
 	 */
 	public TablesStatus() {
-	setIconImage(Toolkit.getDefaultToolkit().getImage(Tables.class.getResource("/jdl/Assets/login_small.png")));	
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Tables.class.getResource("/jdl/Assets/login_small.png")));	
 		
 		//Main Panel
 	
-		setTitle("JDL: Status");
+		setTitle("JDL: Transactions");
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
@@ -92,12 +97,25 @@ public class TablesStatus extends JFrame {
 		//Table
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(493, 405, 1040, 485);
+		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setSize(1036, 155);
+		scrollPane_1.setLocation(493, 208);
+		scrollPane.setBounds(493, 405, 1040, 485);
 		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
 		JTable table = new JTable();
 		table.setFont(new Font("Calibri", Font.PLAIN, 16));
 		table.setRowHeight(32);
 		table.setBorder(null);
+		
+		table_1 = new JTable();
+		table_1.setRowHeight(32);
+		table_1.setFont(new Font("Calibri", Font.PLAIN, 16));
+		table_1.setBorder(null);
+		table_1.setBounds(492, 217, 1040, 138);
 	
 		JTableHeader header = table.getTableHeader();
 		header.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
@@ -105,14 +123,64 @@ public class TablesStatus extends JFrame {
 	    header.setForeground(Color.WHITE);
 		scrollPane.setViewportView(table);
 		
+		JTableHeader header_1 = table_1.getTableHeader();
+		header_1.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
+	    header_1.setBackground(new Color(155, 177, 166));
+	    header_1.setForeground(Color.WHITE);
+		scrollPane_1.setViewportView(table_1);
+		
 		
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 		if (defaults.get("Table.alternateRowColor") == null)
 		    defaults.put("Table.alternateRowColor", new Color(155, 177, 166));
 		
+		//Input Section (Declaration of Panel) and Client_id Textfield
+		
+		JPanel tables_inputPanel = new JPanel();
+		tables_inputPanel.setBounds(25, 169, 450, 721);
+		tables_inputPanel.setBackground(new Color (112, 128, 144));
+		tables_inputPanel.setLayout(null);
+		
+		
+		tables_clientIdTxt = new JTextField();
+		tables_clientIdTxt.setText("1");
+		tables_clientIdTxt.setEditable(false);
+		tables_clientIdTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_clientIdTxt.setColumns(10);
+		tables_clientIdTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tables_clientIdTxt.setBounds(331, 143, 89, 23);
+		tables_inputPanel.add(tables_clientIdTxt);
+		
 		//Buttons
 		
+		JComboBox tables_comboBox = new JComboBox();
+		tables_comboBox.addItem("Select a registered client last name");
+		
+		Connection conn1;
+		try {
+			conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+			Statement stat=conn1.createStatement();
+			ResultSet rs1=stat.executeQuery("SELECT * FROM jdl_accounts.clients");
+			
+			 while(rs1.next()){        
+				 	String client_lastname = rs1.getString("client_lastname");
+				 	rs1.getString("client_firstname");
+			
+			       	tables_comboBox.addItem(client_lastname);
+			       	clientSelectedName = tables_comboBox.getSelectedItem().toString();
+			       	
+			    }
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		tables_comboBox.setFont(new Font("Microsoft JhengHei UI", Font.BOLD, 14));
+		tables_comboBox.setBounds(20, 83, 400, 23);
+		tables_inputPanel.add(tables_comboBox);
+		
 		JButton tables_reloadBtn = new JButton("Reload");
+		tables_reloadBtn.setBounds(1389, 159, 138, 38);
 		tables_reloadBtn.setForeground(new Color(255, 255, 255));
 		tables_reloadBtn.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/main_refresh.png")));
 		tables_reloadBtn.addActionListener(new ActionListener() {
@@ -120,7 +188,11 @@ public class TablesStatus extends JFrame {
 				try {
 					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 					Statement stat=conn.createStatement();
-					ResultSet rs=stat.executeQuery("SELECT trans_passportNo AS 'Passport No' "+ 
+					Statement stat1=conn.createStatement();
+					
+					ResultSet rs=stat.executeQuery("SELECT client_id AS 'Client ID',"
+							+ "trans_transId AS 'Transaction ID'" +
+							",trans_passportNo AS 'Passport No' "+ 
 							", trans_tinID AS 'TIN ID' " + 
 							", trans_visaType AS 'Visa Type' " + 
 							", trans_visaStartDate AS 'Visa Start Date' " + 
@@ -131,13 +203,34 @@ public class TablesStatus extends JFrame {
 							", trans_aepID AS 'AEP ID' " + 
 							", trans_aepStartDate AS 'AEP Start Date' " + 
 							", trans_aepEndDate AS 'AEP Expiry Date' " + 
-							" FROM jdl_accounts.transactions");
+							" FROM jdl_accounts.transactions ORDER BY trans_transId DESC");
+	
+					ResultSet rs1 = stat1.executeQuery("SELECT client_id AS 'Client ID',"
+							+ "trans_transId AS 'Transaction ID'" +
+							",trans_passportNo AS 'Passport No' "+ 
+							", trans_tinID AS 'TIN ID' " + 
+							", trans_visaType AS 'Visa Type' " + 
+							", trans_visaStartDate AS 'Visa Start Date' " + 
+							", trans_visaEndDate AS 'Visa Expiry Date' " + 
+							", trans_permitType AS 'Permit Type' " + 
+							", trans_permitStartDate AS 'Permit Start Date' " + 
+							", trans_permitEndDate AS 'Permit Expiry Date' " + 
+							", trans_aepID AS 'AEP ID' " + 
+							", trans_aepStartDate AS 'AEP Start Date' " + 
+							", trans_aepEndDate AS 'AEP Expiry Date' " + 
+							" FROM jdl_accounts.transactions WHERE client_id ="+Integer.parseInt(tables_clientIdTxt.getText())+" ORDER BY trans_transId DESC");
 					
 					table.setModel(DbUtils.resultSetToTableModel(rs));
 					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 					
 					TableColumnAdjuster tca = new TableColumnAdjuster(table);
 					tca.adjustColumns();
+					
+					table_1.setModel(DbUtils.resultSetToTableModel(rs1));
+					table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					
+					TableColumnAdjuster tca1 = new TableColumnAdjuster(table_1);
+					tca1.adjustColumns();
 
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -147,9 +240,9 @@ public class TablesStatus extends JFrame {
 		});
 		
 		tables_reloadBtn.doClick();
-		
-		
+	
 		JButton tables_orderByBtn = new JButton("Order By");
+		tables_orderByBtn.setBounds(1241, 159, 138, 38);
 		tables_orderByBtn.setForeground(new Color(255, 255, 255));
 		tables_orderByBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -166,6 +259,7 @@ public class TablesStatus extends JFrame {
 		tables_reloadBtn.setBorder(null);
 		
 		JPanel tables_titlePanel = new JPanel();
+		tables_titlePanel.setBounds(0, 0, 1551, 37);
 		tables_titlePanel.setBackground(new Color(126, 141, 151));
 		tables_titlePanel.setLayout(null);
 		
@@ -179,7 +273,7 @@ public class TablesStatus extends JFrame {
 				setState(ICONIFIED);
 			}
 		});
-		tables_minimize.setIcon(new ImageIcon(TablesStatus.class.getResource("/jdl/Assets/button_minimizer.png")));
+		tables_minimize.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_minimizer.png")));
 		
 		JLabel tables_seeTablesLbl = new JLabel("See Tables");
 		tables_seeTablesLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -205,12 +299,10 @@ public class TablesStatus extends JFrame {
 		//Input Section (Labels and Associated Textfields)
 		
 		JLabel tables_inputSectionLbl = new JLabel("Input Section");
+		tables_inputSectionLbl.setBounds(25, 120, 255, 37);
 		tables_inputSectionLbl.setForeground(new Color(255, 255, 255));
 		tables_inputSectionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
-		JPanel tables_inputPanel = new JPanel();
-		tables_inputPanel.setBackground(new Color (112, 128, 144));
-		tables_inputPanel.setLayout(null);
 		
 		JLabel tables_passportNoLbl = new JLabel("Passport Number:");
 		tables_passportNoLbl.setForeground(new Color(255, 255, 255));
@@ -383,20 +475,6 @@ public class TablesStatus extends JFrame {
 		
 		tables_inputPanel.add(aepEndPick);
 		
-		//Set Date Defaults
-		
-		//VISA
-		visaStartPick.getJFormattedTextField().setText("1111-11-11");
-		visaEndPick.getJFormattedTextField().setText("1111-11-11");
-		
-		//PERMIT
-		permitStartPick.getJFormattedTextField().setText("1111-11-11");
-		permitEndPick.getJFormattedTextField().setText("1111-11-11");
-		
-		//AEP
-		aepStartPick.getJFormattedTextField().setText("1111-11-11");
-		aepEndPick.getJFormattedTextField().setText("1111-11-11");
-		
 		//Input Section (Labels)
 		
 		JLabel tables_visaExpireLbl = new JLabel("Visa Expiry Date:");
@@ -461,7 +539,7 @@ public class TablesStatus extends JFrame {
 		tables_chooseLbl.setBounds(20, 46, 190, 41);
 		tables_inputPanel.add(tables_chooseLbl);
 		
-		JComboBox tables_comboBox = new JComboBox();
+
 		tables_comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn;
@@ -484,44 +562,12 @@ public class TablesStatus extends JFrame {
 			}
 		});
 		
-		tables_comboBox.addItem("Select a registered client last name");
-		tables_comboBox.setToolTipText("");
-		tables_comboBox.setName("");
-				Connection conn1;
-				try {
-					conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
-					Statement stat=conn1.createStatement();
-					ResultSet rs1=stat.executeQuery("SELECT * FROM jdl_accounts.clients");
-					
-					 while(rs1.next()){        
-						 	String client_lastname = rs1.getString("client_lastname");
-						 	rs1.getString("client_firstname");
-					
-					       	tables_comboBox.addItem(client_lastname);
-					       	clientSelectedName = tables_comboBox.getSelectedItem().toString();
-					    }
-					
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-	
-		tables_comboBox.setFont(new Font("Microsoft Tai Le", Font.BOLD, 15));
-		tables_comboBox.setBounds(20, 83, 400, 23);
-		tables_inputPanel.add(tables_comboBox);
 		
 		JLabel tables_idLbl = new JLabel("ID:");
 		tables_idLbl.setForeground(Color.WHITE);
 		tables_idLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
 		tables_idLbl.setBounds(331, 106, 89, 41);
 		tables_inputPanel.add(tables_idLbl);
-		
-		tables_clientIdTxt = new JTextField();
-		tables_clientIdTxt.setEditable(false);
-		tables_clientIdTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_clientIdTxt.setColumns(10);
-		tables_clientIdTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_clientIdTxt.setBounds(331, 143, 89, 23);
-		tables_inputPanel.add(tables_clientIdTxt);
 		
 		tables_clientFirstNameTxt = new JTextField();
 		tables_clientFirstNameTxt.setEditable(false);
@@ -545,26 +591,52 @@ public class TablesStatus extends JFrame {
 		tables_inputPanel.add(lblClientTransaction);
 		
 		JButton tables_registerBtn = new JButton("Register Info");
+		
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn2;
 				try {
-					String sql = "UPDATE jdl_accounts.transactions SET trans_passportNo = ?, trans_tinID = ?, trans_visaType = ?, trans_visaStartDate = ?, trans_visaEndDate = ?, trans_permitType = ?, trans_permitStartDate = ?, trans_permitEndDate = ?, trans_aepID = ?, trans_aepStartDate = ?,"
-							+ "trans_aepEndDate = ? WHERE client_id =?";
+					String sql = "INSERT INTO jdl_accounts.transactions (trans_passportNo, trans_tinID, trans_visaType, trans_visaStartDate, trans_visaEndDate, trans_permitType, trans_permitStartDate, trans_permitEndDate, trans_aepID, "
+							+ "trans_aepStartDate, trans_aepEndDate, client_id) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+					
 					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 					PreparedStatement statement1 = conn2.prepareStatement(sql);
 					
 					statement1.setString(1, tables_passportNoTxt.getText());
 					statement1.setString(2, tables_tinIdTxt.getText());
 					statement1.setString(3, tables_visaTypeTxt.getText());
-					statement1.setDate(4, java.sql.Date.valueOf(visaStartPick.getJFormattedTextField().getText().toString()));
-					statement1.setDate(5, java.sql.Date.valueOf(visaEndPick.getJFormattedTextField().getText().toString()));
+					if(visaStartPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(5, null);
+					else
+						statement1.setDate(5, java.sql.Date.valueOf(visaStartPick.getJFormattedTextField().getText().toString()));
+					if(visaEndPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(4, null);
+					else
+						statement1.setDate(4, java.sql.Date.valueOf(visaEndPick.getJFormattedTextField().getText().toString()));
+					
 					statement1.setString(6, tables_permitTypeTxt.getText());
-					statement1.setDate(7, java.sql.Date.valueOf(permitStartPick.getJFormattedTextField().getText().toString()));
-					statement1.setDate(8, java.sql.Date.valueOf(permitEndPick.getJFormattedTextField().getText().toString()));
+					
+					if(permitStartPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(7, null);
+					else
+						statement1.setDate(7, java.sql.Date.valueOf(permitStartPick.getJFormattedTextField().getText().toString()));
+					if(permitEndPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(8, null);
+					else
+						statement1.setDate(8, java.sql.Date.valueOf(permitEndPick.getJFormattedTextField().getText().toString()));
+					
 					statement1.setString(9, tables_aepIdTxt.getText());
-					statement1.setDate(10, java.sql.Date.valueOf(aepStartPick.getJFormattedTextField().getText().toString()));
-					statement1.setDate(11, java.sql.Date.valueOf(aepEndPick.getJFormattedTextField().getText().toString()));
+					if(aepStartPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(10, null);
+					else
+						statement1.setDate(10, java.sql.Date.valueOf(aepStartPick.getJFormattedTextField().getText().toString()));
+					
+					if(aepEndPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(11, null);
+					else
+						statement1.setDate(11, java.sql.Date.valueOf(aepEndPick.getJFormattedTextField().getText().toString()));
+					statement1.setString(12, tables_clientIdTxt.getText());
+					
 					statement1.setString(12, tables_clientIdTxt.getText());
 					
 					statement1.executeUpdate();
@@ -590,90 +662,92 @@ public class TablesStatus extends JFrame {
 		lblClientInformation.setBounds(20, 11, 400, 41);
 		tables_inputPanel.add(lblClientInformation);
 		
-		JLabel tables_clientTransactionTableLbl = new JLabel("Client Transaction Table", SwingConstants.CENTER);
-		tables_clientTransactionTableLbl.addMouseListener(new MouseAdapter() {
+		JLabel tables_clientCreateTransactionLbl = new JLabel("Create New Transaction", SwingConstants.CENTER);
+		tables_clientCreateTransactionLbl.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				new Tables().setVisible(true);
 				dispose();
 			}
 		});
-		tables_clientTransactionTableLbl.setForeground(new Color(153, 153, 153));
-		tables_clientTransactionTableLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tables_clientCreateTransactionLbl.setBounds(330, 48, 227, 37);
+		tables_clientCreateTransactionLbl.setForeground(Color.LIGHT_GRAY);
+		tables_clientCreateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_clientStatusTableLbl = new JLabel("Client Status Table", SwingConstants.CENTER);
+		tables_clientStatusTableLbl.setBounds(929, 48, 243, 37);
+		tables_clientStatusTableLbl.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				new TablesStatus().setVisible(true);
+				dispose();
+			}
+		});
 		tables_clientStatusTableLbl.setForeground(Color.WHITE);
 		tables_clientStatusTableLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_clientRemarksTableLbl = new JLabel("Client Remarks Table", SwingConstants.CENTER);
+		tables_clientRemarksTableLbl.setBounds(1241, 48, 230, 37);
 		tables_clientRemarksTableLbl.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				new TablesRemarks().setVisible(true);
 				dispose();
 			}
 		});
-		tables_clientRemarksTableLbl.setForeground(new Color(153, 153, 153));
+		tables_clientRemarksTableLbl.setForeground(Color.LIGHT_GRAY);
 		tables_clientRemarksTableLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
-		JLabel tablesStatus_line = new JLabel("");
-		tablesStatus_line.setIcon(new ImageIcon(TablesStatus.class.getResource("/jdl/Assets/line.png")));
-		tablesStatus_line.setHorizontalAlignment(SwingConstants.CENTER);
-		tablesStatus_line.setForeground(Color.WHITE);
-		tablesStatus_line.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		JLabel label = new JLabel("");
+		label.setBounds(1178, 48, 57, 37);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
+		JLabel tables_line = new JLabel("");
+		tables_line.setBounds(1023, 96, 57, 22);
+		tables_line.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/line.png")));
+		tables_line.setHorizontalAlignment(SwingConstants.CENTER);
+		tables_line.setForeground(Color.WHITE);
+		tables_line.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
-		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(tables_titlePanel, GroupLayout.PREFERRED_SIZE, 1551, GroupLayout.PREFERRED_SIZE)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(423)
-					.addComponent(tables_clientTransactionTableLbl, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
-					.addGap(31)
-					.addComponent(tables_clientStatusTableLbl, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(tables_clientRemarksTableLbl, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(25)
-					.addComponent(tables_inputSectionLbl, GroupLayout.PREFERRED_SIZE, 255, GroupLayout.PREFERRED_SIZE)
-					.addGap(509)
-					.addComponent(tablesStatus_line, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-					.addGap(397)
-					.addComponent(tables_orderByBtn, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addComponent(tables_reloadBtn, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(25)
-					.addComponent(tables_inputPanel, GroupLayout.PREFERRED_SIZE, 450, GroupLayout.PREFERRED_SIZE)
-					.addGap(14)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 1040, GroupLayout.PREFERRED_SIZE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(tables_titlePanel, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-					.addGap(11)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(tables_clientTransactionTableLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tables_clientStatusTableLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tables_clientRemarksTableLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(23)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(tables_inputSectionLbl, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
-								.addComponent(tables_orderByBtn, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-								.addComponent(tables_reloadBtn, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tablesStatus_line, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)))
-					.addGap(11)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(tables_inputPanel, GroupLayout.PREFERRED_SIZE, 721, GroupLayout.PREFERRED_SIZE)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 721, GroupLayout.PREFERRED_SIZE)))
-		);
+		JLabel tables_updateTransactionLbl = new JLabel("Update Transaction", SwingConstants.CENTER);
+		tables_updateTransactionLbl.setBounds(626, 48, 249, 37);
+		tables_updateTransactionLbl.setForeground(Color.LIGHT_GRAY);
+		tables_updateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
-		getContentPane().setLayout(groupLayout);
+		JLabel tables_addClientLbl = new JLabel("Add New Client", SwingConstants.CENTER);
+		tables_addClientLbl.setBounds(25, 48, 295, 37);
+		tables_addClientLbl.setForeground(Color.LIGHT_GRAY);
+		tables_addClientLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
+		JLabel tables_allClientTransactionLbl = new JLabel("All Client Transactions");
+		tables_allClientTransactionLbl.setBounds(493, 362, 204, 37);
+		tables_allClientTransactionLbl.setForeground(Color.WHITE);
+		tables_allClientTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		
+		JLabel lblSpecificClient = new JLabel("Specific Client Transactions");
+		lblSpecificClient.setBounds(493, 169, 276, 37);
+		lblSpecificClient.setForeground(Color.WHITE);
+		lblSpecificClient.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		
+		// Add to Panels 
+		
+		getContentPane().setLayout(null);
+		getContentPane().add(tables_titlePanel);
+		getContentPane().add(tables_inputSectionLbl);
+		getContentPane().add(tables_orderByBtn);
+		getContentPane().add(tables_reloadBtn);
+		getContentPane().add(tables_addClientLbl);
+		getContentPane().add(tables_clientCreateTransactionLbl);
+		getContentPane().add(tables_updateTransactionLbl);
+		getContentPane().add(tables_clientStatusTableLbl);
+		getContentPane().add(label);
+		getContentPane().add(tables_clientRemarksTableLbl);
+		getContentPane().add(tables_line);
+		getContentPane().add(tables_inputPanel);
+		getContentPane().add(tables_allClientTransactionLbl);
+		getContentPane().add(scrollPane);
+		getContentPane().add(scrollPane_1);
+		getContentPane().add(lblSpecificClient);
 	}
-	}
+}
 
