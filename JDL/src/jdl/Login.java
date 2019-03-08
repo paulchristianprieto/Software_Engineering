@@ -257,92 +257,17 @@ public class Login extends JFrame {
 		
 		login_passwordTxt = new JPasswordField();
 		login_passwordTxt.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				login_passwordTxt.addKeyListener(new KeyAdapter() {
 					@Override
 					public void keyPressed(KeyEvent e) {
 						if(e.getKeyCode() == KeyEvent.VK_ENTER)
 		                {
-							int x;
 							
+							login_loginBtn.doClick();
 							
-							char[] password=((JPasswordField) login_passwordTxt).getPassword();
-							String pass="";
-							for (x=0;x<password.length;x++){
-								pass+=password[x];	
-							}
-							
-							
-							
-							try {
-								Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
-								Statement stat=conn.createStatement();
-								ResultSet rs=stat.executeQuery("SELECT * FROM jdl_accounts.users");
-							
-							
-								while(rs.next()){
-									
-								
-									String dbUsername=rs.getString("user_username");
-									String dbPassword =rs.getString("user_password");
-									
-									if(login_usernameTxt.getText().equals(dbUsername) && pass.matches(dbPassword)){
-										
-										new OptionList().setVisible(true);
-										dispose();
-									}
-									
-									else if(login_usernameTxt.getText().equals("") || pass.matches("")){
-										
-										login_error.setVisible(false);
-										login_error2.setVisible(false);
-										login_error1.setVisible(true);	
-										revalidate();
-									}
-								
-									
-									else if(!(login_usernameTxt.getText().equals(dbUsername)) && !(pass.matches(dbPassword))){		
-										
-										login_error1.setVisible(false);
-										login_error2.setVisible(false);
-										login_error.setVisible(true);
-										revalidate();			
-									}
-									
-									else if(!(login_usernameTxt.getText().equals("")) && pass.length()<7){		
-										
-										login_error.setVisible(false);
-										login_error1.setVisible(false);
-										login_error2.setVisible(true);
-										revalidate();			
-									}
-									
-									else if((login_usernameTxt.getText().equals("") && pass.length()<7)) {
-										
-										login_error.setVisible(false);
-										login_error1.setVisible(false);
-										login_error2.setVisible(true);
-										revalidate();			
-									}
-									
-									else {
-										
-										login_error1.setVisible(false);
-										login_error2.setVisible(false);
-										login_error.setVisible(true);
-										revalidate();
-									}
-								}
-							}
-									catch (SQLException e1) {
-										e1.printStackTrace();
-									}
 		                }
 					}
 				});
-			}
-		});
+		
 		login_passwordTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
 		login_passwordTxt.setForeground(Color.BLACK);
 		login_passwordTxt.setFont(new Font("Segoe UI Semibold", Font.BOLD, 20));
