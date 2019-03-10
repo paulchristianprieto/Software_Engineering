@@ -82,7 +82,7 @@ public class TablesStatus extends JFrame{
 		
 		//Main Panel
 	
-		setTitle("JDL: Transactions");
+		setTitle("JDL: Status");
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);

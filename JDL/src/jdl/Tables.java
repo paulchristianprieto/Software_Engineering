@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.UIDefaults;
@@ -40,11 +39,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 public class Tables extends JFrame{
 	private JTextField tables_passportNoTxt;
@@ -55,7 +49,6 @@ public class Tables extends JFrame{
 	private String clientSelectedName;
 	private JTextField tables_clientFirstNameTxt;
 	private JTextField tables_clientIdTxt;
-	private boolean tables_validator = true;
 	private JTable table_1;
 	/**
 	 * Launch the application.
@@ -100,7 +93,7 @@ public class Tables extends JFrame{
 		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setSize(1036, 155);
+		scrollPane_1.setSize(1040, 155);
 		scrollPane_1.setLocation(493, 208);
 		scrollPane.setBounds(493, 405, 1040, 485);
 		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -111,13 +104,13 @@ public class Tables extends JFrame{
 		table.setBorder(null);
 		
 		table_1 = new JTable();
-		table_1.setRowHeight(32);
 		table_1.setFont(new Font("Calibri", Font.PLAIN, 16));
+		table_1.setRowHeight(32);
 		table_1.setBorder(null);
 		table_1.setBounds(492, 217, 1040, 138);
 	
 		JTableHeader header = table.getTableHeader();
-		header.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
+		header.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 	    header.setBackground(new Color(155, 177, 166));
 	    header.setForeground(Color.WHITE);
 		scrollPane.setViewportView(table);
@@ -174,12 +167,14 @@ public class Tables extends JFrame{
 			e1.printStackTrace();
 		}
 
-		tables_comboBox.setFont(new Font("Microsoft JhengHei UI", Font.BOLD, 14));
-		tables_comboBox.setBounds(20, 83, 400, 23);
+		tables_comboBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_comboBox.setBounds(20, 79, 400, 29);
+		
+		AutoCompletion.enable(tables_comboBox);
 		tables_inputPanel.add(tables_comboBox);
 		
 		JButton tables_reloadBtn = new JButton("Reload");
-		tables_reloadBtn.setBounds(1389, 159, 138, 38);
+		tables_reloadBtn.setBounds(1395, 159, 138, 38);
 		tables_reloadBtn.setForeground(new Color(255, 255, 255));
 		tables_reloadBtn.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/main_refresh.png")));
 		tables_reloadBtn.addActionListener(new ActionListener() {
@@ -241,7 +236,7 @@ public class Tables extends JFrame{
 		tables_reloadBtn.doClick();
 	
 		JButton tables_orderByBtn = new JButton("Order By");
-		tables_orderByBtn.setBounds(1241, 159, 138, 38);
+		tables_orderByBtn.setBounds(1247, 159, 138, 38);
 		tables_orderByBtn.setForeground(new Color(255, 255, 255));
 		tables_orderByBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -535,7 +530,7 @@ public class Tables extends JFrame{
 		JLabel tables_chooseLbl = new JLabel("Choose a client's Lastname:");
 		tables_chooseLbl.setForeground(Color.WHITE);
 		tables_chooseLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_chooseLbl.setBounds(20, 46, 190, 41);
+		tables_chooseLbl.setBounds(20, 40, 190, 41);
 		tables_inputPanel.add(tables_chooseLbl);
 		
 
@@ -699,7 +694,7 @@ public class Tables extends JFrame{
 		label.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
 		JLabel tables_line = new JLabel("");
-		tables_line.setBounds(418, 91, 57, 22);
+		tables_line.setBounds(412, 96, 57, 22);
 		tables_line.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/line.png")));
 		tables_line.setHorizontalAlignment(SwingConstants.CENTER);
 		tables_line.setForeground(Color.WHITE);
@@ -711,6 +706,12 @@ public class Tables extends JFrame{
 		tables_updateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_addClientLbl = new JLabel("Add New Client", SwingConstants.CENTER);
+		tables_addClientLbl.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				new TablesAddClient().setVisible(true);
+				dispose();
+			}
+		});
 		tables_addClientLbl.setBounds(25, 48, 295, 37);
 		tables_addClientLbl.setForeground(Color.LIGHT_GRAY);
 		tables_addClientLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
