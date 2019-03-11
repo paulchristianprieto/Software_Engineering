@@ -17,6 +17,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import java.util.Date;
 import java.util.Properties;
 
 import net.proteanit.sql.DbUtils;
@@ -31,6 +32,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
@@ -64,6 +67,38 @@ public class Tables extends JFrame{
 				}
 			}
 		});
+	}
+	
+	public static boolean DateCheck(String date1, String date2) {
+		boolean approved = false;
+		if(date1 == "" && date2 == "") {
+			return approved = true;
+		} else {
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date datex = sdf.parse(date1);
+				Date datey = sdf.parse(date2);
+				if (datex.compareTo(datey) > 0) {
+					//System.out.println("Date1 is after Date2"); FALSE
+					approved = false;
+				} else if (datex.compareTo(datey) < 0) {
+					//System.out.println("Date1 is before Date2");TRUE
+					approved = true;
+				} else if (datex.compareTo(datey) == 0) {
+					//System.out.println("Date1 is equal to Date2"); FALSE
+					approved = false;
+				} else {
+					//System.out.println("How to get here?"); FALSE
+					approved = false;
+				}
+				
+			}
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return approved;
 	}
 
 	/**
@@ -591,13 +626,38 @@ public class Tables extends JFrame{
 		
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				
+				String vs = visaStartPick.getJFormattedTextField().getText().toString();
+				String ve = visaEndPick.getJFormattedTextField().getText().toString();
+				String ps = permitEndPick.getJFormattedTextField().getText().toString();
+				String pe = permitEndPick.getJFormattedTextField().getText().toString();
+				String as = aepEndPick.getJFormattedTextField().getText().toString();
+				String ae = aepEndPick.getJFormattedTextField().getText().toString();
+				
+				System.out.println(vs);
+				System.out.println(ve);
+				System.out.println(as);
+				
 				if(tables_passportNoTxt.getText() != "") {
 					if(tables_tinIdTxt.getText() != "") {
 						if(tables_visaTypeTxt.getText() != ""){
-							Register();
-							//if(visaStartPick.getJFormattedTextField() )
-								//Register
+							if(DateCheck(vs,ve)) {
+								if(DateCheck(ps,pe)) {
+									if(DateCheck(as,ae)) {
+										Register();
+									}
+									else {
+										//AEP dates error
+									}
+								}
+								else {
+									//permit dates error
+								}
+							}
+							else {
+								//Visa dates error
+							}
+							
 						}
 						else {
 							//tables_visaTypeTxt cannot be empty
