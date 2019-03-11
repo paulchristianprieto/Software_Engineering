@@ -83,9 +83,9 @@ public class OptionList extends JFrame{
 		options_close.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_minimizer.png")));
 		
 		JLabel options_settings = new JLabel("");
-		options_settings.setBounds(10, 11, 39, 29);
+		options_settings.setBounds(10, 11, 26, 29);
 		panel.add(options_settings);
-		options_settings.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_settings1.png")));
+		options_settings.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_viewProfile.png")));
 		
 		JLabel options_logout = new JLabel("");
 		options_logout.addMouseListener(new MouseAdapter() {
@@ -105,7 +105,7 @@ public class OptionList extends JFrame{
 			}
 		});
 		options_logout.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_logout.png")));
-		options_logout.setBounds(46, 11, 26, 29);
+		options_logout.setBounds(39, 11, 33, 29);
 		panel.add(options_logout);
 		
 		//Images
@@ -128,6 +128,12 @@ public class OptionList extends JFrame{
 		getContentPane().add(options_reportIcon);
 		
 		JLabel options_manageIcon = new JLabel("");
+		options_manageIcon.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				new EmployeeManagement().setVisible(true);
+				dispose();
+			}
+		});
 		options_manageIcon.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/options_management.png")));
 		options_manageIcon.setBounds(149, 322, 62, 58);
 		getContentPane().add(options_manageIcon);

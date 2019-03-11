@@ -208,7 +208,7 @@ public class Tables extends JFrame{
 			e1.printStackTrace();
 		}
 
-		tables_comboBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_comboBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 14));
 		tables_comboBox.setBounds(20, 79, 400, 29);
 		
 		AutoCompletion.enable(tables_comboBox);
@@ -275,18 +275,6 @@ public class Tables extends JFrame{
 		});
 		
 		tables_reloadBtn.doClick();
-	
-		JButton tables_orderByBtn = new JButton("Order By");
-		tables_orderByBtn.setBounds(1247, 159, 138, 38);
-		tables_orderByBtn.setForeground(new Color(255, 255, 255));
-		tables_orderByBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		tables_orderByBtn.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_sort.png")));
-		tables_orderByBtn.setBackground(new Color(155, 177, 166));
-		tables_orderByBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		
 		tables_reloadBtn.setBackground(new Color(155, 177, 166));
 		tables_reloadBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
@@ -297,6 +285,15 @@ public class Tables extends JFrame{
 		tables_titlePanel.setBounds(0, 0, 1551, 37);
 		tables_titlePanel.setBackground(new Color(126, 141, 151));
 		tables_titlePanel.setLayout(null);
+		
+		JButton tables_deleteBtn = new JButton("Delete");
+		tables_deleteBtn.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_delete.png")));
+		tables_deleteBtn.setForeground(Color.WHITE);
+		tables_deleteBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		tables_deleteBtn.setBorder(null);
+		tables_deleteBtn.setBackground(new Color(255, 0, 51));
+		tables_deleteBtn.setBounds(1247, 159, 138, 38);
+		getContentPane().add(tables_deleteBtn);
 		
 		//Images
 		
@@ -840,7 +837,6 @@ public class Tables extends JFrame{
 		getContentPane().setLayout(null);
 		getContentPane().add(tables_titlePanel);
 		getContentPane().add(tables_inputSectionLbl);
-		getContentPane().add(tables_orderByBtn);
 		getContentPane().add(tables_reloadBtn);
 		getContentPane().add(tables_addClientLbl);
 		getContentPane().add(tables_clientCreateTransactionLbl);
@@ -854,6 +850,7 @@ public class Tables extends JFrame{
 		getContentPane().add(scrollPane);
 		getContentPane().add(scrollPane_1);
 		getContentPane().add(lblSpecificClient);
+		
 	}
 }
 

@@ -305,6 +305,5 @@ public class Login extends JFrame {
 		login_background.setIcon(new ImageIcon(Login.class.getResource("/jdl/Assets/login_consultation.png")));
 		login_background.setBounds(0, 0, 415, 550);
 		getContentPane().add(login_background);
-		
 	}
 }
