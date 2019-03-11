@@ -584,7 +584,7 @@ public class Tables extends JFrame{
 		lblClientTransaction.setBounds(20, 170, 400, 41);
 		tables_inputPanel.add(lblClientTransaction);
 		
-		JButton tables_registerBtn = new JButton("Register Info");
+		JButton tables_registerBtn = new JButton("Register Transaction");
 		
 		java.util.Date date=new java.util.Date();
 		java.sql.Date sqlDate=new java.sql.Date(date.getTime());
@@ -653,7 +653,7 @@ public class Tables extends JFrame{
 		tables_registerBtn.setBounds(134, 675, 173, 35);
 		tables_inputPanel.add(tables_registerBtn);
 		
-		JLabel lblClientInformation = new JLabel("------------------------ Client Information Details -----------------------");
+		JLabel lblClientInformation = new JLabel("------------------------------ Client Selection -----------------------------");
 		lblClientInformation.setHorizontalAlignment(SwingConstants.LEFT);
 		lblClientInformation.setForeground(Color.WHITE);
 		lblClientInformation.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
@@ -719,12 +719,12 @@ public class Tables extends JFrame{
 		JLabel tables_allClientTransactionLbl = new JLabel("All Client Transactions");
 		tables_allClientTransactionLbl.setBounds(493, 362, 204, 37);
 		tables_allClientTransactionLbl.setForeground(Color.WHITE);
-		tables_allClientTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		tables_allClientTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		
 		JLabel lblSpecificClient = new JLabel("Specific Client Transactions");
 		lblSpecificClient.setBounds(493, 169, 276, 37);
 		lblSpecificClient.setForeground(Color.WHITE);
-		lblSpecificClient.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		lblSpecificClient.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		
 		// Add to Panels 
 		

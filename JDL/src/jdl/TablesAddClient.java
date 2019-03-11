@@ -45,6 +45,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class TablesAddClient extends JFrame{
 	private JTextField tables_clientNationalityTxt;
@@ -386,7 +388,7 @@ public class TablesAddClient extends JFrame{
 		
 		JLabel tables_registeredClientsLbl = new JLabel("Registered Clients");
 		tables_registeredClientsLbl.setForeground(Color.WHITE);
-		tables_registeredClientsLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tables_registeredClientsLbl.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		tables_registeredClientsLbl.setBounds(495, 160, 255, 37);
 		getContentPane().add(tables_registeredClientsLbl);
 		
@@ -427,10 +429,18 @@ public class TablesAddClient extends JFrame{
 		
 		tables_registerBtn.setBackground(new Color(255, 204, 51));
 		tables_registerBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
-		tables_registerBtn.setBounds(133, 675, 173, 35);
+		tables_registerBtn.setBounds(131, 675, 173, 35);
 		tables_inputPanel.add(tables_registerBtn);
 		
 		JLabel tables_clientCreateTransactionLbl = new JLabel("Create New Transaction", SwingConstants.CENTER);
+		tables_clientCreateTransactionLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new Tables().setVisible(true);
+				dispose();
+			}
+		});
+		
 		tables_clientCreateTransactionLbl.setBounds(330, 48, 227, 37);
 		tables_clientCreateTransactionLbl.setForeground(Color.LIGHT_GRAY);
 		tables_clientCreateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
