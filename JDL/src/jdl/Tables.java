@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.UIDefaults;
@@ -40,11 +39,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
 public class Tables extends JFrame{
 	private JTextField tables_passportNoTxt;
@@ -55,7 +49,6 @@ public class Tables extends JFrame{
 	private String clientSelectedName;
 	private JTextField tables_clientFirstNameTxt;
 	private JTextField tables_clientIdTxt;
-	private boolean tables_validator = true;
 	private JTable table_1;
 	/**
 	 * Launch the application.
@@ -100,7 +93,7 @@ public class Tables extends JFrame{
 		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setSize(1036, 155);
+		scrollPane_1.setSize(1040, 155);
 		scrollPane_1.setLocation(493, 208);
 		scrollPane.setBounds(493, 405, 1040, 485);
 		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -111,13 +104,13 @@ public class Tables extends JFrame{
 		table.setBorder(null);
 		
 		table_1 = new JTable();
-		table_1.setRowHeight(32);
 		table_1.setFont(new Font("Calibri", Font.PLAIN, 16));
+		table_1.setRowHeight(32);
 		table_1.setBorder(null);
 		table_1.setBounds(492, 217, 1040, 138);
 	
 		JTableHeader header = table.getTableHeader();
-		header.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
+		header.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 	    header.setBackground(new Color(155, 177, 166));
 	    header.setForeground(Color.WHITE);
 		scrollPane.setViewportView(table);
@@ -174,12 +167,14 @@ public class Tables extends JFrame{
 			e1.printStackTrace();
 		}
 
-		tables_comboBox.setFont(new Font("Microsoft JhengHei UI", Font.BOLD, 14));
-		tables_comboBox.setBounds(20, 83, 400, 23);
+		tables_comboBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_comboBox.setBounds(20, 79, 400, 29);
+		
+		AutoCompletion.enable(tables_comboBox);
 		tables_inputPanel.add(tables_comboBox);
 		
 		JButton tables_reloadBtn = new JButton("Reload");
-		tables_reloadBtn.setBounds(1389, 159, 138, 38);
+		tables_reloadBtn.setBounds(1395, 159, 138, 38);
 		tables_reloadBtn.setForeground(new Color(255, 255, 255));
 		tables_reloadBtn.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/main_refresh.png")));
 		tables_reloadBtn.addActionListener(new ActionListener() {
@@ -241,7 +236,7 @@ public class Tables extends JFrame{
 		tables_reloadBtn.doClick();
 	
 		JButton tables_orderByBtn = new JButton("Order By");
-		tables_orderByBtn.setBounds(1241, 159, 138, 38);
+		tables_orderByBtn.setBounds(1247, 159, 138, 38);
 		tables_orderByBtn.setForeground(new Color(255, 255, 255));
 		tables_orderByBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -535,7 +530,7 @@ public class Tables extends JFrame{
 		JLabel tables_chooseLbl = new JLabel("Choose a client's Lastname:");
 		tables_chooseLbl.setForeground(Color.WHITE);
 		tables_chooseLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_chooseLbl.setBounds(20, 46, 190, 41);
+		tables_chooseLbl.setBounds(20, 40, 190, 41);
 		tables_inputPanel.add(tables_chooseLbl);
 		
 
@@ -591,9 +586,12 @@ public class Tables extends JFrame{
 		
 		JButton tables_registerBtn = new JButton("Register Info");
 		
+		java.util.Date date=new java.util.Date();
+		java.sql.Date sqlDate=new java.sql.Date(date.getTime());
 		
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				if(tables_passportNoTxt.getText() != "") {
 					if(tables_tinIdTxt.getText() != "") {
 						if(tables_visaTypeTxt.getText() != ""){
@@ -608,6 +606,56 @@ public class Tables extends JFrame{
 					else {
 						//tables_tinIdTxt cannot be empty
 					}
+=======
+				Connection conn2;
+				try {
+					String sql = "INSERT INTO jdl_accounts.transactions (trans_passportNo, trans_tinID, trans_visaType, trans_visaStartDate, trans_visaEndDate, trans_permitType, trans_permitStartDate, trans_permitEndDate, trans_aepID, "
+							+ "trans_aepStartDate, trans_aepEndDate, client_id, trans_transTimestamp) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					
+					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+					PreparedStatement statement1 = conn2.prepareStatement(sql);
+					
+					statement1.setString(1, tables_passportNoTxt.getText());
+					statement1.setString(2, tables_tinIdTxt.getText());
+					statement1.setString(3, tables_visaTypeTxt.getText());
+					if(visaStartPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(5, null);
+					else
+						statement1.setDate(5, java.sql.Date.valueOf(visaStartPick.getJFormattedTextField().getText().toString()));
+					if(visaEndPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(4, null);
+					else
+						statement1.setDate(4, java.sql.Date.valueOf(visaEndPick.getJFormattedTextField().getText().toString()));
+					
+					statement1.setString(6, tables_permitTypeTxt.getText());
+					
+					if(permitStartPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(7, null);
+					else
+						statement1.setDate(7, java.sql.Date.valueOf(permitStartPick.getJFormattedTextField().getText().toString()));
+					if(permitEndPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(8, null);
+					else
+						statement1.setDate(8, java.sql.Date.valueOf(permitEndPick.getJFormattedTextField().getText().toString()));
+					
+					statement1.setString(9, tables_aepIdTxt.getText());
+					if(aepStartPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(10, null);
+					else
+						statement1.setDate(10, java.sql.Date.valueOf(aepStartPick.getJFormattedTextField().getText().toString()));
+					
+					if(aepEndPick.getJFormattedTextField().getText().toString().equals(""))
+						statement1.setDate(11, null);
+					else
+						statement1.setDate(11, java.sql.Date.valueOf(aepEndPick.getJFormattedTextField().getText().toString()));
+					statement1.setString(12, tables_clientIdTxt.getText());
+					
+					statement1.setString(12, tables_clientIdTxt.getText());
+					statement1.setDate(13, sqlDate);
+					
+					statement1.executeUpdate();
+					tables_inputPanel.revalidate();
+>>>>>>> 6272216441f3013944357112646175a3783b0ba0
 				}
 				else {
 					//tables_passportNoTxt cannot be empty
@@ -719,7 +767,7 @@ public class Tables extends JFrame{
 		label.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
 		JLabel tables_line = new JLabel("");
-		tables_line.setBounds(418, 91, 57, 22);
+		tables_line.setBounds(412, 96, 57, 22);
 		tables_line.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/line.png")));
 		tables_line.setHorizontalAlignment(SwingConstants.CENTER);
 		tables_line.setForeground(Color.WHITE);
@@ -731,6 +779,12 @@ public class Tables extends JFrame{
 		tables_updateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_addClientLbl = new JLabel("Add New Client", SwingConstants.CENTER);
+		tables_addClientLbl.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				new TablesAddClient().setVisible(true);
+				dispose();
+			}
+		});
 		tables_addClientLbl.setBounds(25, 48, 295, 37);
 		tables_addClientLbl.setForeground(Color.LIGHT_GRAY);
 		tables_addClientLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
