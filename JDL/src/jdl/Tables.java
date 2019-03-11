@@ -19,9 +19,6 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import java.util.Properties;
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import net.proteanit.sql.DbUtils;
 
@@ -597,20 +594,12 @@ public class Tables extends JFrame{
 		
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		        Date visaStart = sdf.parse(visaStartPick.getJFormattedTextField().getText().toString());
-		        Date visaEnd = sdf.parse(visaEndPick.getJFormattedTextField().getText().toString());
-		        
 				if(tables_passportNoTxt.getText() != "") {
 					if(tables_tinIdTxt.getText() != "") {
 						if(tables_visaTypeTxt.getText() != ""){
 							Register();
-							if(visaEnd.compareTo(visaStart) > 0)/*visa end is after visa start*/ {
+							//if(visaStartPick.getJFormattedTextField() )
 								//Register
-							}
-							else {
-								//Visa Start date cannot be after its expiration
-							}
 						}
 						else {
 							//tables_visaTypeTxt cannot be empty
