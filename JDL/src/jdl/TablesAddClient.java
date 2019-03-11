@@ -405,18 +405,32 @@ public class TablesAddClient extends JFrame{
 					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 					PreparedStatement statement1 = conn2.prepareStatement(sql);
 					
-					statement1.setString(1, tables_clientLastnameTxt.getText());
-					statement1.setString(2, tables_clientFirstnameTxt.getText());
-					statement1.setString(3, tables_clientNationalityTxt.getText());
-					statement1.setDate(4, java.sql.Date.valueOf(birthdatePicker.getJFormattedTextField().getText().toString()));
-					statement1.setString(5, tables_clientGenderTxt.getText());
-					statement1.setString(6, tables_clientCompanyTxt.getText());
-					statement1.setString(7, tables_clientPositionTxt.getText());
-					statement1.setString(8, tables_clientAliasTxt.getText());
-					statement1.setString(9, tables_clientContactTxt.getText());
-					statement1.setString(10, tables_clientEmailTxt.getText());
-					statement1.executeUpdate();
-					tables_inputPanel.revalidate();
+					if(tables_clientLastnameTxt.getText() == "") {
+						//POPUP: "Client Last Name cannot be empty"
+					}else if (tables_clientFirstnameTxt.getText() == "") {
+						//POPUP: "Client First name cannot be empty"
+					}else if(tables_clientNationalityTxt.getText() == "") {
+						//POPUP: "Client Nationality cannot be empty"
+					}else if(birthdatePicker.getJFormattedTextField().getText().toString() == "") {
+						//POPUP: "Client Birthdate cannot be empty"
+					}else if(tables_clientGenderTxt.getText() == "") {
+						//POPUP: "Client gender cannot be empty"
+					}else if(tables_clientContactTxt.getText() == "" || tables_clientEmailTxt.getText() == "") {
+						//POPUP: "Client must have atleast a contact number or an email"
+					}else {
+						statement1.setString(1, tables_clientLastnameTxt.getText());
+						statement1.setString(2, tables_clientFirstnameTxt.getText());
+						statement1.setString(3, tables_clientNationalityTxt.getText());
+						statement1.setDate(4, java.sql.Date.valueOf(birthdatePicker.getJFormattedTextField().getText().toString()));
+						statement1.setString(5, tables_clientGenderTxt.getText());
+						statement1.setString(6, tables_clientCompanyTxt.getText());
+						statement1.setString(7, tables_clientPositionTxt.getText());
+						statement1.setString(8, tables_clientAliasTxt.getText());
+						statement1.setString(9, tables_clientContactTxt.getText());
+						statement1.setString(10, tables_clientEmailTxt.getText());
+						statement1.executeUpdate();
+						tables_inputPanel.revalidate();
+					}
 				}
 
 				 catch (SQLException e1) {
