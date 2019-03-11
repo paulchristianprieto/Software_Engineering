@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.UIDefaults;
@@ -17,6 +18,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import java.util.Properties;
@@ -42,7 +44,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 
 public class Tables extends JFrame{
 	private JTextField tables_passportNoTxt;
@@ -71,6 +75,13 @@ public class Tables extends JFrame{
 	}
 	
 	public static boolean DateCheck(String date1, String date2) {
+		
+		UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
+	 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
+	 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
+	 	UIManager.put("Button.background", Color.WHITE);
+	 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
+	 	
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		boolean approved = false;
 		if((date1 == "" || date1.isEmpty()) && (date2 == "" || date1.isEmpty())) {
@@ -652,26 +663,23 @@ public class Tables extends JFrame{
 									Register(); //No VISA, PERMIT OR AEP
 								}
 								else {
-									System.out.println("Date invalid");
+									  JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The END DATE must be later than the START DATE.</font color = #ffffff></html>", "Error while Entering Dates", JOptionPane.ERROR_MESSAGE);
 								}
 							}
 							else {
-								System.out.print("ERROR EMPTY");
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The VISA's START and END dates must not be empty.</font color = #ffffff></html>", "Error while Entering Dates", JOptionPane.ERROR_MESSAGE);
 							}
 						}
 						else {
-							//tables_visaTypeTxt cannot be empty
-							System.out.print("err");
+							JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The VISA TYPE field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					else {
-						//tables_tinIdTxt cannot be empty
-						System.out.print("err");
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The TIN ID field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty TIN ID field", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				else {
-					//tables_passportNoTxt cannot be empty
-					System.out.print("err");
+					JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The Passport No. field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Passport No. field", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				
@@ -681,7 +689,7 @@ public class Tables extends JFrame{
 			Connection conn2;
 			try {
 				String sql = "INSERT INTO jdl_accounts.transactions (trans_passportNo, trans_tinID, trans_visaType, trans_visaStartDate, trans_visaEndDate, trans_permitType, trans_permitStartDate, trans_permitEndDate, trans_aepID, "
-						+ "trans_aepStartDate, trans_aepEndDate, client_id) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ "trans_aepStartDate, trans_aepEndDate, client_id, trans_transTimestamp) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				
 				conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 				PreparedStatement statement1 = conn2.prepareStatement(sql);
@@ -732,7 +740,11 @@ public class Tables extends JFrame{
 				
 				statement1.setString(12, tables_clientIdTxt.getText());
 				
-				statement1.setString(12, tables_clientIdTxt.getText());
+				Calendar calendar = Calendar.getInstance();
+				java.sql.Date currentDate = new java.sql.Date(calendar.getTime().getTime());
+				    
+				statement1.setDate(13, currentDate);
+				
 				
 				statement1.executeUpdate();
 				tables_inputPanel.revalidate();

@@ -47,21 +47,23 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.SpringLayout;
 
-public class TablesStatus extends JFrame{
+public class TablesStatusPermits extends JFrame{
 	
-	private JTextField tables_documentationTxt;
-	private JTextField tables_immigrantTxt;
-	private JTextField tables_agendaTxt;
-	private JTextField tables_visaReleaseTxt;
+	private JTextField tables_instructionsTxt;
+	private JTextField tables_aepCancellationTxt;
 	private String clientSelectedName;
 	private JTextField tables_clientFirstNameTxt;
 	private JTextField tables_clientIdTxt;
 	private boolean tables_validator = true;
 	private JTable table_1;
-	private JTextField tables_waiverEccTxt;
 	private JTextField tables_acrReleaseTxt;
-	private JTextField tables_documentationCompleteTxt;
+	private JTextField tables_aepDowngradingTxt;
+	private JTextField tables_aepExitClearanceTxt;
+	private JTextField tables_updatedVisaExtendTxt;
+	private JTextField tables_documentationTxt;
+	private JTextField tables_addReqTxt;
 	/**
 	 * Launch the application.
 	 */
@@ -70,7 +72,7 @@ public class TablesStatus extends JFrame{
 			public void run() {
 				try {
 					Tables window = new Tables();
-					window.setVisible(true);
+					window.setVisible(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -81,7 +83,7 @@ public class TablesStatus extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public TablesStatus() {
+	public TablesStatusPermits() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Tables.class.getResource("/jdl/Assets/login_small.png")));	
 		
 		//Main Panel
@@ -316,45 +318,65 @@ public class TablesStatus extends JFrame{
 		tables_inputSectionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		
-		JLabel tables_documentationLbl = new JLabel("Documentation:");
-		tables_documentationLbl.setForeground(new Color(255, 255, 255));
-		tables_documentationLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_documentationLbl.setBounds(20, 235, 131, 54);
-		tables_inputPanel.add(tables_documentationLbl);
+		JLabel tables_dateReceivedLbl = new JLabel("Date Received:");
+		tables_dateReceivedLbl.setForeground(new Color(255, 255, 255));
+		tables_dateReceivedLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		tables_dateReceivedLbl.setBounds(20, 235, 131, 54);
+		tables_inputPanel.add(tables_dateReceivedLbl);
 		
-		tables_documentationTxt = new JTextField();
-		tables_documentationTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_documentationTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_documentationTxt.setBounds(20, 282, 400, 23);
-		tables_inputPanel.add(tables_documentationTxt);
-		tables_documentationTxt.setColumns(10);
+		tables_instructionsTxt = new JTextField();
+		tables_instructionsTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tables_instructionsTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_instructionsTxt.setBounds(227, 279, 197, 23);
+		tables_inputPanel.add(tables_instructionsTxt);
+		tables_instructionsTxt.setColumns(10);
 		
-		JLabel tables_dateFiledLbl = new JLabel("Date Filed:");
-		tables_dateFiledLbl.setForeground(new Color(255, 255, 255));
-		tables_dateFiledLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_dateFiledLbl.setBounds(20, 309, 197, 29);
-		tables_inputPanel.add(tables_dateFiledLbl);
+		JLabel tables_instructionsLbl = new JLabel("Instructions:");
+		tables_instructionsLbl.setForeground(new Color(255, 255, 255));
+		tables_instructionsLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		tables_instructionsLbl.setBounds(227, 248, 197, 29);
+		tables_inputPanel.add(tables_instructionsLbl);
 		
-		JLabel tables_immigrantLbl = new JLabel("Immigrant:");
-		tables_immigrantLbl.setForeground(new Color(255, 255, 255));
-		tables_immigrantLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_immigrantLbl.setBounds(20, 365, 190, 29);
-		tables_inputPanel.add(tables_immigrantLbl);
+		JLabel tables_aepCancellationLbl = new JLabel("AEP Cancellation:");
+		tables_aepCancellationLbl.setForeground(new Color(255, 255, 255));
+		tables_aepCancellationLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		tables_aepCancellationLbl.setBounds(20, 303, 190, 37);
+		tables_inputPanel.add(tables_aepCancellationLbl);
 		
-		tables_immigrantTxt = new JTextField();
-		tables_immigrantTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_immigrantTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_immigrantTxt.setColumns(10);
-		tables_immigrantTxt.setBounds(20, 396, 400, 23);
-		tables_inputPanel.add(tables_immigrantTxt);
+		tables_aepCancellationTxt = new JTextField();
+		tables_aepCancellationTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tables_aepCancellationTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_aepCancellationTxt.setColumns(10);
+		tables_aepCancellationTxt.setBounds(20, 338, 197, 23);
+		tables_inputPanel.add(tables_aepCancellationTxt);
 		
-		JLabel tables_earlyHearingDateLbl = new JLabel("Early Hearing Date:");
-		tables_earlyHearingDateLbl.setForeground(new Color(255, 255, 255));
-		tables_earlyHearingDateLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_earlyHearingDateLbl.setBounds(20, 420, 190, 29);
-		tables_inputPanel.add(tables_earlyHearingDateLbl);
+		JLabel tables_aepDowngradingLbl = new JLabel("AEP Downgrading:");
+		tables_aepDowngradingLbl.setForeground(new Color(255, 255, 255));
+		tables_aepDowngradingLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		tables_aepDowngradingLbl.setBounds(227, 307, 190, 29);
+		tables_inputPanel.add(tables_aepDowngradingLbl);
 		
 		//Date Input
+		
+		//Date Received
+		UtilDateModel dateReceivedModel = new UtilDateModel();
+		Properties dateReceived = new Properties();
+		dateReceived.put("text.today", "Date Today");
+		dateReceived.put("text.month", "Month");
+		dateReceived.put("text.year", "Year");
+		
+		JDatePanelImpl dateReceivedPanel = new JDatePanelImpl(dateReceivedModel, dateReceived);
+
+		JDatePickerImpl dateReceivedPicker = new JDatePickerImpl(dateReceivedPanel, new DateLabelFormatter());
+
+		dateReceivedPicker.setLocation(20, 279);
+		dateReceivedPicker.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
+		dateReceivedPicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
+		dateReceivedPicker.getJFormattedTextField().setForeground(new Color(220, 20, 60));
+		dateReceivedPicker.getJFormattedTextField().setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		dateReceivedPicker.setSize(197, 23);
+
+		tables_inputPanel.add(dateReceivedPicker);
 		
 		//Date Filed
 		UtilDateModel dateFiledModel = new UtilDateModel();
@@ -362,100 +384,99 @@ public class TablesStatus extends JFrame{
 		dateFiled.put("text.today", "Date Today");
 		dateFiled.put("text.month", "Month");
 		dateFiled.put("text.year", "Year");
-		
+				
 		JDatePanelImpl dateFiledPanel = new JDatePanelImpl(dateFiledModel, dateFiled);
 
 		JDatePickerImpl dateFiledPicker = new JDatePickerImpl(dateFiledPanel, new DateLabelFormatter());
 
-		dateFiledPicker.setLocation(20, 337);
+		dateFiledPicker.setLocation(20, 507);
 		dateFiledPicker.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
 		dateFiledPicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		dateFiledPicker.getJFormattedTextField().setForeground(new Color(220, 20, 60));
 		dateFiledPicker.getJFormattedTextField().setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		dateFiledPicker.setSize(400, 23);
+		dateFiledPicker.setSize(197, 23);
 
 		tables_inputPanel.add(dateFiledPicker);
 		
-		//Hearing Date
-		UtilDateModel hearingDateModel = new UtilDateModel();
-		Properties hearingDate = new Properties();
-		hearingDate.put("text.today", "Date Today");
-		hearingDate.put("text.month", "Month");
-		hearingDate.put("text.year", "Year");
+		//Date Released
+		UtilDateModel aepDateReleasedModel = new UtilDateModel();
+		Properties aepDateReleased = new Properties();
+		aepDateReleased.put("text.today", "Date Today");
+		aepDateReleased.put("text.month", "Month");
+		aepDateReleased.put("text.year", "Year");
 		
-		JDatePanelImpl hearingDatePanel = new JDatePanelImpl(hearingDateModel, hearingDate);
+		JDatePanelImpl aepReleasedDatePanel = new JDatePanelImpl(aepDateReleasedModel, aepDateReleased);
 
-		JDatePickerImpl hearingDatePicker = new JDatePickerImpl(hearingDatePanel, new DateLabelFormatter());
+		JDatePickerImpl aepDateReleasePicker = new JDatePickerImpl(aepReleasedDatePanel, new DateLabelFormatter());
 
-		hearingDatePicker.setLocation(230, 451);
-		hearingDatePicker.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
-		hearingDatePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
-		hearingDatePicker.getJFormattedTextField().setForeground(new Color(220, 20, 60));
-		hearingDatePicker.getJFormattedTextField().setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		hearingDatePicker.setSize(190, 23);
+		aepDateReleasePicker.setLocation(227, 507);
+		aepDateReleasePicker.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
+		aepDateReleasePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
+		aepDateReleasePicker.getJFormattedTextField().setForeground(new Color(220, 20, 60));
+		aepDateReleasePicker.getJFormattedTextField().setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		aepDateReleasePicker.setSize(200, 23);
 
-		tables_inputPanel.add(hearingDatePicker);
-	
+		tables_inputPanel.add(aepDateReleasePicker);
 		
-		//Early Hearing Date
-		UtilDateModel earlyHearingDateModel = new UtilDateModel();
-		Properties earlyHearingDate = new Properties();
-		earlyHearingDate.put("text.today", "Date Today");
-		earlyHearingDate.put("text.month", "Month");
-		earlyHearingDate.put("text.year", "Year");
-
-		JDatePanelImpl earlyHearingDatePanel = new JDatePanelImpl(earlyHearingDateModel, earlyHearingDate);
-
-		JDatePickerImpl earlyHearingDatePicker = new JDatePickerImpl(earlyHearingDatePanel, new DateLabelFormatter());
-
-		earlyHearingDatePicker.setLocation(20, 451);
-		earlyHearingDatePicker.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
-		earlyHearingDatePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
-		earlyHearingDatePicker.getJFormattedTextField().setForeground(new Color(220, 20, 60));
-		earlyHearingDatePicker.getJFormattedTextField().setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		earlyHearingDatePicker.setSize(190, 23);
+		//Permit Date Filed
+		UtilDateModel permitDateFiledModel = new UtilDateModel();
+		Properties permitDateFiledReleased = new Properties();
+		permitDateFiledReleased.put("text.today", "Date Today");
+		permitDateFiledReleased.put("text.month", "Month");
+		permitDateFiledReleased.put("text.year", "Year");
 		
-		tables_inputPanel.add(earlyHearingDatePicker);
+		JDatePanelImpl permitDateFiledPanel = new JDatePanelImpl(permitDateFiledModel, permitDateFiledReleased);
+
+		JDatePickerImpl permitDateFiledPicker = new JDatePickerImpl(permitDateFiledPanel, new DateLabelFormatter());
+
+		permitDateFiledPicker.setLocation(20, 560);
+		permitDateFiledPicker.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
+		permitDateFiledPicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
+		permitDateFiledPicker.getJFormattedTextField().setForeground(new Color(220, 20, 60));
+		permitDateFiledPicker.getJFormattedTextField().setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		permitDateFiledPicker.setSize(200, 23);
+
+		tables_inputPanel.add(permitDateFiledPicker);
+		
+		//Permit Date Released
+		UtilDateModel permitDateReleasedModel = new UtilDateModel();
+		Properties permitDateReleasedReleased = new Properties();
+		permitDateReleasedReleased.put("text.today", "Date Today");
+		permitDateReleasedReleased.put("text.month", "Month");
+		permitDateReleasedReleased.put("text.year", "Year");
+		
+		JDatePanelImpl permitDateReleasedPanel = new JDatePanelImpl(permitDateReleasedModel, permitDateReleasedReleased);
+
+		JDatePickerImpl permitDateReleasedPicker = new JDatePickerImpl(permitDateReleasedPanel, new DateLabelFormatter());
+
+		permitDateReleasedPicker.setLocation(227, 560);
+		permitDateReleasedPicker.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
+		permitDateReleasedPicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
+		permitDateReleasedPicker.getJFormattedTextField().setForeground(new Color(220, 20, 60));
+		permitDateReleasedPicker.getJFormattedTextField().setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		permitDateReleasedPicker.setSize(200, 23);
+
+		tables_inputPanel.add(permitDateReleasedPicker);
 		
 		//Input Section (Labels)
 		
-		JLabel tables_hearingDateLbl = new JLabel("Hearing Date:");
-		tables_hearingDateLbl.setForeground(Color.WHITE);
-		tables_hearingDateLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_hearingDateLbl.setBounds(230, 420, 192, 29);
-		tables_inputPanel.add(tables_hearingDateLbl);
+		JLabel tables_aepDateReleaseLbl = new JLabel("AEP Date Released:");
+		tables_aepDateReleaseLbl.setForeground(Color.WHITE);
+		tables_aepDateReleaseLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		tables_aepDateReleaseLbl.setBounds(230, 476, 192, 29);
+		tables_inputPanel.add(tables_aepDateReleaseLbl);
 		
-		JLabel tables_agendaLbl = new JLabel("Agenda:");
+		JLabel tables_agendaLbl = new JLabel("Permit Date Filed:");
 		tables_agendaLbl.setForeground(Color.WHITE);
 		tables_agendaLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_agendaLbl.setBounds(20, 475, 190, 29);
+		tables_agendaLbl.setBounds(20, 529, 190, 31);
 		tables_inputPanel.add(tables_agendaLbl);
 		
-		tables_agendaTxt = new JTextField();
-		tables_agendaTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_agendaTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_agendaTxt.setColumns(10);
-		tables_agendaTxt.setBounds(20, 506, 197, 23);
-		tables_inputPanel.add(tables_agendaTxt);
-		
-		JLabel tables_visaReleaseLbl = new JLabel("9G Visa Released:");
+		JLabel tables_visaReleaseLbl = new JLabel("Permit Date Released:");
 		tables_visaReleaseLbl.setForeground(Color.WHITE);
 		tables_visaReleaseLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_visaReleaseLbl.setBounds(230, 475, 197, 29);
+		tables_visaReleaseLbl.setBounds(230, 531, 197, 29);
 		tables_inputPanel.add(tables_visaReleaseLbl);
-		
-		tables_visaReleaseTxt = new JTextField();
-		tables_visaReleaseTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_visaReleaseTxt.setColumns(10);
-		tables_visaReleaseTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_visaReleaseTxt.setBounds(230, 506, 197, 23);
-		tables_inputPanel.add(tables_visaReleaseTxt);
-		
-		JLabel tables_waiverEccLbl = new JLabel("Waiver/ECC Payment/ Others :");
-		tables_waiverEccLbl.setForeground(Color.WHITE);
-		tables_waiverEccLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_waiverEccLbl.setBounds(20, 532, 190, 29);
-		tables_inputPanel.add(tables_waiverEccLbl);
 		
 		JLabel tables_chooseLbl = new JLabel("Choose a client's Lastname:");
 		tables_chooseLbl.setForeground(Color.WHITE);
@@ -598,13 +619,13 @@ public class TablesStatus extends JFrame{
 		tables_addClientLbl.setForeground(Color.LIGHT_GRAY);
 		tables_addClientLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
-		JLabel tables_allClientTransactionLbl = new JLabel("All Recorded Client Status (For Visa Filing)");
-		tables_allClientTransactionLbl.setBounds(493, 362, 382, 37);
+		JLabel tables_allClientTransactionLbl = new JLabel("All Recorded Client Status (For Permit Filing)");
+		tables_allClientTransactionLbl.setBounds(493, 362, 412, 37);
 		tables_allClientTransactionLbl.setForeground(Color.WHITE);
 		tables_allClientTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		
-		JLabel lblSpecificClient = new JLabel("Specific Client Status (For Visa Filing)");
-		lblSpecificClient.setBounds(493, 169, 382, 37);
+		JLabel lblSpecificClient = new JLabel("Specific Client Status (For Permit Filing)");
+		lblSpecificClient.setBounds(493, 169, 402, 37);
 		lblSpecificClient.setForeground(Color.WHITE);
 		lblSpecificClient.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		
@@ -624,38 +645,18 @@ public class TablesStatus extends JFrame{
 		getContentPane().add(tables_line);
 		getContentPane().add(tables_inputPanel);
 		
-		tables_waiverEccTxt = new JTextField();
-		tables_waiverEccTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_waiverEccTxt.setColumns(10);
-		tables_waiverEccTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_waiverEccTxt.setBounds(20, 563, 197, 23);
-		tables_inputPanel.add(tables_waiverEccTxt);
-		
 		JLabel tables_acrReleaseLbl = new JLabel("ACR-I Card Release:");
 		tables_acrReleaseLbl.setForeground(Color.WHITE);
 		tables_acrReleaseLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_acrReleaseLbl.setBounds(230, 533, 190, 26);
+		tables_acrReleaseLbl.setBounds(20, 585, 190, 29);
 		tables_inputPanel.add(tables_acrReleaseLbl);
 		
 		tables_acrReleaseTxt = new JTextField();
 		tables_acrReleaseTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
 		tables_acrReleaseTxt.setColumns(10);
 		tables_acrReleaseTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_acrReleaseTxt.setBounds(230, 563, 197, 23);
+		tables_acrReleaseTxt.setBounds(20, 613, 407, 23);
 		tables_inputPanel.add(tables_acrReleaseTxt);
-		
-		JLabel tables_documentationCompleteLbl = new JLabel("Documentation Complete:");
-		tables_documentationCompleteLbl.setForeground(Color.WHITE);
-		tables_documentationCompleteLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_documentationCompleteLbl.setBounds(20, 589, 190, 26);
-		tables_inputPanel.add(tables_documentationCompleteLbl);
-		
-		tables_documentationCompleteTxt = new JTextField();
-		tables_documentationCompleteTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_documentationCompleteTxt.setColumns(10);
-		tables_documentationCompleteTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_documentationCompleteTxt.setBounds(20, 619, 407, 23);
-		tables_inputPanel.add(tables_documentationCompleteTxt);
 		
 		JLabel lblSelectATransaction = new JLabel("Select Transaction ID:");
 		lblSelectATransaction.setForeground(Color.WHITE);
@@ -674,24 +675,24 @@ public class TablesStatus extends JFrame{
 					conn3 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&compensateOnDuplicateKeyUpdateCounts=false","root","password");
 					PreparedStatement statement2= conn3.prepareStatement(sql);
 					
-					statement2.setString(1, tables_documentationTxt.getText());
+					statement2.setString(1, tables_instructionsTxt.getText());
 					
-					if(dateFiledPicker.getJFormattedTextField().getText().toString().equals("")) 
+					if(dateReceivedPicker.getJFormattedTextField().getText().toString().equals("")) 
 						statement2.setDate(2, null);
 					else
-						statement2.setDate(2, java.sql.Date.valueOf(dateFiledPicker.getJFormattedTextField().getText().toString()));
+						statement2.setDate(2, java.sql.Date.valueOf(dateReceivedPicker.getJFormattedTextField().getText().toString()));
 					
-					statement2.setString(3, tables_immigrantTxt.getText());
+					statement2.setString(3, tables_aepCancellationTxt.getText());
 					
-					if(earlyHearingDatePicker.getJFormattedTextField().getText().toString().equals("")) 
+					if(tables_permitDateFiledTxt.getJFormattedTextField().getText().toString().equals("")) 
 						statement2.setDate(4, null);
 					else
-						statement2.setDate(4, java.sql.Date.valueOf(earlyHearingDatePicker.getJFormattedTextField().getText().toString()));
+						statement2.setDate(4, java.sql.Date.valueOf(tables_permitDateFiledTxt.getJFormattedTextField().getText().toString()));
 					
-					if(hearingDatePicker.getJFormattedTextField().getText().toString().equals("")) 
+					if(aepDateReleasePicker.getJFormattedTextField().getText().toString().equals("")) 
 						statement2.setDate(5, null);
 					else
-						statement2.setDate(5, java.sql.Date.valueOf(hearingDatePicker.getJFormattedTextField().getText().toString()));
+						statement2.setDate(5, java.sql.Date.valueOf(aepDateReleasePicker.getJFormattedTextField().getText().toString()));
 					
 					statement2.setString(6, tables_agendaTxt.getText());
 					statement2.setString(7, tables_visaReleaseTxt.getText());
@@ -700,24 +701,24 @@ public class TablesStatus extends JFrame{
 					statement2.setString(10, tables_documentationCompleteTxt.getText());
 					statement2.setString(11, tables_clientIdTxt.getText());
 					statement2.setString(12, tables_comboBox1.getSelectedItem().toString());
-					statement2.setString(13, tables_documentationTxt.getText());
+					statement2.setString(13, tables_instructionsTxt.getText());
 					
-					if(dateFiledPicker.getJFormattedTextField().getText().toString().equals("")) 
+					if(dateReceivedPicker.getJFormattedTextField().getText().toString().equals("")) 
 						statement2.setDate(14, null);
 					else
-						statement2.setDate(14, java.sql.Date.valueOf(dateFiledPicker.getJFormattedTextField().getText().toString()));
+						statement2.setDate(14, java.sql.Date.valueOf(dateReceivedPicker.getJFormattedTextField().getText().toString()));
 					
-					statement2.setString(15, tables_immigrantTxt.getText());
+					statement2.setString(15, tables_aepCancellationTxt.getText());
 					
-					if(earlyHearingDatePicker.getJFormattedTextField().getText().toString().equals("")) 
+					if(tables_permitDateFiledTxt.getJFormattedTextField().getText().toString().equals("")) 
 						statement2.setDate(16, null);
 					else
-						statement2.setDate(16, java.sql.Date.valueOf(earlyHearingDatePicker.getJFormattedTextField().getText().toString()));
+						statement2.setDate(16, java.sql.Date.valueOf(tables_permitDateFiledTxt.getJFormattedTextField().getText().toString()));
 					
-					if(hearingDatePicker.getJFormattedTextField().getText().toString().equals(""))
+					if(aepDateReleasePicker.getJFormattedTextField().getText().toString().equals(""))
 						statement2.setDate(17, null);
 					else
-						statement2.setDate(17, java.sql.Date.valueOf(hearingDatePicker.getJFormattedTextField().getText().toString()));
+						statement2.setDate(17, java.sql.Date.valueOf(aepDateReleasePicker.getJFormattedTextField().getText().toString()));
 					
 					statement2.setString(18, tables_agendaTxt.getText());
 					statement2.setString(19, tables_visaReleaseTxt.getText());
@@ -735,7 +736,7 @@ public class TablesStatus extends JFrame{
 				}
 			}
 		});
-		tables_registerBtn.setBounds(129, 664, 175, 41);
+		tables_registerBtn.setBounds(128, 664, 175, 41);
 		tables_inputPanel.add(tables_registerBtn);
 		
 
@@ -748,30 +749,99 @@ public class TablesStatus extends JFrame{
 		tables_clientDetailsLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
 		tables_clientDetailsLbl.setBounds(20, 222, 411, 23);
 		tables_inputPanel.add(tables_clientDetailsLbl);
+		
+		tables_aepDowngradingTxt = new JTextField();
+		tables_aepDowngradingTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_aepDowngradingTxt.setColumns(10);
+		tables_aepDowngradingTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tables_aepDowngradingTxt.setBounds(227, 339, 197, 23);
+		tables_inputPanel.add(tables_aepDowngradingTxt);
+		
+		JLabel tables_aepExitClearance = new JLabel("AEP Exit Clearance:");
+		tables_aepExitClearance.setForeground(Color.WHITE);
+		tables_aepExitClearance.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		tables_aepExitClearance.setBounds(20, 362, 192, 37);
+		tables_inputPanel.add(tables_aepExitClearance);
+		
+		tables_aepExitClearanceTxt = new JTextField();
+		tables_aepExitClearanceTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_aepExitClearanceTxt.setColumns(10);
+		tables_aepExitClearanceTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tables_aepExitClearanceTxt.setBounds(20, 396, 197, 23);
+		tables_inputPanel.add(tables_aepExitClearanceTxt);
+		
+		tables_updatedVisaExtendTxt = new JTextField();
+		tables_updatedVisaExtendTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_updatedVisaExtendTxt.setColumns(10);
+		tables_updatedVisaExtendTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tables_updatedVisaExtendTxt.setBounds(227, 396, 197, 23);
+		tables_inputPanel.add(tables_updatedVisaExtendTxt);
+		
+		JLabel tables_updatedVisaExtendLbl = new JLabel("Updated Visa Extend:");
+		tables_updatedVisaExtendLbl.setForeground(Color.WHITE);
+		tables_updatedVisaExtendLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		tables_updatedVisaExtendLbl.setBounds(228, 362, 192, 37);
+		tables_inputPanel.add(tables_updatedVisaExtendLbl);
+		
+		JLabel tables_documentationLbl = new JLabel("Documentation");
+		tables_documentationLbl.setForeground(Color.WHITE);
+		tables_documentationLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		tables_documentationLbl.setBounds(20, 422, 197, 26);
+		tables_inputPanel.add(tables_documentationLbl);
+		
+		tables_documentationTxt = new JTextField();
+		tables_documentationTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_documentationTxt.setColumns(10);
+		tables_documentationTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tables_documentationTxt.setBounds(20, 452, 197, 23);
+		tables_inputPanel.add(tables_documentationTxt);
+		
+		tables_addReqTxt = new JTextField();
+		tables_addReqTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_addReqTxt.setColumns(10);
+		tables_addReqTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tables_addReqTxt.setBounds(227, 452, 197, 23);
+		tables_inputPanel.add(tables_addReqTxt);
+		
+		JLabel tables_addReqLbl = new JLabel("Add Requirements:");
+		tables_addReqLbl.setForeground(Color.WHITE);
+		tables_addReqLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		tables_addReqLbl.setBounds(227, 422, 197, 26);
+		tables_inputPanel.add(tables_addReqLbl);
+		
+		JLabel tables_permitDateFiledLbl = new JLabel("AEP Date Filed:");
+		tables_permitDateFiledLbl.setForeground(Color.WHITE);
+		tables_permitDateFiledLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		tables_permitDateFiledLbl.setBounds(20, 476, 192, 29);
+		tables_inputPanel.add(tables_permitDateFiledLbl);
 		getContentPane().add(tables_allClientTransactionLbl);
 		getContentPane().add(scrollPane);
 		getContentPane().add(scrollPane_1);
 		getContentPane().add(lblSpecificClient);
 		
 		JButton btnVisa = new JButton("Visa");
+		btnVisa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TablesStatus().setVisible(true);
+				dispose();
+			}
+		});
 		btnVisa.setForeground(Color.WHITE);
 		btnVisa.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		btnVisa.setBorder(null);
-		btnVisa.setBackground(new Color(255, 153, 51));
+		btnVisa.setBackground(new Color(155, 177, 166));
 		btnVisa.setBounds(169, 125, 86, 38);
 		getContentPane().add(btnVisa);
 		
 		JButton btnPermit = new JButton("Permits");
 		btnPermit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TablesStatusPermits().setVisible(true);
-				dispose();
 			}
 		});
 		btnPermit.setForeground(Color.WHITE);
 		btnPermit.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		btnPermit.setBorder(null);
-		btnPermit.setBackground(new Color(155, 177, 166));
+		btnPermit.setBackground(new Color(255, 153, 0));
 		btnPermit.setBounds(265, 125, 86, 38);
 		getContentPane().add(btnPermit);
 	}
