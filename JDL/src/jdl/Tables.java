@@ -73,7 +73,7 @@ public class Tables extends JFrame{
 	public static boolean DateCheck(String date1, String date2) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		boolean approved = false;
-		if(date1 == "" && date2 == "") {
+		if((date1 == "" || date1.isEmpty()) && (date2 == "" || date1.isEmpty())) {
 			return approved = true;
 		} else {
 			try {
@@ -645,10 +645,15 @@ public class Tables extends JFrame{
 				if(tables_passportNoTxt.getText() != "") {
 					if(tables_tinIdTxt.getText() != "") {
 						if(tables_visaTypeTxt.getText() != ""){
-							if(!((vs != null && !vs.isEmpty()) && (ve != null && !ve.isEmpty())) || !((ps != null && !ps.isEmpty()) && (pe != null && !pe.isEmpty())) || !((as != null && !as.isEmpty()) && (ae != null && !ae.isEmpty())) ) {
-								Register(); //No VISA, PERMIT OR AEP
-								System.out.print("REGISTERED WITHOUT DATES");
-								
+							if(((vs != null && !vs.isEmpty()) && (ve != null && !ve.isEmpty())) || ((ps != null && !ps.isEmpty()) && (pe != null && !pe.isEmpty())) || ((as != null && !as.isEmpty()) && (ae != null && !ae.isEmpty())) ) {
+								System.out.println("REGISTERED WITH DATES");
+								if((DateCheck(ve,vs) && DateCheck(ps,pe)) && DateCheck(as,ae)) {
+									System.out.println("Valid date");
+									Register(); //No VISA, PERMIT OR AEP
+								}
+								else {
+									System.out.println("Date invalid");
+								}
 							}
 							else {
 								System.out.print("ERROR EMPTY");
