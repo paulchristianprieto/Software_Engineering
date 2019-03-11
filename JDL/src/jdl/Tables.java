@@ -18,6 +18,7 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import java.util.Date;
+
 import java.util.Properties;
 
 import net.proteanit.sql.DbUtils;
@@ -70,12 +71,12 @@ public class Tables extends JFrame{
 	}
 	
 	public static boolean DateCheck(String date1, String date2) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		boolean approved = false;
 		if(date1 == "" && date2 == "") {
 			return approved = true;
 		} else {
 			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				Date datex = sdf.parse(date1);
 				Date datey = sdf.parse(date2);
 				if (datex.compareTo(datey) > 0) {
@@ -629,50 +630,47 @@ public class Tables extends JFrame{
 				
 				String vs = visaStartPick.getJFormattedTextField().getText().toString();
 				String ve = visaEndPick.getJFormattedTextField().getText().toString();
-				String ps = permitEndPick.getJFormattedTextField().getText().toString();
+				String ps = permitStartPick.getJFormattedTextField().getText().toString();
 				String pe = permitEndPick.getJFormattedTextField().getText().toString();
-				String as = aepEndPick.getJFormattedTextField().getText().toString();
+				String as = aepStartPick.getJFormattedTextField().getText().toString();
 				String ae = aepEndPick.getJFormattedTextField().getText().toString();
 				
-				System.out.println(vs);
-				System.out.println(ve);
-				System.out.println(as);
+				System.out.println("VISA START: " + vs);
+				System.out.println("VISA END: " + ve);
+				System.out.println("PERMIT START:" + ps);
+				System.out.println("PERMIT END: " + pe);
+				System.out.println("AEP START: " + as);
+				System.out.println("AEP END: " + ae);
 				
 				if(tables_passportNoTxt.getText() != "") {
 					if(tables_tinIdTxt.getText() != "") {
 						if(tables_visaTypeTxt.getText() != ""){
-							if(DateCheck(vs,ve)) {
-								if(DateCheck(ps,pe)) {
-									if(DateCheck(as,ae)) {
-										Register();
-									}
-									else {
-										//AEP dates error
-									}
-								}
-								else {
-									//permit dates error
-								}
+							if(!((vs != null && !vs.isEmpty()) && (ve != null && !ve.isEmpty())) || !((ps != null && !ps.isEmpty()) && (pe != null && !pe.isEmpty())) || !((as != null && !as.isEmpty()) && (ae != null && !ae.isEmpty())) ) {
+								Register(); //No VISA, PERMIT OR AEP
+								System.out.print("REGISTERED WITHOUT DATES");
+								
 							}
 							else {
-								//Visa dates error
+								System.out.print("ERROR EMPTY");
 							}
-							
 						}
 						else {
 							//tables_visaTypeTxt cannot be empty
+							System.out.print("err");
 						}
 					}
 					else {
 						//tables_tinIdTxt cannot be empty
+						System.out.print("err");
 					}
 				}
 				else {
 					//tables_passportNoTxt cannot be empty
+					System.out.print("err");
 				}
 				
 				
-			}
+			}// end of action performed
 			
 		public void Register() {
 			Connection conn2;
@@ -686,10 +684,14 @@ public class Tables extends JFrame{
 				statement1.setString(1, tables_passportNoTxt.getText());
 				statement1.setString(2, tables_tinIdTxt.getText());
 				statement1.setString(3, tables_visaTypeTxt.getText());
+				
+				
 				if(visaStartPick.getJFormattedTextField().getText().toString().equals(""))
 					statement1.setDate(5, null);
 				else
 					statement1.setDate(5, java.sql.Date.valueOf(visaStartPick.getJFormattedTextField().getText().toString()));
+				
+				
 				if(visaEndPick.getJFormattedTextField().getText().toString().equals(""))
 					statement1.setDate(4, null);
 				else
@@ -701,21 +703,28 @@ public class Tables extends JFrame{
 					statement1.setDate(7, null);
 				else
 					statement1.setDate(7, java.sql.Date.valueOf(permitStartPick.getJFormattedTextField().getText().toString()));
+				
+				
 				if(permitEndPick.getJFormattedTextField().getText().toString().equals(""))
 					statement1.setDate(8, null);
 				else
 					statement1.setDate(8, java.sql.Date.valueOf(permitEndPick.getJFormattedTextField().getText().toString()));
 				
+				
 				statement1.setString(9, tables_aepIdTxt.getText());
+				
 				if(aepStartPick.getJFormattedTextField().getText().toString().equals(""))
 					statement1.setDate(10, null);
 				else
 					statement1.setDate(10, java.sql.Date.valueOf(aepStartPick.getJFormattedTextField().getText().toString()));
 				
+				
 				if(aepEndPick.getJFormattedTextField().getText().toString().equals(""))
 					statement1.setDate(11, null);
 				else
 					statement1.setDate(11, java.sql.Date.valueOf(aepEndPick.getJFormattedTextField().getText().toString()));
+				
+				
 				statement1.setString(12, tables_clientIdTxt.getText());
 				
 				statement1.setString(12, tables_clientIdTxt.getText());
@@ -729,7 +738,7 @@ public class Tables extends JFrame{
 					
 			}
 		}
-	});
+	});//end of action listener
 		
 		tables_registerBtn.setBackground(new Color(255, 204, 51));
 		tables_registerBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
