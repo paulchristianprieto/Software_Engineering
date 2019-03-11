@@ -17,6 +17,7 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import java.util.Properties;
@@ -681,7 +682,7 @@ public class Tables extends JFrame{
 			Connection conn2;
 			try {
 				String sql = "INSERT INTO jdl_accounts.transactions (trans_passportNo, trans_tinID, trans_visaType, trans_visaStartDate, trans_visaEndDate, trans_permitType, trans_permitStartDate, trans_permitEndDate, trans_aepID, "
-						+ "trans_aepStartDate, trans_aepEndDate, client_id) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ "trans_aepStartDate, trans_aepEndDate, client_id, trans_transTimestamp) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				
 				conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 				PreparedStatement statement1 = conn2.prepareStatement(sql);
@@ -732,7 +733,11 @@ public class Tables extends JFrame{
 				
 				statement1.setString(12, tables_clientIdTxt.getText());
 				
-				statement1.setString(12, tables_clientIdTxt.getText());
+				Calendar calendar = Calendar.getInstance();
+				java.sql.Date currentDate = new java.sql.Date(calendar.getTime().getTime());
+				    
+				statement1.setDate(13, currentDate);
+				
 				
 				statement1.executeUpdate();
 				tables_inputPanel.revalidate();
