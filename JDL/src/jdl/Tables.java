@@ -17,6 +17,8 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import java.util.Date;
+
 import java.util.Properties;
 
 import net.proteanit.sql.DbUtils;
@@ -31,6 +33,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
@@ -64,6 +68,38 @@ public class Tables extends JFrame{
 				}
 			}
 		});
+	}
+	
+	public static boolean DateCheck(String date1, String date2) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		boolean approved = false;
+		if(date1 == "" && date2 == "") {
+			return approved = true;
+		} else {
+			try {
+				Date datex = sdf.parse(date1);
+				Date datey = sdf.parse(date2);
+				if (datex.compareTo(datey) > 0) {
+					//System.out.println("Date1 is after Date2"); FALSE
+					approved = false;
+				} else if (datex.compareTo(datey) < 0) {
+					//System.out.println("Date1 is before Date2");TRUE
+					approved = true;
+				} else if (datex.compareTo(datey) == 0) {
+					//System.out.println("Date1 is equal to Date2"); FALSE
+					approved = false;
+				} else {
+					//System.out.println("How to get here?"); FALSE
+					approved = false;
+				}
+				
+			}
+			catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return approved;
 	}
 
 	/**
@@ -591,62 +627,118 @@ public class Tables extends JFrame{
 		
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conn2;
-				try {
-					String sql = "INSERT INTO jdl_accounts.transactions (trans_passportNo, trans_tinID, trans_visaType, trans_visaStartDate, trans_visaEndDate, trans_permitType, trans_permitStartDate, trans_permitEndDate, trans_aepID, "
-							+ "trans_aepStartDate, trans_aepEndDate, client_id, trans_transTimestamp) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					
-					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
-					PreparedStatement statement1 = conn2.prepareStatement(sql);
-					
-					statement1.setString(1, tables_passportNoTxt.getText());
-					statement1.setString(2, tables_tinIdTxt.getText());
-					statement1.setString(3, tables_visaTypeTxt.getText());
-					if(visaStartPick.getJFormattedTextField().getText().toString().equals(""))
-						statement1.setDate(5, null);
-					else
-						statement1.setDate(5, java.sql.Date.valueOf(visaStartPick.getJFormattedTextField().getText().toString()));
-					if(visaEndPick.getJFormattedTextField().getText().toString().equals(""))
-						statement1.setDate(4, null);
-					else
-						statement1.setDate(4, java.sql.Date.valueOf(visaEndPick.getJFormattedTextField().getText().toString()));
-					
-					statement1.setString(6, tables_permitTypeTxt.getText());
-					
-					if(permitStartPick.getJFormattedTextField().getText().toString().equals(""))
-						statement1.setDate(7, null);
-					else
-						statement1.setDate(7, java.sql.Date.valueOf(permitStartPick.getJFormattedTextField().getText().toString()));
-					if(permitEndPick.getJFormattedTextField().getText().toString().equals(""))
-						statement1.setDate(8, null);
-					else
-						statement1.setDate(8, java.sql.Date.valueOf(permitEndPick.getJFormattedTextField().getText().toString()));
-					
-					statement1.setString(9, tables_aepIdTxt.getText());
-					if(aepStartPick.getJFormattedTextField().getText().toString().equals(""))
-						statement1.setDate(10, null);
-					else
-						statement1.setDate(10, java.sql.Date.valueOf(aepStartPick.getJFormattedTextField().getText().toString()));
-					
-					if(aepEndPick.getJFormattedTextField().getText().toString().equals(""))
-						statement1.setDate(11, null);
-					else
-						statement1.setDate(11, java.sql.Date.valueOf(aepEndPick.getJFormattedTextField().getText().toString()));
-					statement1.setString(12, tables_clientIdTxt.getText());
-					
-					statement1.setString(12, tables_clientIdTxt.getText());
-					statement1.setDate(13, sqlDate);
-					
-					statement1.executeUpdate();
-					tables_inputPanel.revalidate();
+				
+				String vs = visaStartPick.getJFormattedTextField().getText().toString();
+				String ve = visaEndPick.getJFormattedTextField().getText().toString();
+				String ps = permitStartPick.getJFormattedTextField().getText().toString();
+				String pe = permitEndPick.getJFormattedTextField().getText().toString();
+				String as = aepStartPick.getJFormattedTextField().getText().toString();
+				String ae = aepEndPick.getJFormattedTextField().getText().toString();
+				
+				System.out.println("VISA START: " + vs);
+				System.out.println("VISA END: " + ve);
+				System.out.println("PERMIT START:" + ps);
+				System.out.println("PERMIT END: " + pe);
+				System.out.println("AEP START: " + as);
+				System.out.println("AEP END: " + ae);
+				
+				if(tables_passportNoTxt.getText() != "") {
+					if(tables_tinIdTxt.getText() != "") {
+						if(tables_visaTypeTxt.getText() != ""){
+							if(!((vs != null && !vs.isEmpty()) && (ve != null && !ve.isEmpty())) || !((ps != null && !ps.isEmpty()) && (pe != null && !pe.isEmpty())) || !((as != null && !as.isEmpty()) && (ae != null && !ae.isEmpty())) ) {
+								Register(); //No VISA, PERMIT OR AEP
+								System.out.print("REGISTERED WITHOUT DATES");
+								
+							}
+							else {
+								System.out.print("ERROR EMPTY");
+							}
+						}
+						else {
+							//tables_visaTypeTxt cannot be empty
+							System.out.print("err");
+						}
+					}
+					else {
+						//tables_tinIdTxt cannot be empty
+						System.out.print("err");
+					}
 				}
-
-				 catch (SQLException e1) {
-					e1.printStackTrace();
-						
+				else {
+					//tables_passportNoTxt cannot be empty
+					System.out.print("err");
 				}
+				
+				
+			}// end of action performed
+			
+		public void Register() {
+			Connection conn2;
+			try {
+				String sql = "INSERT INTO jdl_accounts.transactions (trans_passportNo, trans_tinID, trans_visaType, trans_visaStartDate, trans_visaEndDate, trans_permitType, trans_permitStartDate, trans_permitEndDate, trans_aepID, "
+						+ "trans_aepStartDate, trans_aepEndDate, client_id) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+				
+				conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+				PreparedStatement statement1 = conn2.prepareStatement(sql);
+				
+				statement1.setString(1, tables_passportNoTxt.getText());
+				statement1.setString(2, tables_tinIdTxt.getText());
+				statement1.setString(3, tables_visaTypeTxt.getText());
+				
+				
+				if(visaStartPick.getJFormattedTextField().getText().toString().equals(""))
+					statement1.setDate(5, null);
+				else
+					statement1.setDate(5, java.sql.Date.valueOf(visaStartPick.getJFormattedTextField().getText().toString()));
+				
+				
+				if(visaEndPick.getJFormattedTextField().getText().toString().equals(""))
+					statement1.setDate(4, null);
+				else
+					statement1.setDate(4, java.sql.Date.valueOf(visaEndPick.getJFormattedTextField().getText().toString()));
+				
+				statement1.setString(6, tables_permitTypeTxt.getText());
+				
+				if(permitStartPick.getJFormattedTextField().getText().toString().equals(""))
+					statement1.setDate(7, null);
+				else
+					statement1.setDate(7, java.sql.Date.valueOf(permitStartPick.getJFormattedTextField().getText().toString()));
+				
+				
+				if(permitEndPick.getJFormattedTextField().getText().toString().equals(""))
+					statement1.setDate(8, null);
+				else
+					statement1.setDate(8, java.sql.Date.valueOf(permitEndPick.getJFormattedTextField().getText().toString()));
+				
+				
+				statement1.setString(9, tables_aepIdTxt.getText());
+				
+				if(aepStartPick.getJFormattedTextField().getText().toString().equals(""))
+					statement1.setDate(10, null);
+				else
+					statement1.setDate(10, java.sql.Date.valueOf(aepStartPick.getJFormattedTextField().getText().toString()));
+				
+				
+				if(aepEndPick.getJFormattedTextField().getText().toString().equals(""))
+					statement1.setDate(11, null);
+				else
+					statement1.setDate(11, java.sql.Date.valueOf(aepEndPick.getJFormattedTextField().getText().toString()));
+				
+				
+				statement1.setString(12, tables_clientIdTxt.getText());
+				
+				statement1.setString(12, tables_clientIdTxt.getText());
+				
+				statement1.executeUpdate();
+				tables_inputPanel.revalidate();
 			}
-	});
+
+			 catch (SQLException e1) {
+				e1.printStackTrace();
+					
+			}
+		}
+	});//end of action listener
 		
 		tables_registerBtn.setBackground(new Color(255, 204, 51));
 		tables_registerBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
