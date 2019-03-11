@@ -39,6 +39,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.JComboBox;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -399,7 +400,14 @@ public class TablesAddClient extends JFrame{
 		
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
+			 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
+			 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
+			 	UIManager.put("Button.background", Color.WHITE);
+			 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
 				Connection conn2;
+				
 				try {
 					String sql = "INSERT INTO jdl_accounts.clients (client_lastname, client_firstname, client_nationality, client_birthdate, client_gender, client_company, client_position, client_alias, client_contact, client_email)"
 							+ " values (?,?,?,?,?,?,?,?,?,?)";
@@ -407,18 +415,18 @@ public class TablesAddClient extends JFrame{
 					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 					PreparedStatement statement1 = conn2.prepareStatement(sql);
 					
-					if(tables_clientLastnameTxt.getText() == "") {
-						//POPUP: "Client Last Name cannot be empty"
-					}else if (tables_clientFirstnameTxt.getText() == "") {
-						//POPUP: "Client First name cannot be empty"
-					}else if(tables_clientNationalityTxt.getText() == "") {
-						//POPUP: "Client Nationality cannot be empty"
-					}else if(birthdatePicker.getJFormattedTextField().getText().toString() == "") {
-						//POPUP: "Client Birthdate cannot be empty"
-					}else if(tables_clientGenderTxt.getText() == "") {
-						//POPUP: "Client gender cannot be empty"
-					}else if(tables_clientContactTxt.getText() == "" || tables_clientEmailTxt.getText() == "") {
-						//POPUP: "Client must have atleast a contact number or an email"
+					if(tables_clientLastnameTxt.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Lastname must not be empty.</font color = #ffffff></html>", "Detected an empty client's lastname", JOptionPane.ERROR_MESSAGE);
+					}else if (tables_clientFirstnameTxt.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Firstname must not be empty.</font color = #ffffff></html>", "Detected an empty client's firstname", JOptionPane.ERROR_MESSAGE);
+					}else if(tables_clientNationalityTxt.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Nationality must not be empty.</font color = #ffffff></html>", "Detected an empty or undefinable nationality ", JOptionPane.ERROR_MESSAGE);
+					}else if(birthdatePicker.getJFormattedTextField().getText().toString().equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Birthdate must not be empty.</font color = #ffffff></html>", "Detected an empty client's birthdate", JOptionPane.ERROR_MESSAGE);
+					}else if(tables_clientGenderTxt.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Gender must not be empty.</font color = #ffffff></html>", "Detected an empty or undefinable gender", JOptionPane.ERROR_MESSAGE);
+					}else if(tables_clientContactTxt.getText().equals("") || tables_clientEmailTxt.getText() .equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>There should at least one contact information available for a client</font color = #ffffff></html>", "Detected an empty contact no or email", JOptionPane.ERROR_MESSAGE);
 					}else {
 						statement1.setString(1, tables_clientLastnameTxt.getText());
 						statement1.setString(2, tables_clientFirstnameTxt.getText());

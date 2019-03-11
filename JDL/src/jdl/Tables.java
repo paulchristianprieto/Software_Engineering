@@ -75,12 +75,6 @@ public class Tables extends JFrame{
 	}
 	
 	public static boolean DateCheck(String date1, String date2) {
-		
-		UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
-	 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
-	 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
-	 	UIManager.put("Button.background", Color.WHITE);
-	 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
 	 	
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		boolean approved = false;
@@ -638,6 +632,12 @@ public class Tables extends JFrame{
 		
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
+			 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
+			 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
+			 	UIManager.put("Button.background", Color.WHITE);
+			 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
 				
 				String vs = visaStartPick.getJFormattedTextField().getText().toString();
 				String ve = visaEndPick.getJFormattedTextField().getText().toString();
