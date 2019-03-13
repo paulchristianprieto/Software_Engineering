@@ -129,7 +129,7 @@ public class Tables extends JFrame{
 		getContentPane().setBackground(new Color(90, 103, 115));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setSize(1040, 226);
+		scrollPane_1.setSize(1040, 289);
 		scrollPane_1.setLocation(493, 208);
 		
 		table_1 = new JTable();
@@ -160,7 +160,6 @@ public class Tables extends JFrame{
 		//Buttons
 		
 		JComboBox tables_comboBox = new JComboBox();
-		tables_comboBox.addItem("Select a client");
 		
 		Connection conn1;
 		try {
@@ -508,7 +507,7 @@ public class Tables extends JFrame{
 		lblAepExpiryDate.setBounds(228, 543, 192, 29);
 		tables_inputPanel.add(lblAepExpiryDate);
 		
-		JLabel tables_chooseLbl = new JLabel("Choose a client's Lastname:");
+		JLabel tables_chooseLbl = new JLabel("Choose a Client:");
 		tables_chooseLbl.setForeground(Color.WHITE);
 		tables_chooseLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
 		tables_chooseLbl.setBounds(20, 40, 190, 41);
@@ -517,61 +516,61 @@ public class Tables extends JFrame{
 		JLabel tables_lastnameLbl = new JLabel("Lastname:");
 		tables_lastnameLbl.setForeground(Color.WHITE);
 		tables_lastnameLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		tables_lastnameLbl.setBounds(626, 502, 418, 31);
+		tables_lastnameLbl.setBounds(624, 570, 418, 31);
 		getContentPane().add(tables_lastnameLbl);
 
 		JLabel tables_firstnameLbl = new JLabel("Firstname:");
 		tables_firstnameLbl.setForeground(Color.WHITE);
 		tables_firstnameLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		tables_firstnameLbl.setBounds(626, 536, 414, 31);
+		tables_firstnameLbl.setBounds(624, 604, 414, 31);
 		getContentPane().add(tables_firstnameLbl);
 		
 		JLabel tables_aliasLbl = new JLabel("Alias:");
 		tables_aliasLbl.setForeground(Color.WHITE);
 		tables_aliasLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		tables_aliasLbl.setBounds(626, 566, 418, 37);
+		tables_aliasLbl.setBounds(624, 634, 418, 37);
 		getContentPane().add(tables_aliasLbl);
 		
 		JLabel tables_nationalityLbl = new JLabel("Nationality:");
 		tables_nationalityLbl.setForeground(Color.WHITE);
 		tables_nationalityLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		tables_nationalityLbl.setBounds(626, 647, 418, 31);
+		tables_nationalityLbl.setBounds(624, 715, 418, 31);
 		getContentPane().add(tables_nationalityLbl);
 		
 		JLabel tables_birthdateLbl = new JLabel("Birthdate:");
 		tables_birthdateLbl.setForeground(Color.WHITE);
 		tables_birthdateLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		tables_birthdateLbl.setBounds(626, 681, 414, 31);
+		tables_birthdateLbl.setBounds(624, 749, 414, 31);
 		getContentPane().add(tables_birthdateLbl);
 		
 		JLabel tables_genderLbl = new JLabel("Gender:");
 		tables_genderLbl.setForeground(Color.WHITE);
 		tables_genderLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		tables_genderLbl.setBounds(626, 711, 418, 37);
+		tables_genderLbl.setBounds(624, 779, 418, 37);
 		getContentPane().add(tables_genderLbl);
 		
 		JLabel tables_companyLbl = new JLabel("Company:");
 		tables_companyLbl.setForeground(Color.WHITE);
 		tables_companyLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		tables_companyLbl.setBounds(1175, 657, 418, 37);
+		tables_companyLbl.setBounds(1173, 725, 358, 37);
 		getContentPane().add(tables_companyLbl);
 		
 		JLabel tables_emaiLbl = new JLabel("Email:");
 		tables_emaiLbl.setForeground(Color.WHITE);
 		tables_emaiLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		tables_emaiLbl.setBounds(1172, 502, 361, 37);
+		tables_emaiLbl.setBounds(1170, 570, 361, 37);
 		getContentPane().add(tables_emaiLbl);
 		
 		JLabel tables_contactLbl = new JLabel("Contact No.:");
 		tables_contactLbl.setForeground(Color.WHITE);
 		tables_contactLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		tables_contactLbl.setBounds(1172, 536, 361, 37);
+		tables_contactLbl.setBounds(1170, 604, 361, 37);
 		getContentPane().add(tables_contactLbl);
 		
 		JLabel tables_companyPositionLbl = new JLabel("Company Position:");
 		tables_companyPositionLbl.setForeground(Color.WHITE);
 		tables_companyPositionLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		tables_companyPositionLbl.setBounds(1175, 692, 418, 31);
+		tables_companyPositionLbl.setBounds(1173, 760, 358, 31);
 		getContentPane().add(tables_companyPositionLbl);
 		
 		
@@ -844,27 +843,27 @@ public class Tables extends JFrame{
 		JLabel tables_clientInfoLbl = new JLabel("Client Information");
 		tables_clientInfoLbl.setForeground(Color.WHITE);
 		tables_clientInfoLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		tables_clientInfoLbl.setBounds(495, 445, 227, 37);
+		tables_clientInfoLbl.setBounds(493, 513, 227, 37);
 		getContentPane().add(tables_clientInfoLbl);
 		
 		JLabel tables_primaryInfoImg = new JLabel("");
 		tables_primaryInfoImg.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_infoIcon.png")));
-		tables_primaryInfoImg.setBounds(505, 493, 104, 115);
+		tables_primaryInfoImg.setBounds(503, 561, 104, 115);
 		getContentPane().add(tables_primaryInfoImg);
 		
 		JLabel tables_clientSecondaryInfoImg = new JLabel("");
 		tables_clientSecondaryInfoImg.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_secondaryInfoIcon.png")));
-		tables_clientSecondaryInfoImg.setBounds(505, 643, 104, 105);
+		tables_clientSecondaryInfoImg.setBounds(503, 711, 104, 105);
 		getContentPane().add(tables_clientSecondaryInfoImg);
 		
 		JLabel label_2 = new JLabel("");
 		label_2.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_company1.png")));
-		label_2.setBounds(1054, 643, 104, 105);
+		label_2.setBounds(1052, 711, 104, 105);
 		getContentPane().add(label_2);
 
 		JLabel label_1 = new JLabel("");
 		label_1.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_contactDetailsIcon.png")));
-		label_1.setBounds(1050, 493, 112, 105);
+		label_1.setBounds(1048, 561, 112, 105);
 		getContentPane().add(label_1);
 		
 		// Add to Panels 
