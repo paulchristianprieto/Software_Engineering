@@ -122,7 +122,7 @@ public class Tables extends JFrame{
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		setMinimumSize(new Dimension(1550, 900));
+		setMinimumSize(new Dimension(1550, 870));
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
@@ -153,7 +153,7 @@ public class Tables extends JFrame{
 		//Input Section (Declaration of Panel) and Client_id Textfield
 		
 		JPanel tables_inputPanel = new JPanel();
-		tables_inputPanel.setBounds(25, 169, 450, 721);
+		tables_inputPanel.setBounds(25, 169, 450, 678);
 		tables_inputPanel.setBackground(new Color (112, 128, 144));
 		tables_inputPanel.setLayout(null);
 		
@@ -514,7 +514,67 @@ public class Tables extends JFrame{
 		tables_chooseLbl.setBounds(20, 40, 190, 41);
 		tables_inputPanel.add(tables_chooseLbl);
 		
+		JLabel tables_lastnameLbl = new JLabel("Lastname:");
+		tables_lastnameLbl.setForeground(Color.WHITE);
+		tables_lastnameLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
+		tables_lastnameLbl.setBounds(626, 502, 418, 31);
+		getContentPane().add(tables_lastnameLbl);
 
+		JLabel tables_firstnameLbl = new JLabel("Firstname:");
+		tables_firstnameLbl.setForeground(Color.WHITE);
+		tables_firstnameLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
+		tables_firstnameLbl.setBounds(626, 536, 414, 31);
+		getContentPane().add(tables_firstnameLbl);
+		
+		JLabel tables_aliasLbl = new JLabel("Alias:");
+		tables_aliasLbl.setForeground(Color.WHITE);
+		tables_aliasLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
+		tables_aliasLbl.setBounds(626, 566, 418, 37);
+		getContentPane().add(tables_aliasLbl);
+		
+		JLabel tables_nationalityLbl = new JLabel("Nationality:");
+		tables_nationalityLbl.setForeground(Color.WHITE);
+		tables_nationalityLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
+		tables_nationalityLbl.setBounds(626, 647, 418, 31);
+		getContentPane().add(tables_nationalityLbl);
+		
+		JLabel tables_birthdateLbl = new JLabel("Birthdate:");
+		tables_birthdateLbl.setForeground(Color.WHITE);
+		tables_birthdateLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
+		tables_birthdateLbl.setBounds(626, 681, 414, 31);
+		getContentPane().add(tables_birthdateLbl);
+		
+		JLabel tables_genderLbl = new JLabel("Gender:");
+		tables_genderLbl.setForeground(Color.WHITE);
+		tables_genderLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
+		tables_genderLbl.setBounds(626, 711, 418, 37);
+		getContentPane().add(tables_genderLbl);
+		
+		JLabel tables_companyLbl = new JLabel("Company:");
+		tables_companyLbl.setForeground(Color.WHITE);
+		tables_companyLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
+		tables_companyLbl.setBounds(1175, 657, 418, 37);
+		getContentPane().add(tables_companyLbl);
+		
+		JLabel tables_emaiLbl = new JLabel("Email:");
+		tables_emaiLbl.setForeground(Color.WHITE);
+		tables_emaiLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
+		tables_emaiLbl.setBounds(1172, 502, 361, 37);
+		getContentPane().add(tables_emaiLbl);
+		
+		JLabel tables_contactLbl = new JLabel("Contact No.:");
+		tables_contactLbl.setForeground(Color.WHITE);
+		tables_contactLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
+		tables_contactLbl.setBounds(1172, 536, 361, 37);
+		getContentPane().add(tables_contactLbl);
+		
+		JLabel tables_companyPositionLbl = new JLabel("Company Position:");
+		tables_companyPositionLbl.setForeground(Color.WHITE);
+		tables_companyPositionLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
+		tables_companyPositionLbl.setBounds(1175, 692, 418, 31);
+		getContentPane().add(tables_companyPositionLbl);
+		
+		
 		tables_comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn;
@@ -539,6 +599,18 @@ public class Tables extends JFrame{
 					while(rs1.next()) {
 						tables_passportNoTxt.setText(rs1.getString("trans_passportNo"));
 						tables_tinIdTxt.setText(rs1.getString("trans_tinID"));
+					}
+					while(rs.next()) {
+						tables_lastnameLbl.setText("Lastname: "+rs.getString("client_lastname"));
+						tables_firstnameLbl.setText("Firstname: "+rs.getString("client_firstname"));
+						tables_aliasLbl.setText("Alias: "+rs.getString("client_alias"));
+						tables_nationalityLbl.setText("Nationality: "+rs.getString("client_nationality"));
+						tables_birthdateLbl.setText("Birthdate: "+rs.getString("client_birthdate"));
+						tables_genderLbl.setText("Gender: "+rs.getString("client_gender"));
+						tables_companyLbl.setText("Company: "+rs.getString("client_company"));
+						tables_companyPositionLbl.setText("Company Position: "+rs.getString("client_position"));
+						tables_emaiLbl.setText("Email: "+rs.getString("client_email"));
+						tables_contactLbl.setText("Contact No.: "+rs.getString("client_contact"));
 					}
 					tables_passportNoTxt.setEditable(false);
 					tables_tinIdTxt.setEditable(false);
@@ -769,6 +841,32 @@ public class Tables extends JFrame{
 		tables_specificClientLbl.setForeground(Color.WHITE);
 		tables_specificClientLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
+		JLabel tables_clientInfoLbl = new JLabel("Client Information");
+		tables_clientInfoLbl.setForeground(Color.WHITE);
+		tables_clientInfoLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tables_clientInfoLbl.setBounds(495, 445, 227, 37);
+		getContentPane().add(tables_clientInfoLbl);
+		
+		JLabel tables_primaryInfoImg = new JLabel("");
+		tables_primaryInfoImg.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_infoIcon.png")));
+		tables_primaryInfoImg.setBounds(505, 493, 104, 115);
+		getContentPane().add(tables_primaryInfoImg);
+		
+		JLabel tables_clientSecondaryInfoImg = new JLabel("");
+		tables_clientSecondaryInfoImg.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_secondaryInfoIcon.png")));
+		tables_clientSecondaryInfoImg.setBounds(505, 643, 104, 105);
+		getContentPane().add(tables_clientSecondaryInfoImg);
+		
+		JLabel label_2 = new JLabel("");
+		label_2.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_company1.png")));
+		label_2.setBounds(1054, 643, 104, 105);
+		getContentPane().add(label_2);
+
+		JLabel label_1 = new JLabel("");
+		label_1.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_contactDetailsIcon.png")));
+		label_1.setBounds(1050, 493, 112, 105);
+		getContentPane().add(label_1);
+		
 		// Add to Panels 
 		
 		getContentPane().setLayout(null);
@@ -785,35 +883,6 @@ public class Tables extends JFrame{
 		getContentPane().add(tables_inputPanel);
 		getContentPane().add(scrollPane_1);
 		getContentPane().add(tables_specificClientLbl);
-		
-		JLabel tables_clientInfoLbl = new JLabel("Client Information");
-		tables_clientInfoLbl.setForeground(Color.WHITE);
-		tables_clientInfoLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		tables_clientInfoLbl.setBounds(495, 445, 227, 37);
-		getContentPane().add(tables_clientInfoLbl);
-		
-		JLabel tables_lastNameLbl = new JLabel("Lastname:");
-		tables_lastNameLbl.setForeground(Color.WHITE);
-		tables_lastNameLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		tables_lastNameLbl.setBounds(626, 502, 91, 31);
-		getContentPane().add(tables_lastNameLbl);
-		
-		JLabel tables_primaryInfo = new JLabel("");
-		tables_primaryInfo.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_infoIcon.png")));
-		tables_primaryInfo.setBounds(505, 493, 104, 115);
-		getContentPane().add(tables_primaryInfo);
-		
-		JLabel lblFirstname = new JLabel("Firstname:");
-		lblFirstname.setForeground(Color.WHITE);
-		lblFirstname.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		lblFirstname.setBounds(626, 536, 91, 31);
-		getContentPane().add(lblFirstname);
-		
-		JLabel lblAlias = new JLabel("Alias:");
-		lblAlias.setForeground(Color.WHITE);
-		lblAlias.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
-		lblAlias.setBounds(626, 566, 91, 37);
-		getContentPane().add(lblAlias);
 		
 	}
 }
