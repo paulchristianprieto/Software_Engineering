@@ -51,8 +51,6 @@ import java.awt.event.KeyEvent;
 
 public class TablesAddClient extends JFrame{
 	private JTextField tables_clientBirthdateTxt;
-	private JTextField tables_clientGenderTxt;
-	private JTextField tables_clientCompanyTxt;
 	private JTextField tables_clientPositionTxt;
 	private String clientSelectedName;
 	private JTextField tables_clientFirstnameTxt;
@@ -289,25 +287,11 @@ public class TablesAddClient extends JFrame{
 		tables_clientGenderLbl.setBounds(20, 373, 190, 29);
 		tables_inputPanel.add(tables_clientGenderLbl);
 		
-		tables_clientGenderTxt = new JTextField();
-		tables_clientGenderTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_clientGenderTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_clientGenderTxt.setColumns(10);
-		tables_clientGenderTxt.setBounds(20, 404, 400, 23);
-		tables_inputPanel.add(tables_clientGenderTxt);
-		
 		JLabel tables_clientCompanyLbl = new JLabel("Company:");
 		tables_clientCompanyLbl.setForeground(Color.WHITE);
 		tables_clientCompanyLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
 		tables_clientCompanyLbl.setBounds(20, 428, 190, 29);
 		tables_inputPanel.add(tables_clientCompanyLbl);
-		
-		tables_clientCompanyTxt = new JTextField();
-		tables_clientCompanyTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_clientCompanyTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_clientCompanyTxt.setColumns(10);
-		tables_clientCompanyTxt.setBounds(20, 458, 400, 23);
-		tables_inputPanel.add(tables_clientCompanyTxt);
 		
 		JLabel tables_clientPositionLbl = new JLabel("Position in the Company:");
 		tables_clientPositionLbl.setForeground(Color.WHITE);
@@ -547,6 +531,14 @@ public class TablesAddClient extends JFrame{
 		getContentPane().add(tables_clientRemarksTableLbl);
 		getContentPane().add(tables_line);
 		getContentPane().add(tables_inputPanel);
+		
+		JComboBox tables_genderBox = new JComboBox();
+		tables_genderBox.setBounds(20, 402, 400, 24);
+		tables_inputPanel.add(tables_genderBox);
+		
+		JComboBox tables_companyBox = new JComboBox();
+		tables_companyBox.setBounds(20, 457, 400, 24);
+		tables_inputPanel.add(tables_companyBox);
 		getContentPane().add(scrollPane);
 	
 	}
