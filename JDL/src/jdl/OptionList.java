@@ -82,10 +82,10 @@ public class OptionList extends JFrame{
 		panel.add(options_close);
 		options_close.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_minimizer.png")));
 		
-		JLabel options_settings = new JLabel("");
-		options_settings.setBounds(10, 11, 26, 29);
-		panel.add(options_settings);
-		options_settings.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_viewProfile.png")));
+		JLabel options_profileView = new JLabel("");
+		options_profileView.setBounds(10, 11, 26, 29);
+		panel.add(options_profileView);
+		options_profileView.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_viewUser.png")));
 		
 		JLabel options_logout = new JLabel("");
 		options_logout.addMouseListener(new MouseAdapter() {

@@ -762,14 +762,14 @@ public class TablesStatus extends JFrame{
 		btnPermit.setBounds(265, 125, 86, 38);
 		getContentPane().add(btnPermit);
 		
-		JButton button = new JButton("Delete");
-		button.setIcon(new ImageIcon(TablesStatus.class.getResource("/jdl/Assets/button_delete.png")));
-		button.setForeground(Color.WHITE);
-		button.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
-		button.setBorder(null);
-		button.setBackground(new Color(255, 0, 51));
-		button.setBounds(1241, 159, 138, 38);
-		getContentPane().add(button);
+		JButton tables_deleteBtn = new JButton("Delete");
+		tables_deleteBtn.setIcon(new ImageIcon(TablesStatus.class.getResource("/jdl/Assets/button_delete.png")));
+		tables_deleteBtn.setForeground(Color.WHITE);
+		tables_deleteBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		tables_deleteBtn.setBorder(null);
+		tables_deleteBtn.setBackground(new Color(255, 0, 51));
+		tables_deleteBtn.setBounds(1241, 159, 138, 38);
+		getContentPane().add(tables_deleteBtn);
 	}
 }
 

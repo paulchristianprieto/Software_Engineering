@@ -50,7 +50,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class TablesAddClient extends JFrame{
-	private JTextField tables_clientNationalityTxt;
 	private JTextField tables_clientBirthdateTxt;
 	private JTextField tables_clientGenderTxt;
 	private JTextField tables_clientCompanyTxt;
@@ -235,18 +234,34 @@ public class TablesAddClient extends JFrame{
 		tables_clientNationalityLbl.setBounds(20, 260, 204, 29);
 		tables_inputPanel.add(tables_clientNationalityLbl);
 		
-		tables_clientNationalityTxt = new JTextField();
-		tables_clientNationalityTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_clientNationalityTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_clientNationalityTxt.setBounds(20, 290, 400, 23);
-		tables_inputPanel.add(tables_clientNationalityTxt);
-		tables_clientNationalityTxt.setColumns(10);
-		
 		JLabel tables_clientBirthdateLbl = new JLabel("Birthdate:");
 		tables_clientBirthdateLbl.setForeground(new Color(255, 255, 255));
 		tables_clientBirthdateLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
 		tables_clientBirthdateLbl.setBounds(20, 317, 197, 29);
 		tables_inputPanel.add(tables_clientBirthdateLbl);
+		
+		JComboBox tables_nationalityBox = new JComboBox();
+		tables_nationalityBox.setEditable(true);
+		tables_nationalityBox.addItem("Select nationality");
+			
+			Connection conn1;
+			try {
+				
+				conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+				Statement stat=conn1.createStatement();
+				ResultSet rs1=stat.executeQuery("SELECT DISTINCT client_nationality FROM jdl_accounts.clients");
+				 while(rs1.next()){        
+					 	String nationality = rs1.getString("client_nationality");
+					 	tables_nationalityBox.addItem(nationality);
+				    }
+				 
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			tables_nationalityBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+			tables_nationalityBox.setBounds(20, 290, 400, 25);
+			tables_inputPanel.add(tables_nationalityBox);
+		getContentPane().add(scrollPane);
 		
 		//Birthdate
 		
@@ -419,7 +434,7 @@ public class TablesAddClient extends JFrame{
 						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Lastname must not be empty.</font color = #ffffff></html>", "Detected an empty client's lastname", JOptionPane.ERROR_MESSAGE);
 					}else if (tables_clientFirstnameTxt.getText().equals("")) {
 						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Firstname must not be empty.</font color = #ffffff></html>", "Detected an empty client's firstname", JOptionPane.ERROR_MESSAGE);
-					}else if(tables_clientNationalityTxt.getText().equals("")) {
+					}else if((tables_nationalityBox.getSelectedItem().toString()).equals("")) {
 						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Nationality must not be empty.</font color = #ffffff></html>", "Detected an empty or undefinable nationality ", JOptionPane.ERROR_MESSAGE);
 					}else if(birthdatePicker.getJFormattedTextField().getText().toString().equals("")) {
 						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Birthdate must not be empty.</font color = #ffffff></html>", "Detected an empty client's birthdate", JOptionPane.ERROR_MESSAGE);
@@ -430,7 +445,7 @@ public class TablesAddClient extends JFrame{
 					}else {
 						statement1.setString(1, tables_clientLastnameTxt.getText());
 						statement1.setString(2, tables_clientFirstnameTxt.getText());
-						statement1.setString(3, tables_clientNationalityTxt.getText());
+						statement1.setString(3, tables_nationalityBox.getSelectedItem().toString());
 						statement1.setDate(4, java.sql.Date.valueOf(birthdatePicker.getJFormattedTextField().getText().toString()));
 						statement1.setString(5, tables_clientGenderTxt.getText());
 						statement1.setString(6, tables_clientCompanyTxt.getText());

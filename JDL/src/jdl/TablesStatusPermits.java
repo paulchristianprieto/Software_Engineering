@@ -183,7 +183,7 @@ public class TablesStatusPermits extends JFrame{
 			e1.printStackTrace();
 		}
 
-		tables_comboBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_comboBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 14));
 		tables_comboBox.setBounds(20, 61, 400, 29);
 		
 
@@ -254,18 +254,6 @@ public class TablesStatusPermits extends JFrame{
 		});
 		
 		tables_reloadBtn.doClick();
-	
-		JButton tables_orderByBtn = new JButton("Order By");
-		tables_orderByBtn.setBounds(1241, 159, 138, 38);
-		tables_orderByBtn.setForeground(new Color(255, 255, 255));
-		tables_orderByBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		tables_orderByBtn.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_sort.png")));
-		tables_orderByBtn.setBackground(new Color(155, 177, 166));
-		tables_orderByBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		
 		tables_reloadBtn.setBackground(new Color(155, 177, 166));
 		tables_reloadBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
@@ -634,7 +622,6 @@ public class TablesStatusPermits extends JFrame{
 		getContentPane().setLayout(null);
 		getContentPane().add(tables_titlePanel);
 		getContentPane().add(tables_inputSectionLbl);
-		getContentPane().add(tables_orderByBtn);
 		getContentPane().add(tables_reloadBtn);
 		getContentPane().add(tables_addClientLbl);
 		getContentPane().add(tables_clientCreateTransactionLbl);
@@ -844,6 +831,15 @@ public class TablesStatusPermits extends JFrame{
 		btnPermit.setBackground(new Color(255, 153, 0));
 		btnPermit.setBounds(265, 125, 86, 38);
 		getContentPane().add(btnPermit);
+		
+		JButton button = new JButton("Delete");
+		button.setIcon(new ImageIcon(TablesStatusPermits.class.getResource("/jdl/Assets/button_delete.png")));
+		button.setForeground(Color.WHITE);
+		button.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		button.setBorder(null);
+		button.setBackground(new Color(255, 0, 51));
+		button.setBounds(1241, 159, 138, 38);
+		getContentPane().add(button);
 	}
 }
 

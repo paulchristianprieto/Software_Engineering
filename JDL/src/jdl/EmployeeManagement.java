@@ -539,14 +539,14 @@ public class EmployeeManagement extends JFrame{
 		tables_registerBtn.setBackground(new Color(255, 204, 51));
 		tables_registerBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
 		
-		JButton btnDelete = new JButton("Delete");
-		btnDelete.setIcon(new ImageIcon(EmployeeManagement.class.getResource("/jdl/Assets/button_delete.png")));
-		btnDelete.setForeground(new Color(255, 255, 255));
-		btnDelete.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
-		btnDelete.setBorder(null);
-		btnDelete.setBackground(new Color(255, 0, 51));
-		btnDelete.setBounds(1112, 83, 138, 38);
-		getContentPane().add(btnDelete);
+		JButton emp_deleteBtn = new JButton("Delete");
+		emp_deleteBtn.setIcon(new ImageIcon(EmployeeManagement.class.getResource("/jdl/Assets/button_delete.png")));
+		emp_deleteBtn.setForeground(new Color(255, 255, 255));
+		emp_deleteBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		emp_deleteBtn.setBorder(null);
+		emp_deleteBtn.setBackground(new Color(255, 0, 51));
+		emp_deleteBtn.setBounds(1112, 83, 138, 38);
+		getContentPane().add(emp_deleteBtn);
 
 	}
 }
