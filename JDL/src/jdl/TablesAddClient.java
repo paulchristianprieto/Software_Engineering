@@ -240,25 +240,26 @@ public class TablesAddClient extends JFrame{
 		
 		JComboBox tables_nationalityBox = new JComboBox();
 		tables_nationalityBox.setEditable(true);
-		tables_nationalityBox.addItem("Select nationality");
+		tables_nationalityBox.addItem("");
+		Connection conn1;
+		try {
 			
-			Connection conn1;
-			try {
-				
-				conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
-				Statement stat=conn1.createStatement();
-				ResultSet rs1=stat.executeQuery("SELECT DISTINCT client_nationality FROM jdl_accounts.clients");
-				 while(rs1.next()){        
-					 	String nationality = rs1.getString("client_nationality");
-					 	tables_nationalityBox.addItem(nationality);
-				    }
-				 
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			tables_nationalityBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-			tables_nationalityBox.setBounds(20, 290, 400, 25);
-			tables_inputPanel.add(tables_nationalityBox);
+			conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+			Statement stat=conn1.createStatement();
+			ResultSet rs1=stat.executeQuery("SELECT DISTINCT client_nationality FROM jdl_accounts.clients");
+			 while(rs1.next()){        
+				 	String nationality = rs1.getString("client_nationality");
+				 	tables_nationalityBox.addItem(nationality);
+			    }
+			 
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		tables_nationalityBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_nationalityBox.setBounds(20, 290, 400, 25);
+		tables_inputPanel.add(tables_nationalityBox);	
+			
+			
 		getContentPane().add(scrollPane);
 		
 		//Birthdate
@@ -397,57 +398,6 @@ public class TablesAddClient extends JFrame{
 		java.util.Date date=new java.util.Date();
 		java.sql.Date sqlDate=new java.sql.Date(date.getTime());
 		
-		tables_registerBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
-			 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
-			 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
-			 	UIManager.put("Button.background", Color.WHITE);
-			 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
-				Connection conn2;
-				
-				try {
-					String sql = "INSERT INTO jdl_accounts.clients (client_lastname, client_firstname, client_nationality, client_birthdate, client_gender, client_company, client_position, client_alias, client_contact, client_email)"
-							+ " values (?,?,?,?,?,?,?,?,?,?)";
-					
-					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
-					PreparedStatement statement1 = conn2.prepareStatement(sql);
-					
-					if(tables_clientLastnameTxt.getText().equals("")) {
-						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Lastname must not be empty.</font color = #ffffff></html>", "Detected an empty client's lastname", JOptionPane.ERROR_MESSAGE);
-					}else if (tables_clientFirstnameTxt.getText().equals("")) {
-						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Firstname must not be empty.</font color = #ffffff></html>", "Detected an empty client's firstname", JOptionPane.ERROR_MESSAGE);
-					}else if((tables_nationalityBox.getSelectedItem().toString()).equals("")) {
-						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Nationality must not be empty.</font color = #ffffff></html>", "Detected an empty or undefinable nationality ", JOptionPane.ERROR_MESSAGE);
-					}else if(birthdatePicker.getJFormattedTextField().getText().toString().equals("")) {
-						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Birthdate must not be empty.</font color = #ffffff></html>", "Detected an empty client's birthdate", JOptionPane.ERROR_MESSAGE);
-					}else if(tables_clientGenderTxt.getText().equals("")) {
-						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Gender must not be empty.</font color = #ffffff></html>", "Detected an empty or undefinable gender", JOptionPane.ERROR_MESSAGE);
-					}else if(tables_clientContactTxt.getText().equals("") || tables_clientEmailTxt.getText() .equals("")) {
-						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>There should at least one contact information available for a client</font color = #ffffff></html>", "Detected an empty contact no or email", JOptionPane.ERROR_MESSAGE);
-					}else {
-						statement1.setString(1, tables_clientLastnameTxt.getText());
-						statement1.setString(2, tables_clientFirstnameTxt.getText());
-						statement1.setString(3, tables_nationalityBox.getSelectedItem().toString());
-						statement1.setDate(4, java.sql.Date.valueOf(birthdatePicker.getJFormattedTextField().getText().toString()));
-						statement1.setString(5, tables_clientGenderTxt.getText());
-						statement1.setString(6, tables_clientCompanyTxt.getText());
-						statement1.setString(7, tables_clientPositionTxt.getText());
-						statement1.setString(8, tables_clientAliasTxt.getText());
-						statement1.setString(9, tables_clientContactTxt.getText());
-						statement1.setString(10, tables_clientEmailTxt.getText());
-						statement1.executeUpdate();
-						tables_inputPanel.revalidate();
-					}
-				}
-
-				 catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-	});
-		
 		tables_registerBtn.setBackground(new Color(255, 204, 51));
 		tables_registerBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
 		tables_registerBtn.setBounds(131, 675, 173, 35);
@@ -542,11 +492,87 @@ public class TablesAddClient extends JFrame{
 		JComboBox tables_genderBox = new JComboBox();
 		tables_genderBox.setBounds(20, 402, 400, 24);
 		tables_inputPanel.add(tables_genderBox);
+		tables_genderBox.setEditable(false);
+		tables_genderBox.addItem("Male");
+		tables_genderBox.addItem("Female");
 		
 		JComboBox tables_companyBox = new JComboBox();
 		tables_companyBox.setBounds(20, 457, 400, 24);
 		tables_inputPanel.add(tables_companyBox);
+		tables_companyBox.setEditable(true);
+		tables_companyBox.addItem("");
 		getContentPane().add(scrollPane);
+		AutoCompletion.enable(tables_companyBox);
+		AutoCompletion.enable(tables_nationalityBox);
+		
+		Connection conn2;
+		try {
+			
+			conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+			Statement stat=conn2.createStatement();
+			ResultSet rs1=stat.executeQuery("SELECT DISTINCT client_company FROM jdl_accounts.clients");
+			 while(rs1.next()){        
+				 	String company = rs1.getString("client_company");
+				 	tables_companyBox.addItem(company);
+			    }
+			 
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		tables_nationalityBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		tables_nationalityBox.setBounds(20, 290, 400, 25);
+		tables_inputPanel.add(tables_nationalityBox);
+		
+		tables_registerBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
+			 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
+			 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
+			 	UIManager.put("Button.background", Color.WHITE);
+			 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
+				Connection conn2;
+				
+				try {
+					String sql = "INSERT INTO jdl_accounts.clients (client_lastname, client_firstname, client_nationality, client_birthdate, client_gender, client_company, client_position, client_alias, client_contact, client_email)"
+							+ " values (?,?,?,?,?,?,?,?,?,?)";
+					
+					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+					PreparedStatement statement1 = conn2.prepareStatement(sql);
+					
+					if(tables_clientLastnameTxt.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Lastname must not be empty.</font color = #ffffff></html>", "Detected an empty client's lastname", JOptionPane.ERROR_MESSAGE);
+					}else if (tables_clientFirstnameTxt.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Firstname must not be empty.</font color = #ffffff></html>", "Detected an empty client's firstname", JOptionPane.ERROR_MESSAGE);
+					}else if((tables_nationalityBox.getSelectedItem().toString()).equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Nationality must not be empty.</font color = #ffffff></html>", "Detected an empty or undefinable nationality ", JOptionPane.ERROR_MESSAGE);
+					}else if(birthdatePicker.getJFormattedTextField().getText().toString().equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Birthdate must not be empty.</font color = #ffffff></html>", "Detected an empty client's birthdate", JOptionPane.ERROR_MESSAGE);
+					}else if(tables_genderBox.getSelectedItem().toString().equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client's Gender must not be empty.</font color = #ffffff></html>", "Detected an empty or undefinable gender", JOptionPane.ERROR_MESSAGE);
+					}else if(tables_clientContactTxt.getText().equals("") || tables_clientEmailTxt.getText() .equals("")) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>There should at least one contact information available for a client</font color = #ffffff></html>", "Detected an empty contact no or email", JOptionPane.ERROR_MESSAGE);
+					}else {
+						statement1.setString(1, tables_clientLastnameTxt.getText());
+						statement1.setString(2, tables_clientFirstnameTxt.getText());
+						statement1.setString(3, tables_nationalityBox.getSelectedItem().toString());
+						statement1.setDate(4, java.sql.Date.valueOf(birthdatePicker.getJFormattedTextField().getText().toString()));
+						statement1.setString(5, tables_genderBox.getSelectedItem().toString());
+						statement1.setString(6, tables_companyBox.getSelectedItem().toString());
+						statement1.setString(7, tables_clientPositionTxt.getText());
+						statement1.setString(8, tables_clientAliasTxt.getText());
+						statement1.setString(9, tables_clientContactTxt.getText());
+						statement1.setString(10, tables_clientEmailTxt.getText());
+						statement1.executeUpdate();
+						tables_inputPanel.revalidate();
+					}
+				}
+
+				 catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+	});
 	
 	}
 }

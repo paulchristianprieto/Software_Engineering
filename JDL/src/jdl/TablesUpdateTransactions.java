@@ -73,6 +73,15 @@ public class TablesUpdateTransactions extends JFrame{
 		});
 	}
 	
+	public static String[] getDate(String date) {
+		String[] dates = new String[3];
+		dates[0] = date.substring(0,4);
+		dates[1] = date.substring(5,7);
+		dates[2] = date.substring(8,10);
+		
+		return dates;
+	}
+	
 	public static boolean DateCheck(String date1, String date2) {
 	 	
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -534,9 +543,21 @@ public class TablesUpdateTransactions extends JFrame{
 					
 					statement1.setInt(1, temp);
 					ResultSet rs1 = statement1.executeQuery();
+					
+					
 					while(rs1.next()) {
 						tables_passportNoTxt.setText(rs1.getString("trans_passportNo"));
 						tables_tinIdTxt.setText(rs1.getString("trans_tinID"));
+						tables_visaTypeTxt.setText(rs1.getString("trans_visaType"));
+						visaModel1.setValue(rs1.getDate("trans_visaStartDate"));
+						visaModel.setValue(rs1.getDate("trans_visaEndDate"));
+						tables_permitTypeTxt.setText(rs1.getString("trans_permitType"));
+						permitModel.setValue(rs1.getDate("trans_permitStartDate"));
+						permitModel1.setValue(rs1.getDate("trans_permitEndDate"));
+						tables_aepIdTxt.setText(rs1.getString("trans_aepID"));
+						aepModel.setValue(rs1.getDate("trans_aepStartDate"));
+						aepModel1.setValue(rs1.getDate("trans_aepEndDate"));
+						
 					}
 					tables_passportNoTxt.setEditable(false);
 					tables_tinIdTxt.setEditable(false);
