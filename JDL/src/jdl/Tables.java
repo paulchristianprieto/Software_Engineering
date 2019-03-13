@@ -756,7 +756,7 @@ public class Tables extends JFrame{
 		tables_addClientLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_specificClientLbl = new JLabel("Client Transactions");
-		tables_specificClientLbl.setBounds(493, 169, 276, 37);
+		tables_specificClientLbl.setBounds(493, 160, 268, 37);
 		tables_specificClientLbl.setForeground(Color.WHITE);
 		tables_specificClientLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
@@ -776,6 +776,18 @@ public class Tables extends JFrame{
 		getContentPane().add(tables_inputPanel);
 		getContentPane().add(scrollPane_1);
 		getContentPane().add(tables_specificClientLbl);
+		
+		JLabel tables_clientInfoLbl = new JLabel("Client Information");
+		tables_clientInfoLbl.setForeground(Color.WHITE);
+		tables_clientInfoLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tables_clientInfoLbl.setBounds(495, 445, 227, 37);
+		getContentPane().add(tables_clientInfoLbl);
+		
+		JLabel tables_lastNameLbl = new JLabel("Lastname:");
+		tables_lastNameLbl.setForeground(Color.WHITE);
+		tables_lastNameLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
+		tables_lastNameLbl.setBounds(700, 493, 138, 41);
+		getContentPane().add(tables_lastNameLbl);
 		
 	}
 }
