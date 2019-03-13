@@ -502,6 +502,13 @@ public class TablesAddClient extends JFrame{
 		tables_line.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
 		JLabel tables_updateTransactionLbl = new JLabel("Update Transaction", SwingConstants.CENTER);
+		tables_updateTransactionLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new TablesUpdateTransactions().setVisible(true);
+				dispose();
+			}
+		});
 		tables_updateTransactionLbl.setBounds(626, 48, 249, 37);
 		tables_updateTransactionLbl.setForeground(Color.LIGHT_GRAY);
 		tables_updateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));

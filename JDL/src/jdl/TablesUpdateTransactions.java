@@ -47,10 +47,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
-public class Tables extends JFrame{
+public class TablesUpdateTransactions extends JFrame{
 	private JTextField tables_passportNoTxt;
 	private JTextField tables_tinIdTxt;
 	private JTextField tables_visaTypeTxt;
@@ -66,8 +64,8 @@ public class Tables extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Tables window = new Tables();
-					window.setVisible(true);
+					TablesUpdateTransactions window = new TablesUpdateTransactions();
+					window.setVisible(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -111,8 +109,8 @@ public class Tables extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public Tables() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Tables.class.getResource("/jdl/Assets/login_small.png")));	
+	public TablesUpdateTransactions() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TablesUpdateTransactions.class.getResource("/jdl/Assets/login_small.png")));	
 		
 		//Main Panel
 	
@@ -190,7 +188,7 @@ public class Tables extends JFrame{
 		JButton tables_reloadBtn = new JButton("Reload");
 		tables_reloadBtn.setBounds(1395, 159, 138, 38);
 		tables_reloadBtn.setForeground(new Color(255, 255, 255));
-		tables_reloadBtn.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/main_refresh.png")));
+		tables_reloadBtn.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/main_refresh.png")));
 		tables_reloadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -248,7 +246,7 @@ public class Tables extends JFrame{
 				setState(ICONIFIED);
 			}
 		});
-		tables_minimize.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_minimizer.png")));
+		tables_minimize.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/button_minimizer.png")));
 		
 		JLabel tables_seeTablesLbl = new JLabel("See Tables");
 		tables_seeTablesLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -264,7 +262,7 @@ public class Tables extends JFrame{
 				new OptionList().setVisible(true);
 			}
 		});
-		tables_back.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_back.png")));
+		tables_back.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/button_back.png")));
 		tables_back.setHorizontalAlignment(SwingConstants.CENTER);
 		tables_back.setForeground(Color.WHITE);
 		tables_back.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
@@ -702,8 +700,9 @@ public class Tables extends JFrame{
 		tables_inputPanel.add(lblClientInformation);
 		
 		JLabel tables_clientCreateTransactionLbl = new JLabel("Create New Transaction", SwingConstants.CENTER);
+		tables_clientCreateTransactionLbl.setBackground(Color.WHITE);
 		tables_clientCreateTransactionLbl.setBounds(330, 48, 227, 37);
-		tables_clientCreateTransactionLbl.setForeground(Color.WHITE);
+		tables_clientCreateTransactionLbl.setForeground(Color.LIGHT_GRAY);
 		tables_clientCreateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_clientStatusTableLbl = new JLabel("Client Status Table", SwingConstants.CENTER);
@@ -735,22 +734,16 @@ public class Tables extends JFrame{
 		label.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
 		JLabel tables_line = new JLabel("");
-		tables_line.setBounds(412, 96, 57, 22);
-		tables_line.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/line.png")));
+		tables_line.setBounds(721, 96, 57, 22);
+		tables_line.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/line.png")));
 		tables_line.setHorizontalAlignment(SwingConstants.CENTER);
 		tables_line.setForeground(Color.WHITE);
 		tables_line.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
 		JLabel tables_updateTransactionLbl = new JLabel("Update Transaction", SwingConstants.CENTER);
-		tables_updateTransactionLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				new TablesUpdateTransactions().setVisible(true);
-				dispose();
-			}
-		});
+		tables_updateTransactionLbl.setBackground(Color.WHITE);
 		tables_updateTransactionLbl.setBounds(626, 48, 249, 37);
-		tables_updateTransactionLbl.setForeground(Color.LIGHT_GRAY);
+		tables_updateTransactionLbl.setForeground(Color.WHITE);
 		tables_updateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_addClientLbl = new JLabel("Add New Client", SwingConstants.CENTER);
@@ -799,7 +792,7 @@ public class Tables extends JFrame{
 		getContentPane().add(tables_lastNameLbl);
 		
 		JLabel tables_primaryInfo = new JLabel("");
-		tables_primaryInfo.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_infoIcon.png")));
+		tables_primaryInfo.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/client_infoIcon.png")));
 		tables_primaryInfo.setBounds(505, 493, 104, 115);
 		getContentPane().add(tables_primaryInfo);
 		
