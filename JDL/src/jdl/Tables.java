@@ -79,23 +79,31 @@ public class Tables extends JFrame{
 	 	
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		boolean approved = false;
-		if((date1 == "" || date1.isEmpty()) && (date2 == "" || date1.isEmpty())) {
+		if((date1.isEmpty()) && (date1.isEmpty())) {
 			return approved = true;
-		} else {
+		}
+		else if(!date1.isEmpty() && date2.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>End date must not be empty</font color = #ffffff></html>", "Detected an error in date fields", JOptionPane.ERROR_MESSAGE);
+			return approved = false;
+		}
+		else if(date1.isEmpty() && !date2.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Start date must not be empty</font color = #ffffff></html>", "Detected an error in date fields", JOptionPane.ERROR_MESSAGE);
+			return approved = false;
+		}
+		else if (!date1.isEmpty() && !date2.isEmpty()){
 			try {
 				Date datex = sdf.parse(date1);
 				Date datey = sdf.parse(date2);
 				if (datex.compareTo(datey) > 0) {
 					//System.out.println("Date1 is after Date2"); FALSE
+					JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Start date must be before expiry date</font color = #ffffff></html>", "Detected an error in date fields", JOptionPane.ERROR_MESSAGE);
 					approved = false;
 				} else if (datex.compareTo(datey) < 0) {
 					//System.out.println("Date1 is before Date2");TRUE
 					approved = true;
 				} else if (datex.compareTo(datey) == 0) {
 					//System.out.println("Date1 is equal to Date2"); FALSE
-					approved = false;
-				} else {
-					//System.out.println("How to get here?"); FALSE
+					JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Start date cannot be equal to expiry date</font color = #ffffff></html>", "Detected an error in date fields", JOptionPane.ERROR_MESSAGE);
 					approved = false;
 				}
 				
@@ -637,6 +645,7 @@ public class Tables extends JFrame{
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				
 				UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
 			 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
 			 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
@@ -649,41 +658,62 @@ public class Tables extends JFrame{
 				String pe = permitEndPick.getJFormattedTextField().getText().toString();
 				String as = aepStartPick.getJFormattedTextField().getText().toString();
 				String ae = aepEndPick.getJFormattedTextField().getText().toString();
+				try {
+					boolean visaValid = false;
+					boolean permitValid = false;
+					boolean aepValid = false;
 				
-				System.out.println("VISA START: " + vs);
-				System.out.println("VISA END: " + ve);
-				System.out.println("PERMIT START:" + ps);
-				System.out.println("PERMIT END: " + pe);
-				System.out.println("AEP START: " + as);
-				System.out.println("AEP END: " + ae);
-				
-				if(tables_passportNoTxt.getText() != "") {
-					if(tables_tinIdTxt.getText() != "") {
-						if(tables_visaTypeTxt.getText() != ""){
-							if(((vs != null && !vs.isEmpty()) && (ve != null && !ve.isEmpty())) || ((ps != null && !ps.isEmpty()) && (pe != null && !pe.isEmpty())) || ((as != null && !as.isEmpty()) && (ae != null && !ae.isEmpty())) ) {
-								System.out.println("REGISTERED WITH DATES");
-								if((DateCheck(ve,vs) && DateCheck(ps,pe)) && DateCheck(as,ae)) {
-									System.out.println("Valid date");
-									Register(); //No VISA, PERMIT OR AEP
-								}
-								else {
-									  JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The END DATE must be later than the START DATE.</font color = #ffffff></html>", "Error while Entering Dates", JOptionPane.ERROR_MESSAGE);
-								}
+					if(tables_passportNoTxt.getText() != "") {
+						if(tables_tinIdTxt.getText() != "") {
+							if((!(tables_visaTypeTxt.getText().isEmpty()) && !(ve.isEmpty() && vs.isEmpty()) || (tables_visaTypeTxt.getText().isEmpty()) && (ve.isEmpty() && vs.isEmpty())) && DateCheck(ve,vs)) {
+								visaValid = true;
 							}
-							else {
-								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The VISA's START and END dates must not be empty.</font color = #ffffff></html>", "Error while Entering Dates", JOptionPane.ERROR_MESSAGE);
+							else if((tables_visaTypeTxt.getText().isEmpty()) && !(ve.isEmpty() && vs.isEmpty())) {
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The VISA TYPE field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
 							}
+							else if(!(tables_visaTypeTxt.getText().isEmpty()) && (ve.isEmpty() && vs.isEmpty())){
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Please specify visa start date and expiry date.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							}
+							
+							
+							if((!(tables_permitTypeTxt.getText().isEmpty()) && !(pe.isEmpty() && ps.isEmpty()) || (tables_permitTypeTxt.getText().isEmpty()) && (pe.isEmpty() && ps.isEmpty())) && DateCheck(ps,pe)) {
+								permitValid = true;
+							}
+							else if((tables_permitTypeTxt.getText().isEmpty()) && !(pe.isEmpty() && ps.isEmpty())) {
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The PERMIT TYPE field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							}
+							else if(!(tables_permitTypeTxt.getText().isEmpty()) && (pe.isEmpty() && ps.isEmpty())){
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Please specify permit start date and expiry date.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							}
+							
+							
+							if((!(tables_aepIdTxt.getText().isEmpty()) && !(ae.isEmpty() && as.isEmpty()) || (tables_aepIdTxt.getText().isEmpty()) && (ae.isEmpty() && as.isEmpty())) && DateCheck(as,ae)) {
+								aepValid = true;
+							}
+							else if((tables_aepIdTxt.getText().isEmpty()) && !(ae.isEmpty() && as.isEmpty())) {
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The AEP ID field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							}
+							else if(!(tables_aepIdTxt.getText().isEmpty()) && (ae.isEmpty() && as.isEmpty())){
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Please specify AEP start date and expiry date.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							}
+							
+							
+							if(visaValid && permitValid && aepValid) {
+								System.out.println("REGISTER");
+							}
+							
+							
+							
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The VISA TYPE field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The TIN ID field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty TIN ID field", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					else {
-						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The TIN ID field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty TIN ID field", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The Passport No. field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Passport No. field", JOptionPane.ERROR_MESSAGE);
 					}
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The Passport No. field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Passport No. field", JOptionPane.ERROR_MESSAGE);
+				}catch (Exception e3) {
+					e3.printStackTrace();
 				}
 				
 				tables_reloadBtn.doClick();
@@ -756,7 +786,7 @@ public class Tables extends JFrame{
 
 			 catch (SQLException e1) {
 				e1.printStackTrace();
-					
+				
 			}
 		}
 	});//end of action listener
