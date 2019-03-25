@@ -137,7 +137,7 @@ public class TablesRemarks extends JFrame{
 		
 		JPanel tables_inputPanel = new JPanel();
 		tables_inputPanel.setBounds(25, 169, 450, 721);
-		tables_inputPanel.setBackground(new Color (112, 128, 144));
+		tables_inputPanel.setBackground(new Color (255, 255, 255, 60));
 		tables_inputPanel.setLayout(null);
 		
 		
@@ -241,48 +241,10 @@ public class TablesRemarks extends JFrame{
 		
 		tables_reloadBtn.doClick();
 		
-		tables_reloadBtn.setBackground(new Color(155, 177, 166));
+		tables_reloadBtn.setBackground(new Color(0, 102, 102));
 		tables_reloadBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		tables_reloadBtn.setBorder(null);
 		tables_reloadBtn.setBorder(null);
-		
-		JPanel tables_titlePanel = new JPanel();
-		tables_titlePanel.setBounds(0, 0, 1551, 37);
-		tables_titlePanel.setBackground(new Color(126, 141, 151));
-		tables_titlePanel.setLayout(null);
-		
-		//Images
-		
-		JLabel tables_minimize = new JLabel("");
-		tables_minimize.setBounds(1516, 0, 35, 41);
-		tables_titlePanel.add(tables_minimize);
-		tables_minimize.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				setState(ICONIFIED);
-			}
-		});
-		tables_minimize.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_minimizer.png")));
-		
-		JLabel tables_seeTablesLbl = new JLabel("See Tables");
-		tables_seeTablesLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		tables_seeTablesLbl.setForeground(Color.WHITE);
-		tables_seeTablesLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
-		tables_seeTablesLbl.setBounds(739, 0, 168, 37);
-		tables_titlePanel.add(tables_seeTablesLbl);
-		
-		JLabel tables_back = new JLabel("");
-		tables_back.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				new OptionList().setVisible(true);
-			}
-		});
-		tables_back.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_back.png")));
-		tables_back.setHorizontalAlignment(SwingConstants.CENTER);
-		tables_back.setForeground(Color.WHITE);
-		tables_back.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
-		tables_back.setBounds(0, 0, 57, 37);
-		tables_titlePanel.add(tables_back);
 		
 		//Input Section (Labels and Associated Textfields)
 		
@@ -579,6 +541,7 @@ public class TablesRemarks extends JFrame{
 		tables_inputPanel.add(lblClientTransaction);
 		
 		JButton tables_registerBtn = new JButton("Register Info");
+		tables_registerBtn.setForeground(new Color(255, 255, 255));
 		
 		java.util.Date date=new java.util.Date();
 		java.sql.Date sqlDate=new java.sql.Date(date.getTime());
@@ -642,7 +605,7 @@ public class TablesRemarks extends JFrame{
 			}
 	});
 		
-		tables_registerBtn.setBackground(new Color(255, 204, 51));
+		tables_registerBtn.setBackground(new Color(0, 102, 102));
 		tables_registerBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
 		tables_registerBtn.setBounds(134, 675, 173, 35);
 		tables_inputPanel.add(tables_registerBtn);
@@ -724,7 +687,6 @@ public class TablesRemarks extends JFrame{
 		// Add to Panels 
 		
 		getContentPane().setLayout(null);
-		getContentPane().add(tables_titlePanel);
 		getContentPane().add(tables_inputSectionLbl);
 		getContentPane().add(tables_reloadBtn);
 		getContentPane().add(tables_addClientLbl);
@@ -740,14 +702,43 @@ public class TablesRemarks extends JFrame{
 		getContentPane().add(scrollPane_1);
 		getContentPane().add(lblSpecificClient);
 		
-		JButton tables_deleteBtn = new JButton("Delete");
-		tables_deleteBtn.setIcon(new ImageIcon(TablesRemarks.class.getResource("/jdl/Assets/button_delete.png")));
-		tables_deleteBtn.setForeground(Color.WHITE);
-		tables_deleteBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
-		tables_deleteBtn.setBorder(null);
-		tables_deleteBtn.setBackground(new Color(255, 0, 51));
-		tables_deleteBtn.setBounds(1241, 159, 138, 38);
-		getContentPane().add(tables_deleteBtn);
+		JLabel tables_back = new JLabel("");
+		tables_back.setBounds(0, 0, 57, 37);
+		getContentPane().add(tables_back);
+		tables_back.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				new OptionList().setVisible(true);
+			}
+		});
+		tables_back.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_back.png")));
+		tables_back.setHorizontalAlignment(SwingConstants.CENTER);
+		tables_back.setForeground(Color.WHITE);
+		tables_back.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		
+		JLabel tables_seeTablesLbl = new JLabel("See Tables");
+		tables_seeTablesLbl.setBounds(725, 0, 168, 41);
+		getContentPane().add(tables_seeTablesLbl);
+		tables_seeTablesLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		tables_seeTablesLbl.setForeground(Color.WHITE);
+		tables_seeTablesLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		
+		//Images
+		
+		JLabel tables_minimize = new JLabel("");
+		tables_minimize.setBounds(1505, 0, 35, 41);
+		getContentPane().add(tables_minimize);
+		tables_minimize.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				setState(ICONIFIED);
+			}
+		});
+		tables_minimize.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_minimizer.png")));
+		
+		JLabel tables_background = new JLabel("");
+		tables_background.setIcon(new ImageIcon(TablesRemarks.class.getResource("/jdl/Assets/background_tables4.jpg")));
+		tables_background.setBounds(0, 0, 1551, 900);
+		getContentPane().add(tables_background);
 	}
 }
 

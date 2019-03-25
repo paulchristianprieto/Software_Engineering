@@ -889,7 +889,7 @@ public class TablesUpdateTransactions extends JFrame{
 		getContentPane().add(label_1);
 		
 		JLabel label_2 = new JLabel("");
-		label_2.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/client_contactDetailsIcon.png")));
+		label_2.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/client_emails.png")));
 		label_2.setBounds(1056, 570, 104, 115);
 		getContentPane().add(label_2);
 		
