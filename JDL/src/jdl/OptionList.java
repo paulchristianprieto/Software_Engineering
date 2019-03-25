@@ -58,36 +58,35 @@ public class OptionList extends JFrame{
 		getContentPane().setBackground(new Color(90, 103, 115));
 		getContentPane().setLayout(null);
 		
-		///Title Panel
+		//Images
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(126, 141, 151));
-		panel.setBounds(0, 0, 690, 46);
-		getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		JLabel options_Welcome = new JLabel("Welcome Administrator");
-		options_Welcome.setBounds(263, 0, 168, 46);
-		panel.add(options_Welcome);
-		options_Welcome.setForeground(new Color(255, 255, 255));
-		options_Welcome.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		JLabel options_tableIcon = new JLabel("");
+		options_tableIcon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new Tables().setVisible(true);
+				dispose();
+			}
+		});
 		
 		JLabel options_close = new JLabel("");
+		options_close.setBounds(654, 0, 26, 46);
+		getContentPane().add(options_close);
 		options_close.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setState(ICONIFIED);
 			}
 		});
-		options_close.setBounds(654, 0, 26, 46);
-		panel.add(options_close);
 		options_close.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_minimizer.png")));
 		
 		JLabel options_profileView = new JLabel("");
 		options_profileView.setBounds(10, 11, 26, 29);
-		panel.add(options_profileView);
+		getContentPane().add(options_profileView);
 		options_profileView.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_viewUser.png")));
 		
 		JLabel options_logout = new JLabel("");
+		options_logout.setBounds(39, 11, 33, 29);
+		getContentPane().add(options_logout);
 		options_logout.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 					UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
@@ -105,19 +104,12 @@ public class OptionList extends JFrame{
 			}
 		});
 		options_logout.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_logout.png")));
-		options_logout.setBounds(39, 11, 33, 29);
-		panel.add(options_logout);
 		
-		//Images
-		
-		JLabel options_tableIcon = new JLabel("");
-		options_tableIcon.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				new Tables().setVisible(true);
-				dispose();
-			}
-		});
+		JLabel options_Welcome = new JLabel("Welcome Administrator");
+		options_Welcome.setBounds(256, 0, 168, 46);
+		getContentPane().add(options_Welcome);
+		options_Welcome.setForeground(new Color(255, 255, 255));
+		options_Welcome.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		options_tableIcon.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/options_tableSheet.png")));
 		options_tableIcon.setBounds(159, 148, 52, 58);
 		getContentPane().add(options_tableIcon);
@@ -178,6 +170,11 @@ public class OptionList extends JFrame{
 		options_employeeLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 18));
 		options_employeeLbl.setBounds(415, 391, 180, 25);
 		getContentPane().add(options_employeeLbl);
+		
+		JLabel options_background = new JLabel("");
+		options_background.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/background_optionList4.jpg")));
+		options_background.setBounds(0, 0, 690, 480);
+		getContentPane().add(options_background);
 		
 	}
 }
