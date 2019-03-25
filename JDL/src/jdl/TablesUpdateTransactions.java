@@ -47,6 +47,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class TablesUpdateTransactions extends JFrame{
 	private JTextField tables_passportNoTxt;
@@ -64,8 +66,8 @@ public class TablesUpdateTransactions extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TablesUpdateTransactions window = new TablesUpdateTransactions();
-					window.setVisible(false);
+					Tables window = new Tables();
+					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -73,36 +75,35 @@ public class TablesUpdateTransactions extends JFrame{
 		});
 	}
 	
-	public static String[] getDate(String date) {
-		String[] dates = new String[3];
-		dates[0] = date.substring(0,4);
-		dates[1] = date.substring(5,7);
-		dates[2] = date.substring(8,10);
-		
-		return dates;
-	}
-	
 	public static boolean DateCheck(String date1, String date2) {
 	 	
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		boolean approved = false;
-		if((date1 == "" || date1.isEmpty()) && (date2 == "" || date1.isEmpty())) {
+		if((date1.isEmpty()) && (date1.isEmpty())) {
 			return approved = true;
-		} else {
+		}
+		else if(!date1.isEmpty() && date2.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>End date must not be empty</font color = #ffffff></html>", "Detected an error in date fields", JOptionPane.ERROR_MESSAGE);
+			return approved = false;
+		}
+		else if(date1.isEmpty() && !date2.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Start date must not be empty</font color = #ffffff></html>", "Detected an error in date fields", JOptionPane.ERROR_MESSAGE);
+			return approved = false;
+		}
+		else if (!date1.isEmpty() && !date2.isEmpty()){
 			try {
 				Date datex = sdf.parse(date1);
 				Date datey = sdf.parse(date2);
 				if (datex.compareTo(datey) > 0) {
 					//System.out.println("Date1 is after Date2"); FALSE
+					JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Start date must be before expiry date</font color = #ffffff></html>", "Detected an error in date fields", JOptionPane.ERROR_MESSAGE);
 					approved = false;
 				} else if (datex.compareTo(datey) < 0) {
 					//System.out.println("Date1 is before Date2");TRUE
 					approved = true;
 				} else if (datex.compareTo(datey) == 0) {
 					//System.out.println("Date1 is equal to Date2"); FALSE
-					approved = false;
-				} else {
-					//System.out.println("How to get here?"); FALSE
+					JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Start date cannot be equal to expiry date</font color = #ffffff></html>", "Detected an error in date fields", JOptionPane.ERROR_MESSAGE);
 					approved = false;
 				}
 				
@@ -119,7 +120,7 @@ public class TablesUpdateTransactions extends JFrame{
 	 * Create the application.
 	 */
 	public TablesUpdateTransactions() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(TablesUpdateTransactions.class.getResource("/jdl/Assets/login_small.png")));	
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Tables.class.getResource("/jdl/Assets/login_small.png")));	
 		
 		//Main Panel
 	
@@ -129,14 +130,14 @@ public class TablesUpdateTransactions extends JFrame{
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		setMinimumSize(new Dimension(1550, 860));
+		setMinimumSize(new Dimension(1550, 870));
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
 		getContentPane().setBackground(new Color(90, 103, 115));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setSize(1040, 286);
+		scrollPane_1.setSize(1040, 289);
 		scrollPane_1.setLocation(493, 208);
 		
 		table_1 = new JTable();
@@ -160,8 +161,8 @@ public class TablesUpdateTransactions extends JFrame{
 		//Input Section (Declaration of Panel) and Client_id Textfield
 		
 		JPanel tables_inputPanel = new JPanel();
-		tables_inputPanel.setBounds(25, 169, 450, 677);
-		tables_inputPanel.setBackground(new Color (112, 128, 144));
+		tables_inputPanel.setBounds(25, 169, 450, 678);
+		tables_inputPanel.setBackground(new Color(255,255,255,60));
 		tables_inputPanel.setLayout(null);
 		
 		//Buttons
@@ -196,7 +197,7 @@ public class TablesUpdateTransactions extends JFrame{
 		JButton tables_reloadBtn = new JButton("Reload");
 		tables_reloadBtn.setBounds(1395, 159, 138, 38);
 		tables_reloadBtn.setForeground(new Color(255, 255, 255));
-		tables_reloadBtn.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/main_refresh.png")));
+		tables_reloadBtn.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/main_refresh.png")));
 		tables_reloadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -234,53 +235,15 @@ public class TablesUpdateTransactions extends JFrame{
 		
 		tables_reloadBtn.doClick();
 		
-		tables_reloadBtn.setBackground(new Color(155, 177, 166));
+		tables_reloadBtn.setBackground(new Color(0, 102, 102));
 		tables_reloadBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		tables_reloadBtn.setBorder(null);
 		tables_reloadBtn.setBorder(null);
 		
-		JPanel tables_titlePanel = new JPanel();
-		tables_titlePanel.setBounds(0, 0, 1551, 37);
-		tables_titlePanel.setBackground(new Color(126, 141, 151));
-		tables_titlePanel.setLayout(null);
-		
-		//Images
-		
-		JLabel tables_minimize = new JLabel("");
-		tables_minimize.setBounds(1516, 0, 35, 41);
-		tables_titlePanel.add(tables_minimize);
-		tables_minimize.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				setState(ICONIFIED);
-			}
-		});
-		tables_minimize.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/button_minimizer.png")));
-		
-		JLabel tables_seeTablesLbl = new JLabel("See Tables");
-		tables_seeTablesLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		tables_seeTablesLbl.setForeground(Color.WHITE);
-		tables_seeTablesLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
-		tables_seeTablesLbl.setBounds(739, 0, 168, 37);
-		tables_titlePanel.add(tables_seeTablesLbl);
-		
-		JLabel tables_back = new JLabel("");
-		tables_back.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				new OptionList().setVisible(true);
-			}
-		});
-		tables_back.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/button_back.png")));
-		tables_back.setHorizontalAlignment(SwingConstants.CENTER);
-		tables_back.setForeground(Color.WHITE);
-		tables_back.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
-		tables_back.setBounds(0, 0, 57, 37);
-		tables_titlePanel.add(tables_back);
-		
 		//Input Section (Labels and Associated Textfields)
 		
 		JLabel tables_inputSectionLbl = new JLabel("Input Section");
-		tables_inputSectionLbl.setBounds(25, 120, 255, 37);
+		tables_inputSectionLbl.setBounds(25, 128, 255, 41);
 		tables_inputSectionLbl.setForeground(new Color(255, 255, 255));
 		tables_inputSectionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
@@ -579,7 +542,8 @@ public class TablesUpdateTransactions extends JFrame{
 		tables_companyPositionLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 17));
 		tables_companyPositionLbl.setBounds(1173, 760, 358, 31);
 		getContentPane().add(tables_companyPositionLbl);
-
+		
+		
 		tables_comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn;
@@ -601,23 +565,10 @@ public class TablesUpdateTransactions extends JFrame{
 					
 					statement1.setInt(1, temp);
 					ResultSet rs1 = statement1.executeQuery();
-					
-					
 					while(rs1.next()) {
 						tables_passportNoTxt.setText(rs1.getString("trans_passportNo"));
 						tables_tinIdTxt.setText(rs1.getString("trans_tinID"));
-						tables_visaTypeTxt.setText(rs1.getString("trans_visaType"));
-						visaModel1.setValue(rs1.getDate("trans_visaStartDate"));
-						visaModel.setValue(rs1.getDate("trans_visaEndDate"));
-						tables_permitTypeTxt.setText(rs1.getString("trans_permitType"));
-						permitModel.setValue(rs1.getDate("trans_permitStartDate"));
-						permitModel1.setValue(rs1.getDate("trans_permitEndDate"));
-						tables_aepIdTxt.setText(rs1.getString("trans_aepID"));
-						aepModel.setValue(rs1.getDate("trans_aepStartDate"));
-						aepModel1.setValue(rs1.getDate("trans_aepEndDate"));
-						
 					}
-					
 					while(rs.next()) {
 						tables_lastnameLbl.setText("Lastname: "+rs.getString("client_lastname"));
 						tables_firstnameLbl.setText("Firstname: "+rs.getString("client_firstname"));
@@ -630,7 +581,6 @@ public class TablesUpdateTransactions extends JFrame{
 						tables_emaiLbl.setText("Email: "+rs.getString("client_email"));
 						tables_contactLbl.setText("Contact No.: "+rs.getString("client_contact"));
 					}
-					
 					tables_passportNoTxt.setEditable(false);
 					tables_tinIdTxt.setEditable(false);
 
@@ -649,12 +599,15 @@ public class TablesUpdateTransactions extends JFrame{
 		tables_inputPanel.add(lblClientTransaction);
 		
 		JButton tables_registerBtn = new JButton("Register Info");
+		tables_registerBtn.setBorder(null);
+		tables_registerBtn.setForeground(new Color(255, 255, 255));
 		
 		java.util.Date date=new java.util.Date();
 		java.sql.Date sqlDate=new java.sql.Date(date.getTime());
 		
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				
 				UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
 			 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
@@ -668,41 +621,62 @@ public class TablesUpdateTransactions extends JFrame{
 				String pe = permitEndPick.getJFormattedTextField().getText().toString();
 				String as = aepStartPick.getJFormattedTextField().getText().toString();
 				String ae = aepEndPick.getJFormattedTextField().getText().toString();
+				try {
+					boolean visaValid = false;
+					boolean permitValid = false;
+					boolean aepValid = false;
 				
-				System.out.println("VISA START: " + vs);
-				System.out.println("VISA END: " + ve);
-				System.out.println("PERMIT START:" + ps);
-				System.out.println("PERMIT END: " + pe);
-				System.out.println("AEP START: " + as);
-				System.out.println("AEP END: " + ae);
-				
-				if(tables_passportNoTxt.getText() != "") {
-					if(tables_tinIdTxt.getText() != "") {
-						if(tables_visaTypeTxt.getText() != ""){
-							if(((vs != null && !vs.isEmpty()) && (ve != null && !ve.isEmpty())) || ((ps != null && !ps.isEmpty()) && (pe != null && !pe.isEmpty())) || ((as != null && !as.isEmpty()) && (ae != null && !ae.isEmpty())) ) {
-								System.out.println("REGISTERED WITH DATES");
-								if((DateCheck(ve,vs) && DateCheck(ps,pe)) && DateCheck(as,ae)) {
-									System.out.println("Valid date");
-									Register(); //No VISA, PERMIT OR AEP
-								}
-								else {
-									  JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The END DATE must be later than the START DATE.</font color = #ffffff></html>", "Error while Entering Dates", JOptionPane.ERROR_MESSAGE);
-								}
+					if(tables_passportNoTxt.getText() != "") {
+						if(tables_tinIdTxt.getText() != "") {
+							if((!(tables_visaTypeTxt.getText().isEmpty()) && !(ve.isEmpty() && vs.isEmpty()) || (tables_visaTypeTxt.getText().isEmpty()) && (ve.isEmpty() && vs.isEmpty())) && DateCheck(ve,vs)) {
+								visaValid = true;
 							}
-							else {
-								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The VISA's START and END dates must not be empty.</font color = #ffffff></html>", "Error while Entering Dates", JOptionPane.ERROR_MESSAGE);
+							else if((tables_visaTypeTxt.getText().isEmpty()) && !(ve.isEmpty() && vs.isEmpty())) {
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The VISA TYPE field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
 							}
+							else if(!(tables_visaTypeTxt.getText().isEmpty()) && (ve.isEmpty() && vs.isEmpty())){
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Please specify visa start date and expiry date.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							}
+							
+							
+							if((!(tables_permitTypeTxt.getText().isEmpty()) && !(pe.isEmpty() && ps.isEmpty()) || (tables_permitTypeTxt.getText().isEmpty()) && (pe.isEmpty() && ps.isEmpty())) && DateCheck(ps,pe)) {
+								permitValid = true;
+							}
+							else if((tables_permitTypeTxt.getText().isEmpty()) && !(pe.isEmpty() && ps.isEmpty())) {
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The PERMIT TYPE field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							}
+							else if(!(tables_permitTypeTxt.getText().isEmpty()) && (pe.isEmpty() && ps.isEmpty())){
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Please specify permit start date and expiry date.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							}
+							
+							
+							if((!(tables_aepIdTxt.getText().isEmpty()) && !(ae.isEmpty() && as.isEmpty()) || (tables_aepIdTxt.getText().isEmpty()) && (ae.isEmpty() && as.isEmpty())) && DateCheck(as,ae)) {
+								aepValid = true;
+							}
+							else if((tables_aepIdTxt.getText().isEmpty()) && !(ae.isEmpty() && as.isEmpty())) {
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The AEP ID field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							}
+							else if(!(tables_aepIdTxt.getText().isEmpty()) && (ae.isEmpty() && as.isEmpty())){
+								JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Please specify AEP start date and expiry date.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							}
+							
+							
+							if(visaValid && permitValid && aepValid) {
+								System.out.println("REGISTER");
+							}
+							
+							
+							
 						}
 						else {
-							JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The VISA TYPE field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Visa Type Field", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The TIN ID field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty TIN ID field", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					else {
-						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The TIN ID field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty TIN ID field", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The Passport No. field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Passport No. field", JOptionPane.ERROR_MESSAGE);
 					}
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>The Passport No. field must not be empty. Please specify one.</font color = #ffffff></html>", "Detected an empty Passport No. field", JOptionPane.ERROR_MESSAGE);
+				}catch (Exception e3) {
+					e3.printStackTrace();
 				}
 				
 				tables_reloadBtn.doClick();
@@ -711,8 +685,8 @@ public class TablesUpdateTransactions extends JFrame{
 		public void Register() {
 			Connection conn2;
 			try {
-				String sql = "INSERT INTO jdl_accounts.transactions (trans_passportNo, trans_tinID, trans_visaType, trans_visaStartDate, trans_visaEndDate, trans_permitType, trans_permitStartDate, trans_permitEndDate, trans_aepID, "
-						+ "trans_aepStartDate, trans_aepEndDate, client_id, trans_transTimestamp) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				String sql = "UPDATE jdl_accounts.transactions SET (trans_passportNo, trans_tinID, trans_visaType, trans_visaStartDate, trans_visaEndDate, trans_permitType, trans_permitStartDate, trans_permitEndDate, trans_aepID, "
+						+ "trans_aepStartDate, trans_aepEndDate, client_id, trans_transTimestamp) values (?,?,?,?,?,?,?,?,?,?,?,?,?) WHERE ";
 				
 				conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 				PreparedStatement statement1 = conn2.prepareStatement(sql);
@@ -775,12 +749,12 @@ public class TablesUpdateTransactions extends JFrame{
 
 			 catch (SQLException e1) {
 				e1.printStackTrace();
-					
+				
 			}
 		}
 	});//end of action listener
 		
-		tables_registerBtn.setBackground(new Color(255, 204, 51));
+		tables_registerBtn.setBackground(new Color(0, 102, 102));
 		tables_registerBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
 		tables_registerBtn.setBounds(134, 628, 173, 35);
 		tables_inputPanel.add(tables_registerBtn);
@@ -793,9 +767,8 @@ public class TablesUpdateTransactions extends JFrame{
 		tables_inputPanel.add(lblClientInformation);
 		
 		JLabel tables_clientCreateTransactionLbl = new JLabel("Create New Transaction", SwingConstants.CENTER);
-		tables_clientCreateTransactionLbl.setBackground(Color.WHITE);
 		tables_clientCreateTransactionLbl.setBounds(330, 48, 227, 37);
-		tables_clientCreateTransactionLbl.setForeground(Color.LIGHT_GRAY);
+		tables_clientCreateTransactionLbl.setForeground(Color.WHITE);
 		tables_clientCreateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_clientStatusTableLbl = new JLabel("Client Status Table", SwingConstants.CENTER);
@@ -827,16 +800,22 @@ public class TablesUpdateTransactions extends JFrame{
 		label.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
 		JLabel tables_line = new JLabel("");
-		tables_line.setBounds(721, 96, 57, 22);
-		tables_line.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/line.png")));
+		tables_line.setBounds(412, 96, 57, 22);
+		tables_line.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/line.png")));
 		tables_line.setHorizontalAlignment(SwingConstants.CENTER);
 		tables_line.setForeground(Color.WHITE);
 		tables_line.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
 		JLabel tables_updateTransactionLbl = new JLabel("Update Transaction", SwingConstants.CENTER);
-		tables_updateTransactionLbl.setBackground(Color.WHITE);
+		tables_updateTransactionLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new TablesUpdateTransactions().setVisible(true);
+				dispose();
+			}
+		});
 		tables_updateTransactionLbl.setBounds(626, 48, 249, 37);
-		tables_updateTransactionLbl.setForeground(Color.WHITE);
+		tables_updateTransactionLbl.setForeground(Color.LIGHT_GRAY);
 		tables_updateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_addClientLbl = new JLabel("Add New Client", SwingConstants.CENTER);
@@ -851,14 +830,73 @@ public class TablesUpdateTransactions extends JFrame{
 		tables_addClientLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_specificClientLbl = new JLabel("Client Transactions");
+		tables_specificClientLbl.setBackground(new Color(0, 153, 153));
 		tables_specificClientLbl.setBounds(493, 160, 268, 37);
 		tables_specificClientLbl.setForeground(Color.WHITE);
 		tables_specificClientLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
+		JLabel tables_clientInfoLbl = new JLabel("Client Information");
+		tables_clientInfoLbl.setForeground(Color.WHITE);
+		tables_clientInfoLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tables_clientInfoLbl.setBounds(493, 513, 227, 37);
+		getContentPane().add(tables_clientInfoLbl);
+		
+		JLabel tables_primaryInfoImg = new JLabel("");
+		tables_primaryInfoImg.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_infoIcon.png")));
+		tables_primaryInfoImg.setBounds(503, 561, 104, 115);
+		getContentPane().add(tables_primaryInfoImg);
+		
+		JLabel tables_clientSecondaryInfoImg = new JLabel("");
+		tables_clientSecondaryInfoImg.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_secondaryInfoIcon.png")));
+		tables_clientSecondaryInfoImg.setBounds(503, 711, 104, 105);
+		getContentPane().add(tables_clientSecondaryInfoImg);
+		
+		JLabel label_2 = new JLabel("");
+		label_2.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_company1.png")));
+		label_2.setBounds(1052, 711, 104, 105);
+		getContentPane().add(label_2);
+
+		JLabel label_1 = new JLabel("");
+		label_1.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/client_emails.png")));
+		label_1.setBounds(1048, 561, 112, 105);
+		getContentPane().add(label_1);
+		
 		// Add to Panels 
 		
 		getContentPane().setLayout(null);
-		getContentPane().add(tables_titlePanel);
+		
+		//Images
+		
+		JLabel tables_minimize = new JLabel("");
+		tables_minimize.setBounds(1515, 0, 35, 41);
+		getContentPane().add(tables_minimize);
+		tables_minimize.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				setState(ICONIFIED);
+			}
+		});
+		tables_minimize.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_minimizer.png")));
+		
+		JLabel tables_seeTablesLbl = new JLabel("See Tables");
+		tables_seeTablesLbl.setBounds(667, 4, 168, 37);
+		getContentPane().add(tables_seeTablesLbl);
+		tables_seeTablesLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		tables_seeTablesLbl.setForeground(Color.WHITE);
+		tables_seeTablesLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		
+		JLabel tables_back = new JLabel("");
+		tables_back.setBounds(0, 0, 57, 37);
+		getContentPane().add(tables_back);
+		tables_back.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				new OptionList().setVisible(true);
+			}
+		});
+		tables_back.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_back.png")));
+		tables_back.setHorizontalAlignment(SwingConstants.CENTER);
+		tables_back.setForeground(Color.WHITE);
+		tables_back.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		getContentPane().add(tables_inputSectionLbl);
 		getContentPane().add(tables_reloadBtn);
 		getContentPane().add(tables_addClientLbl);
@@ -872,34 +910,10 @@ public class TablesUpdateTransactions extends JFrame{
 		getContentPane().add(scrollPane_1);
 		getContentPane().add(tables_specificClientLbl);
 		
-		JLabel tables_clientInfoLbl = new JLabel("Client Information");
-		tables_clientInfoLbl.setForeground(Color.WHITE);
-		tables_clientInfoLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		tables_clientInfoLbl.setBounds(493, 510, 227, 37);
-		getContentPane().add(tables_clientInfoLbl);
-			
-		JLabel tables_primaryInfo = new JLabel("");
-		tables_primaryInfo.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/client_infoIcon.png")));
-		tables_primaryInfo.setBounds(510, 570, 104, 115);
-		getContentPane().add(tables_primaryInfo);
-		
-		JLabel label_1 = new JLabel("");
-		label_1.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/client_secondaryInfoIcon.png")));
-		label_1.setBounds(510, 715, 104, 115);
-		getContentPane().add(label_1);
-		
-		JLabel label_2 = new JLabel("");
-		label_2.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/client_emails.png")));
-		label_2.setBounds(1056, 570, 104, 115);
-		getContentPane().add(label_2);
-		
-		JLabel label_3 = new JLabel("");
-		label_3.setIcon(new ImageIcon(TablesUpdateTransactions.class.getResource("/jdl/Assets/client_company1.png")));
-		label_3.setBounds(1059, 715, 104, 115);
-		getContentPane().add(label_3);
-		
-		
-		
+		JLabel background_tables = new JLabel("");
+		background_tables.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/background_tables4.jpg")));
+		background_tables.setBounds(0, 0, 1550, 870);
+		getContentPane().add(background_tables);
 		
 	}
 }
