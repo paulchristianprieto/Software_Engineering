@@ -61,6 +61,8 @@ public class TablesStatus extends JFrame{
 	private JTextField tables_acrReleaseTxt;
 	private JTextField tables_documentationCompleteTxt;
 	private String client_id = "";
+	private String client_name = "";
+	private JTable table;
 	/**
 	 * Launch the application.
 	 */
@@ -102,6 +104,17 @@ public class TablesStatus extends JFrame{
 		scrollPane_1.setSize(1036, 280);
 		scrollPane_1.setLocation(491, 209);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(495, 532, 1036, 307);
+		getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		table.setRowHeight(32);
+		table.setFont(new Font("Calibri", Font.PLAIN, 16));
+		table.setBorder(null);
+		table.setBounds(495, 541, 1036, 298);
+		scrollPane.setViewportView(table);
+		
 		table_1 = new JTable();
 		table_1.setRowHeight(32);
 		table_1.setFont(new Font("Calibri", Font.PLAIN, 16));
@@ -114,6 +127,10 @@ public class TablesStatus extends JFrame{
 	    header_1.setForeground(Color.WHITE);
 		scrollPane_1.setViewportView(table_1);
 		
+		JTableHeader header = table.getTableHeader();
+		header.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
+	    header.setBackground(new Color(155, 177, 166));
+	    header.setForeground(Color.WHITE);
 		
 		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 		if (defaults.get("Table.alternateRowColor") == null)
@@ -126,6 +143,12 @@ public class TablesStatus extends JFrame{
 		
 		//Input Section (Declaration of Panel) and Client_id Textfield
 		
+		JLabel tables_clientTransactionsLbl = new JLabel("Client Transactions");
+		tables_clientTransactionsLbl.setForeground(Color.WHITE);
+		tables_clientTransactionsLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		tables_clientTransactionsLbl.setBounds(495, 492, 543, 37);
+		getContentPane().add(tables_clientTransactionsLbl);
+		
 		JPanel tables_inputPanel = new JPanel();
 		tables_inputPanel.setBounds(25, 174, 450, 670);
 		tables_inputPanel.setBackground(new Color (255, 255, 255, 60));
@@ -135,6 +158,7 @@ public class TablesStatus extends JFrame{
 		tables_comboBox1.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
 		tables_comboBox1.setBounds(20, 132, 407, 25);
 		tables_inputPanel.add(tables_comboBox1);
+	
 		
 		JComboBox tables_comboBox = new JComboBox();
 		tables_comboBox.addActionListener(new ActionListener() {
@@ -160,6 +184,10 @@ public class TablesStatus extends JFrame{
 					
 					tables_comboBox1.removeAllItems();
 					ResultSet rs = statement.executeQuery();
+					
+					 while(rs.next()) {
+						 tables_clientTransactionsLbl.setText(info.substring(0, info.lastIndexOf(","))+" Transactions");
+						}
 					
 					ResultSet rs1 = statement3.executeQuery();
 						
@@ -204,6 +232,7 @@ public class TablesStatus extends JFrame{
 		tables_comboBox1.setBounds(20, 132, 407, 25);
 		tables_inputPanel.add(tables_comboBox1);
 		
+	
 		tables_reloadBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -224,12 +253,35 @@ public class TablesStatus extends JFrame{
 							", statusV_docComplete AS 'Documentation Complete'" + 
 							" FROM jdl_accounts.status_visa WHERE client_id ="+client_id+" ORDER BY trans_transId DESC");
 					
+					Statement stat2=conn.createStatement();
+					
+					ResultSet rs2 = stat2.executeQuery("SELECT client_id AS 'Client ID',"
+							+ "trans_transId AS 'Transaction ID'" +
+							",trans_passportNo AS 'Passport No' "+ 
+							", trans_tinID AS 'TIN ID' " + 
+							", trans_visaType AS 'Visa Type' " + 
+							", trans_visaStartDate AS 'Visa Start Date' " + 
+							", trans_visaEndDate AS 'Visa Expiry Date' " + 
+							", trans_permitType AS 'Permit Type' " + 
+							", trans_permitStartDate AS 'Permit Start Date' " + 
+							", trans_permitEndDate AS 'Permit Expiry Date' " + 
+							", trans_aepID AS 'AEP ID' " + 
+							", trans_aepStartDate AS 'AEP Start Date' " + 
+							", trans_aepEndDate AS 'AEP Expiry Date' " + 
+							" FROM jdl_accounts.transactions WHERE client_id ="+Integer.parseInt(client_id)+" ORDER BY trans_transId DESC");
+					
 					table_1.setModel(DbUtils.resultSetToTableModel(rs1));
 					table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 					
 					TableColumnAdjuster tca1 = new TableColumnAdjuster(table_1);
 					tca1.adjustColumns();
-
+					
+					table.setModel(DbUtils.resultSetToTableModel(rs2));
+					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					
+					TableColumnAdjuster tca = new TableColumnAdjuster(table);
+					tca.adjustColumns();
+					
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -518,6 +570,13 @@ public class TablesStatus extends JFrame{
 		tables_line.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
 		JLabel tables_updateTransactionLbl = new JLabel("Update Transaction", SwingConstants.CENTER);
+		tables_updateTransactionLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				new TablesUpdateTransactions().setVisible(true);
+				dispose();
+			}
+		});
 		tables_updateTransactionLbl.setBounds(626, 48, 249, 37);
 		tables_updateTransactionLbl.setForeground(Color.LIGHT_GRAY);
 		tables_updateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -754,12 +813,6 @@ public class TablesStatus extends JFrame{
 			}
 		});
 		tables_minimize.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_minimizer.png")));
-		
-		JLabel label_5 = new JLabel("Client Information");
-		label_5.setForeground(Color.WHITE);
-		label_5.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		label_5.setBounds(495, 508, 227, 37);
-		getContentPane().add(label_5);
 		
 		JLabel tables_background = new JLabel("");
 		tables_background.setIcon(new ImageIcon(TablesStatus.class.getResource("/jdl/Assets/background_tables4.jpg")));
