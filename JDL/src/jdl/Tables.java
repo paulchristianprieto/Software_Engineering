@@ -568,6 +568,7 @@ public class Tables extends JFrame{
 					while(rs1.next()) {
 						tables_passportNoTxt.setText(rs1.getString("trans_passportNo"));
 						tables_tinIdTxt.setText(rs1.getString("trans_tinID"));
+						
 					}
 					while(rs.next()) {
 						tables_lastnameLbl.setText("Lastname: "+rs.getString("client_lastname"));
@@ -662,7 +663,7 @@ public class Tables extends JFrame{
 							
 							
 							if(visaValid && permitValid && aepValid) {
-								System.out.println("REGISTER");
+								Register();
 							}
 							
 							

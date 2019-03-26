@@ -378,9 +378,7 @@ public class EmployeeManagement extends JFrame{
 						emp_FirstnameTxt.setText(rs1.getString("emp_firstname"));
 						emp_PositionTxt.setText(rs1.getString("emp_position"));
 						emp_GenderTxt.setText(rs1.getString("emp_gender"));
-						
 						String dateValue = String.valueOf(rs1.getString("emp_birthdate"));
-						System.out.println(dateValue);
 						birthdateModel.setDate(Integer.parseInt(dateValue.substring(0, dateValue.indexOf("-"))), (Integer.parseInt(dateValue.substring(dateValue.indexOf("-")+1, dateValue.lastIndexOf("-"))))-1, Integer.parseInt(dateValue.substring(dateValue.lastIndexOf("-")+1, dateValue.length())));
 						birthdateModel.setSelected(true);
 						emp_AddressTxt.setText(rs1.getString("emp_address"));

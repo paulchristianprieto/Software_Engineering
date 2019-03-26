@@ -231,7 +231,7 @@ public class Login extends JFrame {
 		});
 		
 		login_loginBtn.setForeground(Color.BLACK);
-		login_loginBtn.setBackground(new Color(255, 204, 51));
+		login_loginBtn.setBackground(new Color(255, 204, 102));
 		login_loginBtn.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 15));
 		login_loginBtn.setBounds(138, 475, 180, 37);
 		login_loginBtn.setBorder(emptyBorder);
@@ -295,6 +295,11 @@ public class Login extends JFrame {
 		login_password.setIcon(new ImageIcon(Login.class.getResource("/jdl/Assets/login_password.png")));
 		login_password.setBounds(67, 376, 33, 37);
 		rightPanel.add(login_password);
+		
+		JLabel login_background1 = new JLabel("");
+		login_background1.setIcon(new ImageIcon(Login.class.getResource("/jdl/Assets/background_tables4.jpg")));
+		login_background1.setBounds(0, 0, 433, 550);
+		rightPanel.add(login_background1);
 		
 		JLabel login_logo = new JLabel("");
 		login_logo.setIcon(new ImageIcon(Login.class.getResource("/jdl/Assets/login_JDLogo.png")));
