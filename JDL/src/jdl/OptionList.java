@@ -85,7 +85,7 @@ public class OptionList extends JFrame{
 		options_profileView.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_viewUser.png")));
 		
 		JLabel options_logout = new JLabel("");
-		options_logout.setBounds(39, 11, 33, 29);
+		options_logout.setBounds(74, 11, 37, 29);
 		getContentPane().add(options_logout);
 		options_logout.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -170,6 +170,11 @@ public class OptionList extends JFrame{
 		options_employeeLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 18));
 		options_employeeLbl.setBounds(415, 391, 180, 25);
 		getContentPane().add(options_employeeLbl);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_upload.png")));
+		lblNewLabel.setBounds(42, 11, 26, 29);
+		getContentPane().add(lblNewLabel);
 		
 		JLabel options_background = new JLabel("");
 		options_background.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/background_optionList4.jpg")));

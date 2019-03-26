@@ -514,6 +514,7 @@ public class TablesStatusPermits extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				new TablesUpdateTransactions().setVisible(true);
+				dispose();
 			}
 		});
 		tables_updateTransactionLbl.setBounds(626, 48, 249, 37);

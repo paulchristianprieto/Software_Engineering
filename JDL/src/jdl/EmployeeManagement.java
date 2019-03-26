@@ -32,6 +32,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
@@ -141,7 +142,7 @@ public class EmployeeManagement extends JFrame{
 		
 		JPanel tables_inputPanel = new JPanel();
 		tables_inputPanel.setBounds(22, 96, 441, 677);
-		tables_inputPanel.setBackground(new Color (112, 128, 144));
+		tables_inputPanel.setBackground(new Color (255,255,255,60));
 		tables_inputPanel.setLayout(null);
 		
 		JButton tables_reloadBtn = new JButton("Reload");
@@ -179,7 +180,7 @@ public class EmployeeManagement extends JFrame{
 					tca.adjustColumns();
 					
 					table.setModel(DbUtils.resultSetToTableModel(rs1));
-					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 					
 					TableColumnAdjuster tca1 = new TableColumnAdjuster(table);
 					tca1.adjustColumns();
@@ -193,107 +194,33 @@ public class EmployeeManagement extends JFrame{
 		
 		tables_reloadBtn.doClick();
 		
-		tables_reloadBtn.setBackground(new Color(155, 177, 166));
+		tables_reloadBtn.setBackground(new Color(0, 102, 102));
 		tables_reloadBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		tables_reloadBtn.setBorder(null);
 		tables_reloadBtn.setBorder(null);
 		
-		JPanel tables_titlePanel = new JPanel();
-		tables_titlePanel.setBounds(0, 0, 1551, 37);
-		tables_titlePanel.setBackground(new Color(126, 141, 151));
-		tables_titlePanel.setLayout(null);
-		
-		//Images
-		
-		JLabel tables_minimize = new JLabel("");
-		tables_minimize.setBounds(1381, 0, 35, 41);
-		tables_titlePanel.add(tables_minimize);
-		tables_minimize.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				setState(ICONIFIED);
-			}
-		});
-		tables_minimize.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_minimizer.png")));
-		
-		JLabel tables_seeTablesLbl = new JLabel("Employee Management");
-		tables_seeTablesLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		tables_seeTablesLbl.setForeground(Color.WHITE);
-		tables_seeTablesLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
-		tables_seeTablesLbl.setBounds(640, 0, 168, 41);
-		tables_titlePanel.add(tables_seeTablesLbl);
-		
-		JLabel tables_back = new JLabel("");
-		tables_back.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-				new OptionList().setVisible(true);
-			}
-		});
-		tables_back.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_back.png")));
-		tables_back.setHorizontalAlignment(SwingConstants.CENTER);
-		tables_back.setForeground(Color.WHITE);
-		tables_back.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
-		tables_back.setBounds(0, 0, 57, 37);
-		tables_titlePanel.add(tables_back);
-		
 		//Input Section (Labels and Associated Textfields)
 		
-		JLabel tables_inputSectionLbl = new JLabel("Employee Details");
-		tables_inputSectionLbl.setBounds(22, 54, 255, 37);
-		tables_inputSectionLbl.setForeground(new Color(255, 255, 255));
-		tables_inputSectionLbl.setFont(new Font("Segoe UI", Font.BOLD, 19));
+		//Birthdate
 		
-		JLabel emp_BirthdateLbl = new JLabel("Birthdate:");
-		emp_BirthdateLbl.setForeground(new Color(255, 255, 255));
-		emp_BirthdateLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		emp_BirthdateLbl.setBounds(20, 393, 197, 29);
-		tables_inputPanel.add(emp_BirthdateLbl);
+		UtilDateModel birthdateModel = new UtilDateModel();
+		Properties birthdate = new Properties();
+		birthdate.put("text.today", "Date Today");
+		birthdate.put("text.month", "Month");
+		birthdate.put("text.year", "Year");
+		birthdateModel.setDate(1980, 1, 1);
+
+		JDatePanelImpl BirthdatePanel = new JDatePanelImpl(birthdateModel, birthdate);
+		JDatePickerImpl birthdatePicker = new JDatePickerImpl(BirthdatePanel, new DateLabelFormatter());
+		birthdatePicker.getJFormattedTextField().setForeground(new Color(255, 0, 51));
+
+		birthdatePicker.setLocation(20, 422);
+		birthdatePicker.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
+		birthdatePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
+		birthdatePicker.getJFormattedTextField().setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		birthdatePicker.setSize(400, 23);
 		
-		JComboBox emp_comboBox = new JComboBox();
-		emp_comboBox.addItem("Select a registered username");
-		emp_comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Connection conn;
-				try {
-					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
-					String sql = "SELECT * FROM jdl_accounts.users WHERE user_username=?";
-					PreparedStatement statement = (PreparedStatement) conn.prepareStatement(sql);
-					
-					statement.setString(1,(String)emp_comboBox.getSelectedItem().toString());
-					ResultSet rs = statement.executeQuery();
-					
-					while (rs.next()) {
-					emp_userIdTxt.setText(rs.getString("user_id"));				
-				} 
-				}catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		
-		Connection conn1;
-		try {
-			conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
-			Statement stat=conn1.createStatement();
-			ResultSet rs1=stat.executeQuery("SELECT * FROM jdl_accounts.users");
-			
-			 while(rs1.next()){        
-				 	String user_username = rs1.getString("user_username");
-			
-			       	emp_comboBox.addItem(user_username);
-			       	clientSelectedName = emp_comboBox.getSelectedItem().toString();
-			       	
-			    }
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-		emp_comboBox.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
-		emp_comboBox.setBounds(20, 42, 318, 29);
-		
-		AutoCompletion.enable(emp_comboBox);
-		tables_inputPanel.add(emp_comboBox);
+		tables_inputPanel.add(birthdatePicker);
 		
 		JLabel emp_assignLbl = new JLabel("Assign this employee information to:");
 		emp_assignLbl.setForeground(Color.WHITE);
@@ -308,6 +235,7 @@ public class EmployeeManagement extends JFrame{
 		tables_inputPanel.add(emp_userIdLbl);
 		
 		emp_userIdTxt = new JTextField();
+		emp_userIdTxt.setEditable(false);
 		emp_userIdTxt.setBounds(348, 42, 72, 29);
 		tables_inputPanel.add(emp_userIdTxt);
 		emp_userIdTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
@@ -320,25 +248,6 @@ public class EmployeeManagement extends JFrame{
 		lblEmployeeInformation.setBounds(484, 418, 242, 49);
 		getContentPane().add(lblEmployeeInformation);
 		
-		//Birthdate
-		
-		UtilDateModel birthdateModel = new UtilDateModel();
-		Properties birthdate = new Properties();
-		birthdate.put("text.today", "Date Today");
-		birthdate.put("text.month", "Month");
-		birthdate.put("text.year", "Year");
-		birthdateModel.setDate(1980, 1, 1);
-
-		JDatePanelImpl BirthdatePanel = new JDatePanelImpl(birthdateModel, birthdate);
-		JDatePickerImpl birthdatePicker = new JDatePickerImpl(BirthdatePanel, new DateLabelFormatter());
-
-		birthdatePicker.setLocation(20, 422);
-		birthdatePicker.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
-		birthdatePicker.getJFormattedTextField().setBackground(new Color(255, 255, 255));
-		birthdatePicker.getJFormattedTextField().setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		birthdatePicker.setSize(400, 23);
-		
-		tables_inputPanel.add(birthdatePicker);
 		
 		JLabel emp_GenderLbl = new JLabel("Gender:");
 		emp_GenderLbl.setForeground(new Color(255, 255, 255));
@@ -431,6 +340,83 @@ public class EmployeeManagement extends JFrame{
 		tables_clientEmailLbl.setBounds(20, 556, 190, 29);
 		tables_inputPanel.add(tables_clientEmailLbl);
 		
+		JLabel tables_inputSectionLbl = new JLabel("Employee Details");
+		tables_inputSectionLbl.setBounds(22, 54, 255, 37);
+		tables_inputSectionLbl.setForeground(new Color(255, 255, 255));
+		tables_inputSectionLbl.setFont(new Font("Segoe UI", Font.BOLD, 19));
+		
+		JLabel emp_BirthdateLbl = new JLabel("Birthdate:");
+		emp_BirthdateLbl.setForeground(new Color(255, 255, 255));
+		emp_BirthdateLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		emp_BirthdateLbl.setBounds(20, 393, 197, 29);
+		tables_inputPanel.add(emp_BirthdateLbl);
+		
+		JComboBox emp_comboBox = new JComboBox();
+		emp_comboBox.addItem("Select username");
+		emp_comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Connection conn;
+				try {
+					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+					String sql = "SELECT * FROM jdl_accounts.users WHERE user_username=?";
+					String sql1 = "SELECT * FROM jdl_accounts.employees WHERE user_id=?";
+					PreparedStatement statement = (PreparedStatement) conn.prepareStatement(sql);
+					PreparedStatement statement1 = (PreparedStatement) conn.prepareStatement(sql1);
+					
+					statement.setString(1,String.valueOf(emp_comboBox.getSelectedItem().toString()));
+					ResultSet rs = statement.executeQuery();
+					
+					while (rs.next()) {
+						emp_userIdTxt.setText(rs.getString("user_id"));
+				} 
+					
+					statement1.setInt(1, Integer.parseInt(emp_userIdTxt.getText()));
+					ResultSet rs1 = statement1.executeQuery();
+					
+					while (rs1.next()) {
+						emp_LastnameTxt.setText(rs1.getString("emp_lastname"));
+						emp_FirstnameTxt.setText(rs1.getString("emp_firstname"));
+						emp_PositionTxt.setText(rs1.getString("emp_position"));
+						emp_GenderTxt.setText(rs1.getString("emp_gender"));
+						
+						String dateValue = String.valueOf(rs1.getString("emp_birthdate"));
+						System.out.println(dateValue);
+						birthdateModel.setDate(Integer.parseInt(dateValue.substring(0, dateValue.indexOf("-"))), (Integer.parseInt(dateValue.substring(dateValue.indexOf("-")+1, dateValue.lastIndexOf("-"))))-1, Integer.parseInt(dateValue.substring(dateValue.lastIndexOf("-")+1, dateValue.length())));
+						birthdateModel.setSelected(true);
+						emp_AddressTxt.setText(rs1.getString("emp_address"));
+						emp_ContactTxt.setText(rs1.getString("emp_contact"));
+						emp_EmailTxt.setText(rs1.getString("emp_email"));	
+					}
+				}catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		Connection conn1;
+		try {
+			conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+			Statement stat=conn1.createStatement();
+			ResultSet rs1=stat.executeQuery("SELECT * FROM jdl_accounts.users");
+			
+			 while(rs1.next()){        
+				 	String user_username = rs1.getString("user_username");
+			
+			       	emp_comboBox.addItem(user_username);
+			       	clientSelectedName = emp_comboBox.getSelectedItem().toString();
+			       	
+			    }
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		emp_comboBox.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
+		emp_comboBox.setBounds(20, 42, 318, 29);
+		
+		AutoCompletion.enable(emp_comboBox);
+		tables_inputPanel.add(emp_comboBox);
+		
 		
 		JLabel tables_primaryInformationLbl = new JLabel("-------------------------- Primary Information ---------------------------");
 		tables_primaryInformationLbl.setHorizontalAlignment(SwingConstants.LEFT);
@@ -466,14 +452,14 @@ public class EmployeeManagement extends JFrame{
 		tables_allClientTransactionLbl.setBounds(495, 158, 171, 37);
 		tables_allClientTransactionLbl.setForeground(Color.WHITE);
 		tables_allClientTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
-		getContentPane().add(tables_titlePanel);
 		getContentPane().add(tables_inputSectionLbl);
 		getContentPane().add(tables_reloadBtn);
 		getContentPane().add(label);
 		getContentPane().add(tables_inputPanel);
 		
 		JButton tables_registerBtn = new JButton("Register Employee Details");
-		tables_registerBtn.setBounds(129, 625, 189, 41);
+		tables_registerBtn.setForeground(new Color(255, 255, 255));
+		tables_registerBtn.setBounds(106, 630, 216, 36);
 		tables_inputPanel.add(tables_registerBtn);
 		
 		tables_registerBtn.addActionListener(new ActionListener() {
@@ -527,6 +513,7 @@ public class EmployeeManagement extends JFrame{
 						
 						statement1.executeUpdate();
 						tables_inputPanel.revalidate();
+						
 					}
 				}
 
@@ -536,17 +523,75 @@ public class EmployeeManagement extends JFrame{
 			}
 	});
 		
-		tables_registerBtn.setBackground(new Color(255, 204, 51));
+		
+		tables_registerBtn.setBackground(new Color(0, 102, 102));
 		tables_registerBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
 		
-		JButton emp_deleteBtn = new JButton("Delete");
+		JButton emp_deleteBtn = new JButton("Delete a User");
+		emp_deleteBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new EmployeeDelete().setVisible(true);
+			}
+		});
 		emp_deleteBtn.setIcon(new ImageIcon(EmployeeManagement.class.getResource("/jdl/Assets/button_delete.png")));
 		emp_deleteBtn.setForeground(new Color(255, 255, 255));
 		emp_deleteBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		emp_deleteBtn.setBorder(null);
-		emp_deleteBtn.setBackground(new Color(255, 0, 51));
-		emp_deleteBtn.setBounds(1112, 83, 138, 38);
+		emp_deleteBtn.setBackground(new Color(0, 102, 102));
+		emp_deleteBtn.setBounds(1069, 83, 181, 38);
 		getContentPane().add(emp_deleteBtn);
+		
+		JButton emp_createBtn = new JButton(" Create a User");
+		emp_createBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new EmployeeCreate().setVisible(true);
+			}
+		});
+		emp_createBtn.setIcon(new ImageIcon(EmployeeManagement.class.getResource("/jdl/Assets/button_add.png")));
+		emp_createBtn.setForeground(Color.WHITE);
+		emp_createBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		emp_createBtn.setBorder(null);
+		emp_createBtn.setBackground(new Color(0, 102, 102));
+		emp_createBtn.setBounds(890, 83, 169, 38);
+		getContentPane().add(emp_createBtn);
+		
+		JLabel emp_back = new JLabel("");
+		emp_back.setBounds(0, 0, 57, 37);
+		getContentPane().add(emp_back);
+		emp_back.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
+				new OptionList().setVisible(true);
+			}
+		});
+		emp_back.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_back.png")));
+		emp_back.setHorizontalAlignment(SwingConstants.CENTER);
+		emp_back.setForeground(Color.WHITE);
+		emp_back.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		
+		JLabel emp_employeeManageLbl = new JLabel("Employee Management");
+		emp_employeeManageLbl.setBounds(627, 0, 168, 41);
+		getContentPane().add(emp_employeeManageLbl);
+		emp_employeeManageLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		emp_employeeManageLbl.setForeground(Color.WHITE);
+		emp_employeeManageLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
+		
+		//Images
+		
+		JLabel emp_minimize = new JLabel("");
+		emp_minimize.setBounds(1377, 0, 35, 41);
+		getContentPane().add(emp_minimize);
+		emp_minimize.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				setState(ICONIFIED);
+			}
+		});
+		emp_minimize.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_minimizer.png")));
+		
+		JLabel emp_background = new JLabel("New label");
+		emp_background.setIcon(new ImageIcon(EmployeeManagement.class.getResource("/jdl/Assets/background_tables4.jpg")));
+		emp_background.setBounds(0, 0, 1422, 799);
+		getContentPane().add(emp_background);
 
 	}
 }
