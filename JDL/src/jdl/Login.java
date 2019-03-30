@@ -122,28 +122,34 @@ public class Login extends JFrame {
 		login_adminLbl.setBounds(161, 203, 125, 37);
 		rightPanel.add(login_adminLbl);
 		
-		JLabel login_error = new JLabel("<html><center> Invalid username or password. <br>Make sure capslock is not turned on. </center></html>");
+		JLabel login_error = new JLabel("<html><center> Invalid username or password. <br>Please be aware of uppercases. </center></html>");
 		login_error.setHorizontalAlignment(SwingConstants.CENTER);
 		login_error.setBounds(67, 424, 313, 47);
 		login_error.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		login_error.setForeground(Color.RED);
+		login_error.setForeground(new Color(255, 255, 255));
 		login_error.setVisible(false);
 		rightPanel.add(login_error);
 		
 		JLabel login_error1 = new JLabel("<html><center> Username or Password field is blank. </center></html>");
 		login_error1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		login_error1.setForeground(Color.RED);
+		login_error1.setForeground(new Color(255, 255, 255));
 		login_error1.setBounds(111, 424, 249, 45);
 		login_error1.setVisible(false);
 		rightPanel.add(login_error1);
 		
 		JLabel login_error2 = new JLabel("<html><center> Password is too short. <br> It must be minimum of 8. </br></center></html>");
 		login_error2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		login_error2.setForeground(Color.RED);
+		login_error2.setForeground(new Color(255, 255, 255));
 		login_error2.setBounds(154, 428, 164, 39);
 		login_error2.setVisible(false);
 		rightPanel.add(login_error2);
 		
+		JLabel login_success = new JLabel("<html><center> Attempting to Login. Please Wait. </center></html>");
+		login_success.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		login_success.setForeground(new Color(255, 204, 51));
+		login_success.setBounds(121, 424, 210, 47);
+		login_success.setVisible(false);
+		rightPanel.add(login_success);
 		
 		//buttons
 		
@@ -167,7 +173,7 @@ public class Login extends JFrame {
 				try {
 					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 					Statement stat=conn.createStatement();
-					ResultSet rs=stat.executeQuery("SELECT * FROM jdl_accounts.users");
+					ResultSet rs=stat.executeQuery("SELECT * FROM jdl_accounts.users WHERE user_ifAdmin=1");
 				
 				
 					while(rs.next()){
@@ -175,12 +181,22 @@ public class Login extends JFrame {
 					
 						String dbUsername=rs.getString("user_username");
 						String dbPassword =rs.getString("user_password");
+						int dbifAdmin = rs.getInt("user_ifAdmin");
 						
 						if(login_usernameTxt.getText().equals(dbUsername) && pass.matches(dbPassword)){
 							
-							new OptionList().setVisible(true);
-							dispose();
-						}
+						    String user = login_usernameTxt.getText();
+						    String pass1 = login_passwordTxt.getText();
+						    
+						    OptionList OL = new OptionList();
+						    OL.setUser(user);
+						    OL.setPass(pass1);
+						    
+						    login_success.setVisible(true);
+							OL.setVisible(true);
+							setVisible(false);
+							
+							}
 						
 						else if(login_usernameTxt.getText().equals("") || pass.matches("")){
 							
@@ -191,7 +207,7 @@ public class Login extends JFrame {
 						}
 					
 						
-						else if(!(login_usernameTxt.getText().equals(dbUsername)) && !(pass.matches(dbPassword))){		
+						else if(!(login_usernameTxt.getText().equals(dbUsername)) && !(pass.matches(dbPassword) && (dbifAdmin == 0))){		
 							
 							login_error1.setVisible(false);
 							login_error2.setVisible(false);
@@ -199,15 +215,8 @@ public class Login extends JFrame {
 							revalidate();			
 						}
 						
-						else if(!(login_usernameTxt.getText().equals("")) && pass.length()<7){		
-							
-							login_error.setVisible(false);
-							login_error1.setVisible(false);
-							login_error2.setVisible(true);
-							revalidate();			
-						}
 						
-						else if((login_usernameTxt.getText().equals("") && pass.length()<7)) {
+						else if(!(login_usernameTxt.getText().equals("")) && pass.length()<7){		
 							
 							login_error.setVisible(false);
 							login_error1.setVisible(false);
@@ -229,6 +238,7 @@ public class Login extends JFrame {
 						}
 			}
 		});
+		
 		
 		login_loginBtn.setForeground(Color.BLACK);
 		login_loginBtn.setBackground(new Color(255, 204, 102));

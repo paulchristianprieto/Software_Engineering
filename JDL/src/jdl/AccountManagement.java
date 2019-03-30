@@ -49,8 +49,10 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
-public class EmployeeManagement extends JFrame{
+public class AccountManagement extends JFrame{
 	private JTextField tables_clientBirthdateTxt;
 	private JTextField emp_GenderTxt;
 	private JTextField emp_AddressTxt;
@@ -64,6 +66,8 @@ public class EmployeeManagement extends JFrame{
 	private JTable table_1;
 	private JTextField emp_userIdTxt;
 	private JTable table;
+	private JTextField adminAcc_usernameTxt;
+	private JTextField adminAcc_passwordTxt;
 	/**
 	 * Launch the application.
 	 */
@@ -83,7 +87,24 @@ public class EmployeeManagement extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public EmployeeManagement() {
+	
+	//Username
+    public void setUser(String user) {
+    	this.adminAcc_usernameTxt.setText(user);
+    	}
+    public String getUser() {
+    	return this.adminAcc_usernameTxt.getText();
+    	}
+    
+    //Password
+    public void setPass(String pass) {
+    	this.adminAcc_passwordTxt.setText(pass);
+    	}
+    public String getPass() {
+    	return this.adminAcc_passwordTxt.getText();
+    	}
+    
+	public AccountManagement() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Tables.class.getResource("/jdl/Assets/login_small.png")));	
 		
 		//Main Panel
@@ -159,7 +180,7 @@ public class EmployeeManagement extends JFrame{
 					ResultSet rs=stat.executeQuery("SELECT user_id AS 'User ID',"
 							+ "user_username AS 'Username'" +
 							", user_password AS 'Password' " + 
-							", user_ifAdmin AS 'Is An Administrator' " + 
+							", user_ifAdmin AS 'Is An Administrator (1 if Yes / 0 if No)' " + 
 							" FROM jdl_accounts.users ORDER BY user_id DESC");
 					
 					ResultSet rs1=stat1.executeQuery("SELECT user_id AS 'User ID',"
@@ -222,7 +243,7 @@ public class EmployeeManagement extends JFrame{
 		
 		tables_inputPanel.add(birthdatePicker);
 		
-		JLabel emp_assignLbl = new JLabel("Assign this employee information to:");
+		JLabel emp_assignLbl = new JLabel("Assign this account information to:");
 		emp_assignLbl.setForeground(Color.WHITE);
 		emp_assignLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
 		emp_assignLbl.setBounds(20, 0, 231, 41);
@@ -242,10 +263,10 @@ public class EmployeeManagement extends JFrame{
 		emp_userIdTxt.setColumns(10);
 		emp_userIdTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
-		JLabel lblEmployeeInformation = new JLabel("Employee Information:");
+		JLabel lblEmployeeInformation = new JLabel("List of Accounts and their Information:");
 		lblEmployeeInformation.setForeground(Color.WHITE);
 		lblEmployeeInformation.setFont(new Font("Segoe UI", Font.BOLD, 19));
-		lblEmployeeInformation.setBounds(484, 418, 242, 49);
+		lblEmployeeInformation.setBounds(484, 418, 374, 49);
 		getContentPane().add(lblEmployeeInformation);
 		
 		
@@ -340,8 +361,8 @@ public class EmployeeManagement extends JFrame{
 		tables_clientEmailLbl.setBounds(20, 556, 190, 29);
 		tables_inputPanel.add(tables_clientEmailLbl);
 		
-		JLabel tables_inputSectionLbl = new JLabel("Employee Details");
-		tables_inputSectionLbl.setBounds(22, 54, 255, 37);
+		JLabel tables_inputSectionLbl = new JLabel("Account Information");
+		tables_inputSectionLbl.setBounds(22, 54, 368, 37);
 		tables_inputSectionLbl.setForeground(new Color(255, 255, 255));
 		tables_inputSectionLbl.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		
@@ -352,6 +373,18 @@ public class EmployeeManagement extends JFrame{
 		tables_inputPanel.add(emp_BirthdateLbl);
 		
 		JComboBox emp_comboBox = new JComboBox();
+		emp_comboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				emp_LastnameTxt.setText("");
+				emp_FirstnameTxt.setText("");
+				emp_PositionTxt.setText("");
+				emp_GenderTxt.setText("");
+				birthdatePicker.getJFormattedTextField().setText("");
+				emp_AddressTxt.setText("");
+				emp_ContactTxt.setText("");
+				emp_EmailTxt.setText("");
+			}
+		});
 		emp_comboBox.addItem("Select username");
 		emp_comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -364,6 +397,7 @@ public class EmployeeManagement extends JFrame{
 					PreparedStatement statement1 = (PreparedStatement) conn.prepareStatement(sql1);
 					
 					statement.setString(1,String.valueOf(emp_comboBox.getSelectedItem().toString()));
+
 					ResultSet rs = statement.executeQuery();
 					
 					while (rs.next()) {
@@ -431,8 +465,8 @@ public class EmployeeManagement extends JFrame{
 		tables_inputPanel.add(tables_secondaryInformationLbl);
 		getContentPane().setLayout(null);
 		
-		JLabel tables_registeredClientsLbl = new JLabel("Registered User Accounts:");
-		tables_registeredClientsLbl.setBounds(484, 85, 242, 49);
+		JLabel tables_registeredClientsLbl = new JLabel("List of Registered Accounts:");
+		tables_registeredClientsLbl.setBounds(484, 85, 356, 49);
 		tables_registeredClientsLbl.setForeground(Color.WHITE);
 		tables_registeredClientsLbl.setFont(new Font("Segoe UI", Font.BOLD, 19));
 		getContentPane().add(tables_registeredClientsLbl);
@@ -511,8 +545,7 @@ public class EmployeeManagement extends JFrame{
 						
 						statement1.executeUpdate();
 						tables_inputPanel.revalidate();
-						
-					}
+				}
 				}
 
 				 catch (SQLException e1) {
@@ -528,10 +561,11 @@ public class EmployeeManagement extends JFrame{
 		JButton emp_deleteBtn = new JButton("Delete a User");
 		emp_deleteBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new EmployeeDelete().setVisible(true);
+				dispose();
+				new AccountDelete().setVisible(true);
 			}
 		});
-		emp_deleteBtn.setIcon(new ImageIcon(EmployeeManagement.class.getResource("/jdl/Assets/button_delete.png")));
+		emp_deleteBtn.setIcon(new ImageIcon(AccountManagement.class.getResource("/jdl/Assets/button_delete.png")));
 		emp_deleteBtn.setForeground(new Color(255, 255, 255));
 		emp_deleteBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		emp_deleteBtn.setBorder(null);
@@ -542,10 +576,11 @@ public class EmployeeManagement extends JFrame{
 		JButton emp_createBtn = new JButton(" Create a User");
 		emp_createBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new EmployeeCreate().setVisible(true);
+				new AccountCreate().setVisible(true);
+				dispose();
 			}
 		});
-		emp_createBtn.setIcon(new ImageIcon(EmployeeManagement.class.getResource("/jdl/Assets/button_add.png")));
+		emp_createBtn.setIcon(new ImageIcon(AccountManagement.class.getResource("/jdl/Assets/button_add.png")));
 		emp_createBtn.setForeground(Color.WHITE);
 		emp_createBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		emp_createBtn.setBorder(null);
@@ -558,7 +593,7 @@ public class EmployeeManagement extends JFrame{
 		getContentPane().add(emp_back);
 		emp_back.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
+				dispose();
 				new OptionList().setVisible(true);
 			}
 		});
@@ -567,8 +602,8 @@ public class EmployeeManagement extends JFrame{
 		emp_back.setForeground(Color.WHITE);
 		emp_back.setFont(new Font("Segoe UI Semibold", Font.BOLD, 15));
 		
-		JLabel emp_employeeManageLbl = new JLabel("Employee Management");
-		emp_employeeManageLbl.setBounds(627, 0, 168, 41);
+		JLabel emp_employeeManageLbl = new JLabel("Account Management");
+		emp_employeeManageLbl.setBounds(627, 0, 242, 41);
 		getContentPane().add(emp_employeeManageLbl);
 		emp_employeeManageLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		emp_employeeManageLbl.setForeground(Color.WHITE);
@@ -586,11 +621,22 @@ public class EmployeeManagement extends JFrame{
 		});
 		emp_minimize.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_minimizer.png")));
 		
-		JLabel emp_background = new JLabel("New label");
-		emp_background.setIcon(new ImageIcon(EmployeeManagement.class.getResource("/jdl/Assets/background_tables4.jpg")));
+		adminAcc_usernameTxt = new JTextField();
+		adminAcc_usernameTxt.setBounds(10, 779, 0, 0);
+		getContentPane().add(adminAcc_usernameTxt);
+		adminAcc_usernameTxt.setColumns(10);
+		
+		adminAcc_passwordTxt = new JTextField();
+		adminAcc_passwordTxt.setColumns(10);
+		adminAcc_passwordTxt.setBounds(15, 779, 0, 0);
+		getContentPane().add(adminAcc_passwordTxt);
+		
+		JLabel emp_background = new JLabel("");
+		emp_background.setIcon(new ImageIcon(AccountManagement.class.getResource("/jdl/Assets/background_tables4.jpg")));
 		emp_background.setBounds(0, 0, 1422, 799);
 		getContentPane().add(emp_background);
 
 	}
+    
 }
 
