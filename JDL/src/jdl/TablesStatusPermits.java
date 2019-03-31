@@ -87,7 +87,7 @@ public class TablesStatusPermits extends JFrame{
 		
 		//Main Panel
 	
-		setTitle("JDL: Status (Permits)");
+		setTitle("JDL: Status");
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);

@@ -124,7 +124,7 @@ public class TablesUpdateTransactions extends JFrame{
 		
 		//Main Panel
 	
-		setTitle("JDL: Transactions (Update)");
+		setTitle("JDL: Transactions");
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
@@ -574,12 +574,7 @@ public class TablesUpdateTransactions extends JFrame{
 						tables_passportNoTxt.setText(rs1.getString("trans_passportNo"));
 						tables_tinIdTxt.setText(rs1.getString("trans_tinID"));
 						tables_comboBox1.addItem(rs1.getString("trans_transId"));
-						if(!(rs1.getString("trans_transVisaType").toString().equals(""))){
-							tables_visaTypeTxt.setText(rs1.getString("trans_transVisaType").toString());
-							visaEndPick.getJFormattedTextField().setValue(rs1.getString("trans_VisaStartDate"));
-							visaStartPick.getJFormattedTextField().setValue(rs1.getString("trans_VisaEndDate"));
-							System.out.print("PASOK");
-						}
+						
 					}
 					while(rs.next()) {
 						tables_lastnameLbl.setText("Lastname: "+rs.getString("client_lastname"));

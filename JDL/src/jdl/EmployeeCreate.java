@@ -49,7 +49,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class AccountCreate extends JFrame{
+public class EmployeeCreate extends JFrame{
 	private JTextField tables_clientBirthdateTxt;
 	private String clientSelectedName;
 	private boolean tables_validator = true;
@@ -75,7 +75,7 @@ public class AccountCreate extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public AccountCreate() {
+	public EmployeeCreate() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Tables.class.getResource("/jdl/Assets/login_small.png")));	
 		
 		//Main Panel
@@ -227,13 +227,11 @@ public class AccountCreate extends JFrame{
 				 			if (message == JOptionPane.YES_OPTION) {
 				 				statement.execute();
 			    		
-				 				JOptionPane.showMessageDialog(null, "<html><font color = #ffffff> User Successfully Created. </font color = #ffffff></html>", "Created Successfully", JOptionPane.INFORMATION_MESSAGE);
-				 				dispose();
-				 				new AccountCreate().setVisible(true);
-							}
+				 				JOptionPane.showMessageDialog(null, "<html><font color = #ffffff> User Successfully deleted. </font color = #ffffff></html>", "Created Successfully", JOptionPane.INFORMATION_MESSAGE);
 			    	}
 					
 				} 
+				}
 				catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -255,7 +253,7 @@ public class AccountCreate extends JFrame{
 		emp_usernameTxt.setBounds(20, 42, 254, 29);
 		tables_inputPanel.add(emp_usernameTxt);
 		
-		JLabel emp_employeeDeleteLbl = new JLabel("Create an Account");
+		JLabel emp_employeeDeleteLbl = new JLabel("Employee Create");
 		emp_employeeDeleteLbl.setBounds(158, 2, 168, 41);
 		getContentPane().add(emp_employeeDeleteLbl);
 		emp_employeeDeleteLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -266,22 +264,21 @@ public class AccountCreate extends JFrame{
 		emp_close.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new AccountManagement().setVisible(true);
 				dispose();
 			}
 		});
-		emp_close.setIcon(new ImageIcon(AccountCreate.class.getResource("/jdl/Assets/button_back.png")));
-		emp_close.setBounds(10, 2, 26, 37);
+		emp_close.setIcon(new ImageIcon(EmployeeCreate.class.getResource("/jdl/Assets/button_close.png")));
+		emp_close.setBounds(452, 2, 26, 37);
 		getContentPane().add(emp_close);
 		
-		JLabel emp_warningLbl = new JLabel("<html><center> Note: You may want to create an account information later <br> regarding to this account.</center> </br></html>");
+		JLabel emp_warningLbl = new JLabel("<html><center> Note: You may want to create an employee information later <br> regarding to this account.</center> </br></html>");
 		emp_warningLbl.setForeground(new Color(255, 204, 51));
 		emp_warningLbl.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		emp_warningLbl.setBounds(79, 48, 343, 39);
 		getContentPane().add(emp_warningLbl);
 		
 		JLabel emp_background = new JLabel("New label");
-		emp_background.setIcon(new ImageIcon(AccountCreate.class.getResource("/jdl/Assets/background_tables4.jpg")));
+		emp_background.setIcon(new ImageIcon(EmployeeCreate.class.getResource("/jdl/Assets/background_tables4.jpg")));
 		emp_background.setBounds(0, 0, 488, 429);
 		getContentPane().add(emp_background);
 

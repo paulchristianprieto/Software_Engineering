@@ -82,7 +82,7 @@ public class TablesRemarks extends JFrame{
 		
 		//Main Panel
 	
-		setTitle("JDL: Remarks");
+		setTitle("JDL: Status");
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);

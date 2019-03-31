@@ -452,7 +452,6 @@ public class TablesAddClient extends JFrame{
 		getContentPane().add(tables_inputPanel);
 		
 		JComboBox tables_genderBox = new JComboBox();
-		tables_genderBox.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		tables_genderBox.setBounds(20, 402, 400, 24);
 		tables_inputPanel.add(tables_genderBox);
 		tables_genderBox.setEditable(false);
