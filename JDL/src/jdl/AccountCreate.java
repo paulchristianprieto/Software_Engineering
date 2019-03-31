@@ -284,6 +284,8 @@ public class AccountCreate extends JFrame{
 		emp_background.setIcon(new ImageIcon(AccountCreate.class.getResource("/jdl/Assets/background_tables4.jpg")));
 		emp_background.setBounds(0, 0, 488, 429);
 		getContentPane().add(emp_background);
+		
+		
 
 	}
 }

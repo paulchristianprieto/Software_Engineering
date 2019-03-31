@@ -27,4 +27,6 @@ public class get extends JFrame {
 
     public void setPass(String pass) {this.textField_1.setText(pass);}
     public String getPass() {return this.textField_1.getText();}
+    
+    
 }

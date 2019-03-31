@@ -643,5 +643,7 @@ public class TablesRemarks extends JFrame{
 						tables_background.setBounds(0, 0, 1550, 850);
 						getContentPane().add(tables_background);
 	}
+	
+	
 }
 

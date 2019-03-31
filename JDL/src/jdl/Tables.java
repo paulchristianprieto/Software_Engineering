@@ -916,6 +916,8 @@ public class Tables extends JFrame{
 		background_tables.setBounds(0, 0, 1550, 870);
 		getContentPane().add(background_tables);
 		
+		
+		
 	}
 }
 

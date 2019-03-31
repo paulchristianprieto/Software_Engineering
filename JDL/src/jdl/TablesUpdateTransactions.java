@@ -942,5 +942,7 @@ public class TablesUpdateTransactions extends JFrame{
 		getContentPane().add(background_tables);
 		
 	}
+	
+	
 }
 

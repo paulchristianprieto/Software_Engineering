@@ -636,6 +636,8 @@ public class AccountManagement extends JFrame{
 		emp_background.setBounds(0, 0, 1422, 799);
 		getContentPane().add(emp_background);
 
+		
+		
 	}
     
 }

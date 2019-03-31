@@ -819,5 +819,7 @@ public class TablesStatus extends JFrame{
 		tables_background.setBounds(0, 0, 1551, 848);
 		getContentPane().add(tables_background);
 	}
+	
+	
 }
 
