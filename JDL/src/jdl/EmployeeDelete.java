@@ -49,7 +49,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class EmployeeDelete extends JFrame{
+public class AccountDelete extends JFrame{
 	private JTextField tables_clientBirthdateTxt;
 	private String clientSelectedName;
 	private JTextField emp_FirstnameTxt;
@@ -75,7 +75,7 @@ public class EmployeeDelete extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public EmployeeDelete() {
+	public AccountDelete() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Tables.class.getResource("/jdl/Assets/login_small.png")));	
 		
 		//Main Panel
@@ -278,6 +278,8 @@ public class EmployeeDelete extends JFrame{
 				 				statement1.executeUpdate();
 			    		
 				 				JOptionPane.showMessageDialog(null, "<html><font color = #ffffff> User Successfully deleted. </font color = #ffffff></html>", "Deleted Successfully", JOptionPane.INFORMATION_MESSAGE);
+				 				dispose();
+				 				new AccountDelete().setVisible(true);
 			    	}
 					
 				} 
@@ -296,7 +298,7 @@ public class EmployeeDelete extends JFrame{
 		tables_registerBtn.setBackground(new Color(0, 102, 102));
 		tables_registerBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
 		
-		JLabel emp_employeeDeleteLbl = new JLabel("Employee Delete");
+		JLabel emp_employeeDeleteLbl = new JLabel("Delete an Account");
 		emp_employeeDeleteLbl.setBounds(158, 2, 168, 41);
 		getContentPane().add(emp_employeeDeleteLbl);
 		emp_employeeDeleteLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -307,23 +309,25 @@ public class EmployeeDelete extends JFrame{
 		emp_close.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				new AccountManagement().setVisible(true);
 				dispose();
 			}
 		});
-		emp_close.setIcon(new ImageIcon(EmployeeDelete.class.getResource("/jdl/Assets/button_close.png")));
-		emp_close.setBounds(452, 2, 26, 37);
+		emp_close.setIcon(new ImageIcon(AccountDelete.class.getResource("/jdl/Assets/button_back.png")));
+		emp_close.setBounds(10, 0, 26, 37);
 		getContentPane().add(emp_close);
 		
-		JLabel emp_warningLbl = new JLabel("Note: This will also delete the employee information associated in this account.");
-		emp_warningLbl.setForeground(new Color(255, 51, 51));
+		JLabel emp_warningLbl = new JLabel("Note: This will also delete the account information associated in this account.");
+		emp_warningLbl.setForeground(new Color(255, 255, 255));
 		emp_warningLbl.setFont(new Font("Segoe UI", Font.BOLD, 12));
 		emp_warningLbl.setBounds(23, 64, 441, 21);
 		getContentPane().add(emp_warningLbl);
 		
 		JLabel emp_background = new JLabel("New label");
-		emp_background.setIcon(new ImageIcon(EmployeeDelete.class.getResource("/jdl/Assets/background_tables4.jpg")));
+		emp_background.setIcon(new ImageIcon(AccountDelete.class.getResource("/jdl/Assets/background_tables4.jpg")));
 		emp_background.setBounds(0, 0, 488, 429);
 		getContentPane().add(emp_background);
+		
 
 	}
 }

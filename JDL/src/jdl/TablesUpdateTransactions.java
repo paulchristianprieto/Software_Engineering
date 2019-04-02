@@ -59,6 +59,8 @@ public class TablesUpdateTransactions extends JFrame{
 	private String clientSelectedName;
 	private JTable table_1;
 	private String client_id = "";
+	private JTextField adminAcc_usernameTxt;
+	private JTextField adminAcc_passwordTxt;
 	/**
 	 * Launch the application.
 	 */
@@ -124,7 +126,7 @@ public class TablesUpdateTransactions extends JFrame{
 		
 		//Main Panel
 	
-		setTitle("JDL: Transactions");
+		setTitle("JDL: Transactions (Update)");
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
@@ -168,7 +170,7 @@ public class TablesUpdateTransactions extends JFrame{
 		//Buttons
 		
 		JComboBox tables_comboBox = new JComboBox();
-		
+		tables_comboBox.addItem("Click to see the list of registered client");
 		Connection conn1;
 		try {
 			conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
@@ -189,7 +191,7 @@ public class TablesUpdateTransactions extends JFrame{
 		}
 
 		tables_comboBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 14));
-		tables_comboBox.setBounds(20, 79, 400, 23);
+		tables_comboBox.setBounds(20, 77, 400, 29);
 		
 		AutoCompletion.enable(tables_comboBox);
 		tables_inputPanel.add(tables_comboBox);
@@ -242,6 +244,16 @@ public class TablesUpdateTransactions extends JFrame{
 		
 		//Input Section (Labels and Associated Textfields)
 		
+		adminAcc_usernameTxt = new JTextField();
+		adminAcc_usernameTxt.setBounds(10, 839, 0, 0);
+		getContentPane().add(adminAcc_usernameTxt);
+		adminAcc_usernameTxt.setColumns(10);
+		
+		adminAcc_passwordTxt = new JTextField();
+		adminAcc_passwordTxt.setColumns(10);
+		adminAcc_passwordTxt.setBounds(10, 839, 0, 0);
+		getContentPane().add(adminAcc_passwordTxt);
+		
 		JLabel tables_inputSectionLbl = new JLabel("Input Section");
 		tables_inputSectionLbl.setBounds(25, 96, 255, 41);
 		tables_inputSectionLbl.setForeground(new Color(255, 255, 255));
@@ -251,46 +263,46 @@ public class TablesUpdateTransactions extends JFrame{
 		JLabel tables_passportNoLbl = new JLabel("Passport Number:");
 		tables_passportNoLbl.setForeground(new Color(255, 255, 255));
 		tables_passportNoLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_passportNoLbl.setBounds(18, 201, 204, 41);
+		tables_passportNoLbl.setBounds(20, 190, 204, 41);
 		tables_inputPanel.add(tables_passportNoLbl);
 		
 		tables_passportNoTxt = new JTextField();
 		tables_passportNoTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
 		tables_passportNoTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_passportNoTxt.setBounds(18, 238, 400, 23);
+		tables_passportNoTxt.setBounds(20, 227, 400, 23);
 		tables_inputPanel.add(tables_passportNoTxt);
 		tables_passportNoTxt.setColumns(10);
 		
 		JLabel tables_tinIdLbl = new JLabel("TIN ID:");
 		tables_tinIdLbl.setForeground(new Color(255, 255, 255));
 		tables_tinIdLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_tinIdLbl.setBounds(18, 265, 197, 29);
+		tables_tinIdLbl.setBounds(20, 254, 197, 29);
 		tables_inputPanel.add(tables_tinIdLbl);
 		
 		tables_tinIdTxt = new JTextField();
 		tables_tinIdTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
 		tables_tinIdTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
 		tables_tinIdTxt.setColumns(10);
-		tables_tinIdTxt.setBounds(18, 294, 400, 23);
+		tables_tinIdTxt.setBounds(20, 283, 400, 23);
 		tables_inputPanel.add(tables_tinIdTxt);
 		
 		JLabel tables_visaLbl = new JLabel("Visa Type:");
 		tables_visaLbl.setForeground(new Color(255, 255, 255));
 		tables_visaLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_visaLbl.setBounds(18, 321, 190, 29);
+		tables_visaLbl.setBounds(20, 310, 190, 29);
 		tables_inputPanel.add(tables_visaLbl);
 		
 		tables_visaTypeTxt = new JTextField();
 		tables_visaTypeTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
 		tables_visaTypeTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
 		tables_visaTypeTxt.setColumns(10);
-		tables_visaTypeTxt.setBounds(18, 352, 400, 23);
+		tables_visaTypeTxt.setBounds(20, 341, 400, 23);
 		tables_inputPanel.add(tables_visaTypeTxt);
 		
 		JLabel tables_visaStartLbl = new JLabel("Visa Start Date:");
 		tables_visaStartLbl.setForeground(new Color(255, 255, 255));
 		tables_visaStartLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_visaStartLbl.setBounds(18, 381, 190, 29);
+		tables_visaStartLbl.setBounds(20, 370, 190, 29);
 		tables_inputPanel.add(tables_visaStartLbl);
 		
 		//Date Input
@@ -308,7 +320,7 @@ public class TablesUpdateTransactions extends JFrame{
 
 		JDatePickerImpl visaStartPick = new JDatePickerImpl(visaDatePanel, new DateLabelFormatter());
 
-		visaStartPick.setLocation(228, 412);
+		visaStartPick.setLocation(230, 401);
 		visaStartPick.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
 		visaStartPick.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		visaStartPick.getJFormattedTextField().setForeground(new Color(220, 20, 60));
@@ -328,7 +340,7 @@ public class TablesUpdateTransactions extends JFrame{
 
 		JDatePickerImpl permitStartPick = new JDatePickerImpl(permitDatePanel, new DateLabelFormatter());
 
-		permitStartPick.setLocation(18, 521);
+		permitStartPick.setLocation(20, 510);
 		permitStartPick.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
 		permitStartPick.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		permitStartPick.getJFormattedTextField().setForeground(new Color(220, 20, 60));
@@ -348,7 +360,7 @@ public class TablesUpdateTransactions extends JFrame{
 
 		JDatePickerImpl aepStartPick = new JDatePickerImpl(aepDatePanel, new DateLabelFormatter());
 
-		aepStartPick.setLocation(18, 630);
+		aepStartPick.setLocation(20, 619);
 		aepStartPick.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
 		aepStartPick.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		aepStartPick.getJFormattedTextField().setForeground(new Color(220, 20, 60));
@@ -370,7 +382,7 @@ public class TablesUpdateTransactions extends JFrame{
 
 		JDatePickerImpl visaEndPick = new JDatePickerImpl(visaDatePanel1, new DateLabelFormatter());
 
-		visaEndPick.setLocation(18, 412);
+		visaEndPick.setLocation(20, 401);
 		visaEndPick.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
 		visaEndPick.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		visaEndPick.getJFormattedTextField().setForeground(new Color(220, 20, 60));
@@ -390,7 +402,7 @@ public class TablesUpdateTransactions extends JFrame{
 
 		JDatePickerImpl permitEndPick = new JDatePickerImpl(permitDatePanel1, new DateLabelFormatter());
 
-		permitEndPick.setLocation(228, 521);
+		permitEndPick.setLocation(230, 510);
 		permitEndPick.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
 		permitEndPick.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		permitEndPick.getJFormattedTextField().setForeground(new Color(220, 20, 60));
@@ -410,7 +422,7 @@ public class TablesUpdateTransactions extends JFrame{
 
 		JDatePickerImpl aepEndPick = new JDatePickerImpl(aepDatePanel1, new DateLabelFormatter());
 
-		aepEndPick.setLocation(226, 630);
+		aepEndPick.setLocation(228, 619);
 		aepEndPick.getJFormattedTextField().setBorder(UIManager.getBorder("TextField.border"));
 		aepEndPick.getJFormattedTextField().setBackground(new Color(255, 255, 255));
 		aepEndPick.getJFormattedTextField().setForeground(new Color(220, 20, 60));
@@ -424,57 +436,57 @@ public class TablesUpdateTransactions extends JFrame{
 		JLabel tables_visaExpireLbl = new JLabel("Visa Expiry Date:");
 		tables_visaExpireLbl.setForeground(Color.WHITE);
 		tables_visaExpireLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_visaExpireLbl.setBounds(228, 381, 192, 29);
+		tables_visaExpireLbl.setBounds(230, 370, 192, 29);
 		tables_inputPanel.add(tables_visaExpireLbl);
 		
 		JLabel tables_permitLbl = new JLabel("Permit Type:");
 		tables_permitLbl.setForeground(Color.WHITE);
 		tables_permitLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_permitLbl.setBounds(18, 436, 190, 29);
+		tables_permitLbl.setBounds(20, 425, 190, 29);
 		tables_inputPanel.add(tables_permitLbl);
 		
 		tables_permitTypeTxt = new JTextField();
 		tables_permitTypeTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
 		tables_permitTypeTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
 		tables_permitTypeTxt.setColumns(10);
-		tables_permitTypeTxt.setBounds(18, 467, 400, 23);
+		tables_permitTypeTxt.setBounds(20, 456, 400, 23);
 		tables_inputPanel.add(tables_permitTypeTxt);
 		
 		JLabel tables_permitStartLbl = new JLabel("Permit Start Date:");
 		tables_permitStartLbl.setForeground(Color.WHITE);
 		tables_permitStartLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_permitStartLbl.setBounds(18, 493, 190, 29);
+		tables_permitStartLbl.setBounds(20, 482, 190, 29);
 		tables_inputPanel.add(tables_permitStartLbl);
 		
 		JLabel tables_permitExpireLbl = new JLabel("Permit Expiry Date:");
 		tables_permitExpireLbl.setForeground(Color.WHITE);
 		tables_permitExpireLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_permitExpireLbl.setBounds(228, 493, 192, 29);
+		tables_permitExpireLbl.setBounds(230, 482, 192, 29);
 		tables_inputPanel.add(tables_permitExpireLbl);
 		
 		JLabel tables_aepIdLbl = new JLabel("AEP ID:");
 		tables_aepIdLbl.setForeground(Color.WHITE);
 		tables_aepIdLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_aepIdLbl.setBounds(18, 545, 197, 29);
+		tables_aepIdLbl.setBounds(20, 534, 197, 29);
 		tables_inputPanel.add(tables_aepIdLbl);
 		
 		tables_aepIdTxt = new JTextField();
 		tables_aepIdTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
 		tables_aepIdTxt.setColumns(10);
 		tables_aepIdTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_aepIdTxt.setBounds(18, 576, 400, 23);
+		tables_aepIdTxt.setBounds(20, 565, 400, 23);
 		tables_inputPanel.add(tables_aepIdTxt);
 		
 		JLabel lblAepStartDate = new JLabel("AEP Start Date:");
 		lblAepStartDate.setForeground(Color.WHITE);
 		lblAepStartDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		lblAepStartDate.setBounds(18, 601, 190, 29);
+		lblAepStartDate.setBounds(20, 590, 190, 29);
 		tables_inputPanel.add(lblAepStartDate);
 		
 		JLabel lblAepExpiryDate = new JLabel("AEP Expiry Date:");
 		lblAepExpiryDate.setForeground(Color.WHITE);
 		lblAepExpiryDate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		lblAepExpiryDate.setBounds(226, 601, 192, 29);
+		lblAepExpiryDate.setBounds(228, 590, 192, 29);
 		tables_inputPanel.add(lblAepExpiryDate);
 		
 		JLabel tables_chooseLbl = new JLabel("Choose a Client:");
@@ -543,13 +555,60 @@ public class TablesUpdateTransactions extends JFrame{
 		tables_companyPositionLbl.setBounds(1173, 760, 358, 31);
 		getContentPane().add(tables_companyPositionLbl);
 		
+		JButton tables_registerBtn = new JButton("Update Info");
+		tables_registerBtn.setEnabled(false);
+		tables_registerBtn.setBorder(null);
+		tables_registerBtn.setForeground(new Color(255, 255, 255));
+		
 		JComboBox tables_comboBox1 = new JComboBox();
 		tables_comboBox1.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_comboBox1.setBounds(20, 142, 400, 25);
+		tables_comboBox1.setBounds(20, 142, 400, 26);
 		tables_inputPanel.add(tables_comboBox1);
 		
 		tables_comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				tables_passportNoTxt.setText("");
+				tables_tinIdTxt.setText("");
+				tables_visaTypeTxt.setText("");
+				visaStartPick.getJFormattedTextField().setText("");
+				visaEndPick.getJFormattedTextField().setText("");
+				tables_permitTypeTxt.setText("");
+				permitStartPick.getJFormattedTextField().setText("");
+				permitEndPick.getJFormattedTextField().setText("");
+				tables_aepIdTxt.setText("");
+				aepStartPick.getJFormattedTextField().setText("");
+				aepEndPick.getJFormattedTextField().setText("");
+				
+				if(tables_comboBox.getSelectedIndex() == 0) {
+					tables_passportNoTxt.setEditable(false);
+					tables_tinIdTxt.setEditable(false);
+					tables_registerBtn.setEnabled(false);
+					tables_visaTypeTxt.setEnabled(false);
+					visaStartPick.setEnabled(false);
+					visaEndPick.setEnabled(false);
+					tables_permitTypeTxt.setEnabled(false);
+					permitStartPick.setEnabled(false);
+					permitEndPick.setEnabled(false);
+					tables_aepIdTxt.setEnabled(false);
+					aepStartPick.setEnabled(false);
+					aepEndPick.setEnabled(false);
+				}
+				
+				if(tables_comboBox.getSelectedIndex() != 0) {
+					tables_passportNoTxt.setEditable(false);
+					tables_tinIdTxt.setEditable(false);
+					tables_registerBtn.setEnabled(true);
+					tables_visaTypeTxt.setEnabled(true);
+					visaStartPick.setEnabled(true);
+					visaEndPick.setEnabled(true);
+					tables_permitTypeTxt.setEnabled(true);
+					permitStartPick.setEnabled(true);
+					permitEndPick.setEnabled(true);
+					tables_aepIdTxt.setEnabled(true);
+					aepStartPick.setEnabled(true);
+					aepEndPick.setEnabled(true);
+					
 				Connection conn;
 				try {
 					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
@@ -560,6 +619,11 @@ public class TablesUpdateTransactions extends JFrame{
 					
 					
 					String info = (String)tables_comboBox.getSelectedItem().toString();
+					
+					if(tables_comboBox.getSelectedItem() == tables_comboBox.getItemAt(0)) {
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Please Select a Client</font color = #ffffff></html>", "Invalid Selection", JOptionPane.ERROR_MESSAGE);
+					}
+					else {
 					
 					int temp = Integer.parseInt(info.substring(info.lastIndexOf(",")+2, info.length()));
 					
@@ -574,31 +638,35 @@ public class TablesUpdateTransactions extends JFrame{
 						tables_passportNoTxt.setText(rs1.getString("trans_passportNo"));
 						tables_tinIdTxt.setText(rs1.getString("trans_tinID"));
 						tables_comboBox1.addItem(rs1.getString("trans_transId"));
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-						
-=======
-=======
->>>>>>> parent of 20d4436... Upload now working but still under coding session.
-=======
->>>>>>> parent of 20d4436... Upload now working but still under coding session.
-=======
->>>>>>> parent of 20d4436... Upload now working but still under coding session.
-=======
->>>>>>> parent of 20d4436... Upload now working but still under coding session.
-=======
->>>>>>> parent of 20d4436... Upload now working but still under coding session.
-						if(!(rs1.getString("trans_transVisaType").toString().equals(""))){
-							tables_visaTypeTxt.setText(rs1.getString("trans_transVisaType").toString());
-							visaEndPick.getJFormattedTextField().setValue(rs1.getString("trans_VisaStartDate"));
-							visaStartPick.getJFormattedTextField().setValue(rs1.getString("trans_VisaEndDate"));
-							System.out.print("PASOK");
+							if(!(rs1.getString("trans_visaType").toString().equals(""))){
+							
+								tables_visaTypeTxt.setText(rs1.getString("trans_visaType").toString());
+								String visaStart = String.valueOf(rs1.getString("trans_visaStartDate"));
+								visaModel.setDate(Integer.parseInt(visaStart.substring(0, visaStart.indexOf("-"))), (Integer.parseInt(visaStart.substring(visaStart.indexOf("-")+1, visaStart.lastIndexOf("-"))))-1, Integer.parseInt(visaStart.substring(visaStart.lastIndexOf("-")+1, visaStart.length())));
+								visaModel.setSelected(true);
+								String visaEnd = String.valueOf(rs1.getString("trans_visaEndDate"));
+								visaModel1.setDate(Integer.parseInt(visaEnd.substring(0, visaEnd.indexOf("-"))), (Integer.parseInt(visaEnd.substring(visaEnd.indexOf("-")+1, visaEnd.lastIndexOf("-"))))-1, Integer.parseInt(visaEnd.substring(visaEnd.lastIndexOf("-")+1, visaEnd.length())));
+								visaModel1.setSelected(true);
+							}
+							
+							if(!(rs1.getString("trans_permitType").toString().equals(""))){	
+								tables_permitTypeTxt.setText(rs1.getString("trans_permitType").toString());
+								String permitStart = String.valueOf(rs1.getString("trans_permitStartDate"));
+								permitModel.setDate(Integer.parseInt(permitStart.substring(0, permitStart.indexOf("-"))), (Integer.parseInt(permitStart.substring(permitStart.indexOf("-")+1, permitStart.lastIndexOf("-"))))-1, Integer.parseInt(permitStart.substring(permitStart.lastIndexOf("-")+1, permitStart.length())));
+								permitModel.setSelected(true);
+								String permitEnd = String.valueOf(rs1.getString("trans_permitEndDate"));
+								permitModel1.setDate(Integer.parseInt(permitEnd.substring(0, permitEnd.indexOf("-"))), (Integer.parseInt(permitEnd.substring(permitEnd.indexOf("-")+1, permitEnd.lastIndexOf("-"))))-1, Integer.parseInt(permitEnd.substring(permitEnd.lastIndexOf("-")+1, permitEnd.length())));
+								permitModel1.setSelected(true);
+							}	
+							if(!(rs1.getString("trans_aepID").toString().equals(""))){	
+								tables_aepIdTxt.setText(rs1.getString("trans_aepID").toString());
+								String aepStart = String.valueOf(rs1.getString("trans_aepStartDate"));
+								aepModel.setDate(Integer.parseInt(aepStart.substring(0, aepStart.indexOf("-"))), (Integer.parseInt(aepStart.substring(aepStart.indexOf("-")+1, aepStart.lastIndexOf("-"))))-1, Integer.parseInt(aepStart.substring(aepStart.lastIndexOf("-")+1, aepStart.length())));
+								aepModel.setSelected(true);
+								String aepEnd = String.valueOf(rs1.getString("trans_aepEndDate"));
+								aepModel1.setDate(Integer.parseInt(aepEnd.substring(0, aepEnd.indexOf("-"))), (Integer.parseInt(aepEnd.substring(aepEnd.indexOf("-")+1, aepEnd.lastIndexOf("-"))))-1, Integer.parseInt(aepEnd.substring(aepEnd.lastIndexOf("-")+1, aepEnd.length())));
+								aepModel1.setSelected(true);
 						}
->>>>>>> parent of 20d4436... Upload now working but still under coding session.
 					}
 					while(rs.next()) {
 						tables_lastnameLbl.setText("Lastname: "+rs.getString("client_lastname"));
@@ -615,12 +683,13 @@ public class TablesUpdateTransactions extends JFrame{
 					tables_passportNoTxt.setEditable(false);
 					tables_tinIdTxt.setEditable(false);
 
-				}catch (SQLException e1) {
+					}
+					}catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 				tables_reloadBtn.doClick();
 			}
-		});
+		}});
 		
 		JLabel lblClientTransaction = new JLabel("------------------------ Client Transaction Details -----------------------");
 		lblClientTransaction.setHorizontalAlignment(SwingConstants.LEFT);
@@ -629,9 +698,7 @@ public class TablesUpdateTransactions extends JFrame{
 		lblClientTransaction.setBounds(20, 167, 400, 41);
 		tables_inputPanel.add(lblClientTransaction);
 		
-		JButton tables_registerBtn = new JButton("Update Info");
-		tables_registerBtn.setBorder(null);
-		tables_registerBtn.setForeground(new Color(255, 255, 255));
+
 		
 		java.util.Date date=new java.util.Date();
 		java.sql.Date sqlDate=new java.sql.Date(date.getTime());
@@ -714,10 +781,17 @@ public class TablesUpdateTransactions extends JFrame{
 			}// end of action performed
 			
 		public void Register() {
+			
+			UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
+		 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
+		 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
+		 	UIManager.put("Button.background", Color.WHITE);
+		 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
+		 	
 			Connection conn2;
 			try {
 				String sql = "UPDATE jdl_accounts.transactions SET trans_passportNo = ?, trans_tinID = ?, trans_visaType = ?, trans_visaStartDate = ?, trans_visaEndDate = ?, trans_permitType = ?, trans_permitStartDate = ?, trans_permitEndDate = ?, trans_aepID = ?, "
-						+ "trans_aepStartDate = ?, trans_aepEndDate = ?, client_id = ?, trans_transTimestamp = ? WHERE trans_transId = ?";
+						+ "trans_aepStartDate = ?, trans_aepEndDate = ?, client_id = ?, trans_transTimestamp = ?, trans_transAuthor = ? WHERE trans_transId = ?";
 				
 				conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 				PreparedStatement statement1 = conn2.prepareStatement(sql);
@@ -772,11 +846,14 @@ public class TablesUpdateTransactions extends JFrame{
 				java.sql.Date currentDate = new java.sql.Date(calendar.getTime().getTime());
 				    
 				statement1.setDate(13, currentDate);
-				statement1.setInt(14, Integer.parseInt(tables_comboBox1.getSelectedItem().toString()));
+				statement1.setString(14, adminAcc_usernameTxt.getText());
+				statement1.setInt(15, Integer.parseInt(tables_comboBox1.getSelectedItem().toString()));
 				
 				
 				statement1.executeUpdate();
 				tables_inputPanel.revalidate();
+				
+				JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Transaction has been updated./font color = #ffffff></html>", "Update Successful", JOptionPane.INFORMATION_MESSAGE);
 			}
 
 			 catch (SQLException e1) {
@@ -802,8 +879,15 @@ public class TablesUpdateTransactions extends JFrame{
 		tables_clientCreateTransactionLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new Tables().setVisible(true);
-				dispose();
+				
+				String user = adminAcc_usernameTxt.getText();
+				String pass = adminAcc_passwordTxt.getText();
+				Tables transactions = new Tables();
+			    transactions.setUser(user);
+			    transactions.setPass(pass);
+			    
+				transactions.setVisible(true);
+				setVisible(false);
 			}
 		});
 		tables_clientCreateTransactionLbl.setBounds(330, 48, 227, 37);
@@ -950,7 +1034,7 @@ public class TablesUpdateTransactions extends JFrame{
 		JLabel tables_transactionIdLbl = new JLabel("Select Transaction ID to edit:");
 		tables_transactionIdLbl.setForeground(Color.WHITE);
 		tables_transactionIdLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		tables_transactionIdLbl.setBounds(20, 113, 213, 29);
+		tables_transactionIdLbl.setBounds(20, 110, 213, 29);
 		tables_inputPanel.add(tables_transactionIdLbl);
 		getContentPane().add(scrollPane_1);
 		getContentPane().add(tables_specificClientLbl);
@@ -960,11 +1044,24 @@ public class TablesUpdateTransactions extends JFrame{
 		background_tables.setBounds(0, 0, 1550, 870);
 		getContentPane().add(background_tables);
 		
+		
 	}
-<<<<<<< HEAD
-=======
 	
+	//Username
+    public void setUser(String user) {
+    	this.adminAcc_usernameTxt.setText(user);
+    	}
+    public String getUser() {
+    	return this.adminAcc_usernameTxt.getText();
+    	}
+    //Password
+    public void setPass(String pass) {
+    	this.adminAcc_passwordTxt.setText(pass);
+    	}
+    public String getPass() {
+    	return this.adminAcc_passwordTxt.getText();
+    	}
 	
->>>>>>> parent of 20d4436... Upload now working but still under coding session.
+    
 }
 

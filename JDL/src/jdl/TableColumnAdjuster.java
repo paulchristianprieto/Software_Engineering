@@ -420,4 +420,7 @@ public class TableColumnAdjuster implements PropertyChangeListener, TableModelLi
 			}
 		}
 	}
+	
+
+	
 }

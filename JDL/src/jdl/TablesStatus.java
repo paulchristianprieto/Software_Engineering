@@ -39,6 +39,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.JComboBox;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -168,21 +169,37 @@ public class TablesStatus extends JFrame{
 				
 				try {
 					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
-					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 					String sql = "SELECT * FROM jdl_accounts.clients WHERE client_id=?";
 					String sql2 = "SELECT * FROM jdl_accounts.transactions WHERE client_id=?";
-					PreparedStatement statement = (PreparedStatement) conn.prepareStatement(sql);
-					PreparedStatement statement3= conn2.prepareStatement(sql2);
+					String sql3 = "SELECT client_id AS 'Client ID' "
+							+ ", trans_transId AS 'Transaction ID' " + 
+							", statusV_documentation AS 'Documentation' " + 
+							", statusV_dateFiled AS 'Date Filed'" + 
+							", statusV_immigrant AS 'Immigrant'" + 
+							", statusV_earlyHearing AS 'Early Hearing Date'" + 
+							", statusV_hearingDate AS 'Hearing Date'" + 
+							", statusV_agenda AS 'Agenda'" + 
+							", statusV_visaReleased AS 'Visa Released'" + 
+							", statusV_waiverEcc AS 'Waiver/ECC Payment/ Others'" + 
+							", statusV_acrIcard AS 'ACR I-card'" + 
+							", statusV_docComplete AS 'Documentation Complete'" + 
+							" FROM jdl_accounts.status_visa WHERE client_id = ? ORDER BY trans_transId DESC";
+					PreparedStatement statement = conn.prepareStatement(sql);
+					PreparedStatement statement3 = conn.prepareStatement(sql2);
+					PreparedStatement statement4 = conn.prepareStatement(sql3);
 					
 					String info = (String)tables_comboBox.getSelectedItem().toString();
 					
 					int temp = Integer.parseInt(info.substring(info.lastIndexOf(",")+2, info.length()));
 					
 					client_id = String.valueOf(temp);
+					
 					statement.setInt(1, temp);
 					statement3.setInt(1, temp);
+					statement4.setInt(1, temp);
 					
 					tables_comboBox1.removeAllItems();
+					
 					ResultSet rs = statement.executeQuery();
 					
 					 while(rs.next()) {
@@ -194,6 +211,14 @@ public class TablesStatus extends JFrame{
 						 while(rs1.next()){        
 						       	tables_comboBox1.addItem(rs1.getString("trans_transId"));       
 								    }
+						 
+					ResultSet rs2 = statement4.executeQuery();
+					
+					table.setModel(DbUtils.resultSetToTableModel(rs2));
+					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					
+					TableColumnAdjuster tca = new TableColumnAdjuster(table);
+					tca.adjustColumns();
 						 
 					} catch (SQLException e1) {
 						e1.printStackTrace();
@@ -253,6 +278,12 @@ public class TablesStatus extends JFrame{
 							", statusV_docComplete AS 'Documentation Complete'" + 
 							" FROM jdl_accounts.status_visa WHERE client_id ="+client_id+" ORDER BY trans_transId DESC");
 					
+					table_1.setModel(DbUtils.resultSetToTableModel(rs1));
+					table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					
+					TableColumnAdjuster tca1 = new TableColumnAdjuster(table_1);
+					tca1.adjustColumns();
+					
 					Statement stat2=conn.createStatement();
 					
 					ResultSet rs2 = stat2.executeQuery("SELECT client_id AS 'Client ID',"
@@ -269,12 +300,6 @@ public class TablesStatus extends JFrame{
 							", trans_aepStartDate AS 'AEP Start Date' " + 
 							", trans_aepEndDate AS 'AEP Expiry Date' " + 
 							" FROM jdl_accounts.transactions WHERE client_id ="+Integer.parseInt(client_id)+" ORDER BY trans_transId DESC");
-					
-					table_1.setModel(DbUtils.resultSetToTableModel(rs1));
-					table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-					
-					TableColumnAdjuster tca1 = new TableColumnAdjuster(table_1);
-					tca1.adjustColumns();
 					
 					table.setModel(DbUtils.resultSetToTableModel(rs2));
 					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -582,8 +607,9 @@ public class TablesStatus extends JFrame{
 		tables_updateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_addClientLbl = new JLabel("Add New Client", SwingConstants.CENTER);
-		tables_addClientLbl.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
+		tables_addClientLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				new TablesAddClient().setVisible(true);
 				dispose();
 			}
@@ -654,6 +680,13 @@ public class TablesStatus extends JFrame{
 		tables_registerBtn.setForeground(new Color(255, 255, 255));
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
+			 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
+			 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
+			 	UIManager.put("Button.background", Color.WHITE);
+			 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
+			 	
 				Connection conn3;
 				try {
 					String sql = "INSERT INTO jdl_accounts.status_visa (statusV_documentation, statusV_dateFiled, statusV_immigrant, statusV_earlyHearing, statusV_hearingDate, statusV_agenda, statusV_visaReleased, statusV_waiverECC, statusV_acrIcard, "
@@ -717,6 +750,9 @@ public class TablesStatus extends JFrame{
 					
 					statement2.executeUpdate();
 					tables_inputPanel.revalidate();
+					tables_reloadBtn.doClick();
+					
+					JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Visa Status has been made to this transaction.</font color = #ffffff></html>", "Visa Status Inserted", JOptionPane.INFORMATION_MESSAGE);
 					
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -819,5 +855,8 @@ public class TablesStatus extends JFrame{
 		tables_background.setBounds(0, 0, 1551, 848);
 		getContentPane().add(tables_background);
 	}
+	
+	
+	
 }
 

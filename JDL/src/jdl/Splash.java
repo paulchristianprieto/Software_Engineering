@@ -88,4 +88,7 @@ public class Splash extends JWindow {
     public static void main(String[] args) {
         execute = new Splash();
     }
+    
+    
+    
 };
