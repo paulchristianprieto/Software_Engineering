@@ -579,8 +579,11 @@ public class TablesUpdateTransactions extends JFrame{
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 						
 =======
+=======
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 =======
 >>>>>>> parent of 20d4436... Upload now working but still under coding session.
 =======
