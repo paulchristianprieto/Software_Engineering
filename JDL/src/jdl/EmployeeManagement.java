@@ -515,9 +515,12 @@ public class EmployeeManagement extends JFrame{
 <<<<<<< HEAD:JDL/src/jdl/EmployeeManagement.java
 <<<<<<< HEAD:JDL/src/jdl/EmployeeManagement.java
 <<<<<<< HEAD:JDL/src/jdl/EmployeeManagement.java
+<<<<<<< HEAD:JDL/src/jdl/EmployeeManagement.java
 						
 					}
 =======
+=======
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.:JDL/src/jdl/AccountManagement.java
 =======
 >>>>>>> parent of 20d4436... Upload now working but still under coding session.:JDL/src/jdl/AccountManagement.java
 =======
