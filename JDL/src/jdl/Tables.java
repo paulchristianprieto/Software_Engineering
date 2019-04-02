@@ -917,6 +917,11 @@ public class Tables extends JFrame{
 		getContentPane().add(background_tables);
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+		
+		
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 =======
 		
 		

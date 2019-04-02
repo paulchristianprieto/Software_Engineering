@@ -575,8 +575,11 @@ public class TablesUpdateTransactions extends JFrame{
 						tables_tinIdTxt.setText(rs1.getString("trans_tinID"));
 						tables_comboBox1.addItem(rs1.getString("trans_transId"));
 <<<<<<< HEAD
+<<<<<<< HEAD
 						
 =======
+=======
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 						if(!(rs1.getString("trans_transVisaType").toString().equals(""))){
 							tables_visaTypeTxt.setText(rs1.getString("trans_transVisaType").toString());
 							visaEndPick.getJFormattedTextField().setValue(rs1.getString("trans_VisaStartDate"));
