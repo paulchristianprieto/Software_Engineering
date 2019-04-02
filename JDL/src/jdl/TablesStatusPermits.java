@@ -39,7 +39,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.ColorUIResource;
 import javax.swing.JComboBox;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -88,7 +87,7 @@ public class TablesStatusPermits extends JFrame{
 		
 		//Main Panel
 	
-		setTitle("JDL: Status (Permits)");
+		setTitle("JDL: Status");
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
@@ -101,7 +100,7 @@ public class TablesStatusPermits extends JFrame{
 		getContentPane().setBackground(new Color(90, 103, 115));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(487, 519, 1036, 298);
+		scrollPane.setBounds(495, 530, 1036, 298);
 		getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -113,7 +112,7 @@ public class TablesStatusPermits extends JFrame{
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setSize(1036, 280);
-		scrollPane_1.setLocation(487, 198);
+		scrollPane_1.setLocation(495, 209);
 		
 		table_1 = new JTable();
 		table_1.setRowHeight(32);
@@ -137,7 +136,7 @@ public class TablesStatusPermits extends JFrame{
 		    defaults.put("Table.alternateRowColor", new Color(155, 177, 166));
 		
 		JButton tables_reloadBtn = new JButton("Reload");
-		tables_reloadBtn.setBounds(1381, 148, 138, 38);
+		tables_reloadBtn.setBounds(1389, 159, 138, 38);
 		tables_reloadBtn.setForeground(new Color(255, 255, 255));
 		tables_reloadBtn.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/main_refresh.png")));
 		
@@ -146,11 +145,11 @@ public class TablesStatusPermits extends JFrame{
 		JLabel tables_clientTransactionsLbl = new JLabel("Client Transactions");
 		tables_clientTransactionsLbl.setForeground(Color.WHITE);
 		tables_clientTransactionsLbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		tables_clientTransactionsLbl.setBounds(487, 481, 677, 37);
+		tables_clientTransactionsLbl.setBounds(495, 492, 677, 37);
 		getContentPane().add(tables_clientTransactionsLbl);
 		
 		JPanel tables_inputPanel = new JPanel();
-		tables_inputPanel.setBounds(25, 153, 450, 664);
+		tables_inputPanel.setBounds(25, 164, 450, 664);
 		tables_inputPanel.setBackground(new Color (255, 255, 255, 60));
 		tables_inputPanel.setLayout(null);
 
@@ -175,27 +174,11 @@ public class TablesStatusPermits extends JFrame{
 				
 				try {
 					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+					conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
 					String sql = "SELECT * FROM jdl_accounts.clients WHERE client_id=?";
 					String sql2 = "SELECT * FROM jdl_accounts.transactions WHERE client_id=?";
-					String sql3 = "SELECT client_id AS 'Client ID' "
-							+ ", trans_transId AS 'Transaction ID' " + 
-							", statusP_dateReceived AS 'Date Received' " +
-							", statusP_instructions AS 'Instructions' " +
-							", statusP_aepCancellation AS 'AEP Cancellation' " +
-							", statusP_downgrading AS 'Downgrading' " +
-							", statusP_aepExitClearance AS 'aepExitClearance' " +
-							", statusP_updatedVisaExtend AS 'Visa Extend' " +
-							", statusP_documentation AS 'Documentation' " + 
-							", statusP_addRequirements AS 'Add Requirements' " + 
-							", statusP_aepDateFiled AS 'AEP Date Filed'" +
-							", statusP_aepDateRelease AS 'AEP Date Released'" + 
-							", statusP_permitDateFiled AS 'Permit Date Filed'" +
-							", statusP_permitDateReleased AS 'Permit Date Released'" + 
-							", statusP_acrIcard AS 'ACR I-card'" + 
-							" FROM jdl_accounts.status_permits WHERE client_id = ? ORDER BY trans_transId DESC";
-					PreparedStatement statement = conn.prepareStatement(sql);
-					PreparedStatement statement3= conn.prepareStatement(sql2);
-					PreparedStatement statement4= conn.prepareStatement(sql3);
+					PreparedStatement statement = (PreparedStatement) conn.prepareStatement(sql);
+					PreparedStatement statement3= conn2.prepareStatement(sql2);
 					
 					String info = (String)tables_comboBox.getSelectedItem().toString();
 					
@@ -204,7 +187,6 @@ public class TablesStatusPermits extends JFrame{
 					client_id = String.valueOf(temp);
 					statement.setInt(1, temp);
 					statement3.setInt(1, temp);
-					statement4.setInt(1, temp);
 					
 					tables_comboBox1.removeAllItems();
 					ResultSet rs = statement.executeQuery();
@@ -218,10 +200,6 @@ public class TablesStatusPermits extends JFrame{
 						 while(rs1.next()){        
 						       	tables_comboBox1.addItem(rs1.getString("trans_transId"));       
 								    }
-						 
-							ResultSet rs2 = statement4.executeQuery();
-							table_1.setModel(DbUtils.resultSetToTableModel(rs1));
-							table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 						 
 					} catch (SQLException e1) {
 						e1.printStackTrace();
@@ -279,12 +257,6 @@ public class TablesStatusPermits extends JFrame{
 							", statusP_acrIcard AS 'ACR I-card'" + 
 							" FROM jdl_accounts.status_permits WHERE client_id ="+client_id+" ORDER BY trans_transId DESC");
 					
-					table_1.setModel(DbUtils.resultSetToTableModel(rs1));
-					table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-					
-					TableColumnAdjuster tca1 = new TableColumnAdjuster(table_1);
-					tca1.adjustColumns();
-					
 					Statement stat2=conn.createStatement();
 					
 					ResultSet rs2 = stat2.executeQuery("SELECT client_id AS 'Client ID',"
@@ -301,6 +273,12 @@ public class TablesStatusPermits extends JFrame{
 							", trans_aepStartDate AS 'AEP Start Date' " + 
 							", trans_aepEndDate AS 'AEP Expiry Date' " + 
 							" FROM jdl_accounts.transactions WHERE client_id ="+Integer.parseInt(client_id)+" ORDER BY trans_transId DESC");
+					
+					table_1.setModel(DbUtils.resultSetToTableModel(rs1));
+					table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					
+					TableColumnAdjuster tca1 = new TableColumnAdjuster(table_1);
+					tca1.adjustColumns();
 					
 					table.setModel(DbUtils.resultSetToTableModel(rs2));
 					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -325,7 +303,7 @@ public class TablesStatusPermits extends JFrame{
 		//Input Section (Labels and Associated Textfields)
 		
 		JLabel tables_inputSectionLbl = new JLabel("Input Section:");
-		tables_inputSectionLbl.setBounds(30, 107, 132, 37);
+		tables_inputSectionLbl.setBounds(30, 118, 132, 37);
 		tables_inputSectionLbl.setForeground(new Color(255, 255, 255));
 		tables_inputSectionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
@@ -544,20 +522,18 @@ public class TablesStatusPermits extends JFrame{
 		tables_updateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_addClientLbl = new JLabel("Add New Client", SwingConstants.CENTER);
-		tables_addClientLbl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		tables_addClientLbl.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
 				new TablesAddClient().setVisible(true);
 				dispose();
 			}
 		});
-
 		tables_addClientLbl.setBounds(25, 48, 295, 37);
 		tables_addClientLbl.setForeground(Color.LIGHT_GRAY);
 		tables_addClientLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel lblSpecificClient = new JLabel("Client Status (For Permit Filing)");
-		lblSpecificClient.setBounds(485, 158, 382, 37);
+		lblSpecificClient.setBounds(493, 169, 382, 37);
 		lblSpecificClient.setForeground(Color.WHITE);
 		lblSpecificClient.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		
@@ -632,12 +608,6 @@ public class TablesStatusPermits extends JFrame{
 		tables_registerBtn.setForeground(new Color(255, 255, 255));
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
-			 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
-			 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
-			 	UIManager.put("Button.background", Color.WHITE);
-			 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
 				Connection conn3;
 				try {
 					String sql = "INSERT INTO jdl_accounts.status_permits (statusP_dateReceived, statusP_instructions, statusP_aepCancellation, statusP_downgrading, statusP_aepExitClearance, statusP_updatedVisaExtend, statusP_documentation, statusP_addRequirements, statusP_aepDateFiled, "
@@ -720,7 +690,6 @@ public class TablesStatusPermits extends JFrame{
 						
 					statement2.executeUpdate();
 					tables_inputPanel.revalidate();
-					JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Permit Status has been made to this transaction.</font color = #ffffff></html>", "Permit Status Inserted", JOptionPane.INFORMATION_MESSAGE);
 					
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -806,7 +775,7 @@ public class TablesStatusPermits extends JFrame{
 		btnVisa.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		btnVisa.setBorder(null);
 		btnVisa.setBackground(new Color(0, 102, 102));
-		btnVisa.setBounds(172, 107, 86, 38);
+		btnVisa.setBounds(172, 118, 86, 38);
 		getContentPane().add(btnVisa);
 		
 		JButton btnPermit = new JButton("Permits");
@@ -820,7 +789,7 @@ public class TablesStatusPermits extends JFrame{
 		btnPermit.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		btnPermit.setBorder(null);
 		btnPermit.setBackground(new Color(255, 153, 51));
-		btnPermit.setBounds(268, 107, 86, 38);
+		btnPermit.setBounds(268, 118, 86, 38);
 		getContentPane().add(btnPermit);
 		
 		JLabel tables_back = new JLabel("");
@@ -863,7 +832,5 @@ public class TablesStatusPermits extends JFrame{
 						tables_background.setBounds(0, 0, 1550, 850);
 						getContentPane().add(tables_background);
 	}
-	
-	
 }
 

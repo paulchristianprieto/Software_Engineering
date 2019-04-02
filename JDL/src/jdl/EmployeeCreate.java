@@ -49,13 +49,13 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class AccountDelete extends JFrame{
+public class EmployeeCreate extends JFrame{
 	private JTextField tables_clientBirthdateTxt;
 	private String clientSelectedName;
-	private JTextField emp_FirstnameTxt;
 	private boolean tables_validator = true;
-	private JTextField emp_LastnameTxt;
+	private JTextField emp_passwordTxt;
 	private JTextField emp_userIdTxt;
+	private JTextField emp_usernameTxt;
 	/**
 	 * Launch the application.
 	 */
@@ -75,7 +75,7 @@ public class AccountDelete extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public AccountDelete() {
+	public EmployeeCreate() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Tables.class.getResource("/jdl/Assets/login_small.png")));	
 		
 		//Main Panel
@@ -101,78 +101,20 @@ public class AccountDelete extends JFrame{
 		tables_inputPanel.setBackground(new Color (255,255,255,60));
 		tables_inputPanel.setLayout(null);
 		
-		JComboBox emp_comboBox = new JComboBox();
-		emp_comboBox.addItem("Select username");
-		emp_comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Connection conn;
-				try {
-					conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
-					String sql = "SELECT * FROM jdl_accounts.users WHERE user_username=?";
-					String sql1 = "SELECT * FROM jdl_accounts.employees WHERE user_id=?";
-					PreparedStatement statement = (PreparedStatement) conn.prepareStatement(sql);
-					PreparedStatement statement1 = (PreparedStatement) conn.prepareStatement(sql1);
-					
-					statement.setString(1,(String)emp_comboBox.getSelectedItem().toString());
-					ResultSet rs = statement.executeQuery();
-					
-					while (rs.next()) {
-					emp_userIdTxt.setText(rs.getString("user_id"));	
-					}
-					
-					statement1.setInt(1, Integer.parseInt(emp_userIdTxt.getText()));
-					ResultSet rs1 = statement1.executeQuery();
-					
-					while (rs1.next()) {
-						emp_LastnameTxt.setText(rs1.getString("emp_lastname"));
-						emp_FirstnameTxt.setText(rs1.getString("emp_firstname"));
-					}
-				}
-				catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		
-		Connection conn1;
-		try {
-			conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
-			Statement stat=conn1.createStatement();
-			ResultSet rs1=stat.executeQuery("SELECT * FROM jdl_accounts.users");
-			
-			 while(rs1.next()){        
-				 	String user_username = rs1.getString("user_username");
-			
-			       	emp_comboBox.addItem(user_username);
-			       	clientSelectedName = emp_comboBox.getSelectedItem().toString();
-			       	
-			    }
-			
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-		emp_comboBox.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
-		emp_comboBox.setBounds(20, 42, 318, 29);
-		
-		AutoCompletion.enable(emp_comboBox);
-		tables_inputPanel.add(emp_comboBox);
-		
-		JLabel emp_assignLbl = new JLabel("Select an Account to Delete:");
-		emp_assignLbl.setForeground(Color.WHITE);
-		emp_assignLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		emp_assignLbl.setBounds(20, 0, 231, 41);
-		tables_inputPanel.add(emp_assignLbl);
+		JLabel emp_usernameLbl = new JLabel("Enter Username:");
+		emp_usernameLbl.setForeground(Color.WHITE);
+		emp_usernameLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		emp_usernameLbl.setBounds(20, 0, 231, 41);
+		tables_inputPanel.add(emp_usernameLbl);
 		
 		JLabel emp_userIdLbl = new JLabel("User ID:");
 		emp_userIdLbl.setForeground(Color.WHITE);
 		emp_userIdLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		emp_userIdLbl.setBounds(348, 0, 63, 41);
+		emp_userIdLbl.setBounds(281, 0, 63, 41);
 		tables_inputPanel.add(emp_userIdLbl);
 		
 		emp_userIdTxt = new JTextField();
-		emp_userIdTxt.setEditable(false);
-		emp_userIdTxt.setBounds(348, 42, 72, 29);
+		emp_userIdTxt.setBounds(284, 42, 136, 29);
 		tables_inputPanel.add(emp_userIdTxt);
 		emp_userIdTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
 		emp_userIdTxt.setColumns(10);
@@ -189,36 +131,27 @@ public class AccountDelete extends JFrame{
 
 		JDatePanelImpl BirthdatePanel = new JDatePanelImpl(birthdateModel, birthdate);
 		
-		JLabel emp_LastnameLbl = new JLabel("Lastname:");
+		JLabel emp_LastnameLbl = new JLabel("Password:");
 		emp_LastnameLbl.setForeground(Color.WHITE);
 		emp_LastnameLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
 		emp_LastnameLbl.setBounds(20, 108, 190, 41);
 		tables_inputPanel.add(emp_LastnameLbl);
 		
-		emp_FirstnameTxt = new JTextField();
-		emp_FirstnameTxt.setEditable(false);
-		emp_FirstnameTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		emp_FirstnameTxt.setColumns(10);
-		emp_FirstnameTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		emp_FirstnameTxt.setBounds(20, 203, 400, 23);
-		tables_inputPanel.add(emp_FirstnameTxt);
-		
-		JLabel emp_FirstnameLbl = new JLabel("Firstname:");
+		JLabel emp_FirstnameLbl = new JLabel("Create this account as an Administrator?");
 		emp_FirstnameLbl.setForeground(Color.WHITE);
 		emp_FirstnameLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		emp_FirstnameLbl.setBounds(20, 168, 298, 41);
+		emp_FirstnameLbl.setBounds(20, 179, 298, 41);
 		tables_inputPanel.add(emp_FirstnameLbl);
 		
-		emp_LastnameTxt = new JTextField();
-		emp_LastnameTxt.setEditable(false);
-		emp_LastnameTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		emp_LastnameTxt.setColumns(10);
-		emp_LastnameTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		emp_LastnameTxt.setBounds(20, 147, 400, 23);
-		tables_inputPanel.add(emp_LastnameTxt);
+		emp_passwordTxt = new JTextField();
+		emp_passwordTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		emp_passwordTxt.setColumns(10);
+		emp_passwordTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
+		emp_passwordTxt.setBounds(20, 147, 400, 29);
+		tables_inputPanel.add(emp_passwordTxt);
 		
 		
-		JLabel tables_primaryInformationLbl = new JLabel("----------------------------- Account Owner ------------------------------");
+		JLabel tables_primaryInformationLbl = new JLabel("-------------------------- Sensitive Credentials ---------------------------");
 		tables_primaryInformationLbl.setHorizontalAlignment(SwingConstants.LEFT);
 		tables_primaryInformationLbl.setForeground(Color.WHITE);
 		tables_primaryInformationLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
@@ -242,25 +175,32 @@ public class AccountDelete extends JFrame{
 		getContentPane().add(label);
 		getContentPane().add(tables_inputPanel);
 		
-		JButton tables_registerBtn = new JButton("Delete this User");
+		JComboBox comboBox = new JComboBox();
+		comboBox.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+		comboBox.setBounds(20, 219, 400, 29);
+		tables_inputPanel.add(comboBox);
+		comboBox.addItem("No");
+		comboBox.addItem("Yes");
+		
+		JButton tables_registerBtn = new JButton("Create this User");
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Connection conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
-					String sql = "DELETE FROM jdl_accounts.employees WHERE user_id=?";
-					String sql1 = "DELETE FROM jdl_accounts.users WHERE user_id=?";
+					String sql = "INSERT INTO jdl_accounts.users (user_username, user_id, user_password, user_ifAdmin) values (?,?,?,?)";
 					PreparedStatement statement = (PreparedStatement) conn.prepareStatement(sql);
-					PreparedStatement statement1 = (PreparedStatement) conn.prepareStatement(sql1);
 					
-					if(emp_userIdTxt.getText().equals("")) {
-						statement.setString(1, null);
-						statement1.setString(1, null);
-					}
-					else {
-						statement.setInt(1, Integer.parseInt(emp_userIdTxt.getText()));
-						statement1.setInt(1, Integer.parseInt(emp_userIdTxt.getText()));
-					}
+					statement.setString(1, emp_usernameTxt.getText());
+					statement.setInt(2, Integer.parseInt(emp_userIdTxt.getText()));
+					statement.setString(3, emp_passwordTxt.getText());
 					
+					if(comboBox.getSelectedItem().toString()=="Yes") {
+						statement.setInt(4, 1);
+					}
+					else
+						statement.setInt(4, 0);
+					
+	
 					UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
 				 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
 				 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
@@ -268,18 +208,26 @@ public class AccountDelete extends JFrame{
 				 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
 				 	
 				 	if(emp_userIdTxt.getText().equals("")) {
-				 		JOptionPane.showMessageDialog(null, "<html><font color = #ffffff> No user is specified. Please select one. </font color = #ffffff></html>", "Error in Deletion", JOptionPane.INFORMATION_MESSAGE);
+				 		JOptionPane.showMessageDialog(null, "<html><font color = #ffffff> No USER ID was specified. Kindly fill out the fields. </font color = #ffffff></html>", "Error in Creation", JOptionPane.INFORMATION_MESSAGE);
+				 	}
+				 	else if(emp_usernameTxt.getText().equals("")) {
+				 		JOptionPane.showMessageDialog(null, "<html><font color = #ffffff> No USERNAME was specified. Kindly fill out the fields. </font color = #ffffff></html>", "Error in Creation", JOptionPane.INFORMATION_MESSAGE);
+				 	}
+				 	else if(emp_passwordTxt.getText().equals("")) {
+				 		JOptionPane.showMessageDialog(null, "<html><font color = #ffffff> No PASSWORD was specified. Kindly fill out the fields. </font color = #ffffff></html>", "Error in Creation", JOptionPane.INFORMATION_MESSAGE);
+				 	}
+				 	else if(emp_usernameTxt.getText().length() <= 1) {
+				 		JOptionPane.showMessageDialog(null, "<html><font color = #ffffff> Acceptable usernames must be at least 2 characters and above. Please enter a valid one.  </font color = #ffffff></html>", "Error in Creation", JOptionPane.INFORMATION_MESSAGE);
+				 	}
+				 	else if(emp_passwordTxt.getText().length()<=7 ) {
+				 		JOptionPane.showMessageDialog(null, "<html><font color = #ffffff> Acceptable Passwords must be at least 7 characters and above. Please lengthen your password. </font color = #ffffff></html>", "Error in Creation", JOptionPane.INFORMATION_MESSAGE);
 				 	}
 				 	else {
-				 		int message = JOptionPane.showConfirmDialog(null, "<html><font color = #ffffff> Are you sure you want to delete this user?<br>This will prevent"
-				 			+ " the user from accessing this system.</br></font color = #ffffff></html>", "Are you sure?", JOptionPane.YES_NO_OPTION);
+				 		int message = JOptionPane.showConfirmDialog(null, "<html><font color = #ffffff> Create this user? </br></font color = #ffffff></html>", "Are you sure?", JOptionPane.YES_NO_OPTION);
 				 			if (message == JOptionPane.YES_OPTION) {
-				 				statement.executeUpdate();
-				 				statement1.executeUpdate();
+				 				statement.execute();
 			    		
-				 				JOptionPane.showMessageDialog(null, "<html><font color = #ffffff> User Successfully deleted. </font color = #ffffff></html>", "Deleted Successfully", JOptionPane.INFORMATION_MESSAGE);
-				 				dispose();
-				 				new AccountDelete().setVisible(true);
+				 				JOptionPane.showMessageDialog(null, "<html><font color = #ffffff> User Successfully deleted. </font color = #ffffff></html>", "Created Successfully", JOptionPane.INFORMATION_MESSAGE);
 			    	}
 					
 				} 
@@ -291,14 +239,21 @@ public class AccountDelete extends JFrame{
 			}
 		});
 		tables_registerBtn.setForeground(new Color(255, 255, 255));
-		tables_registerBtn.setBounds(121, 259, 197, 36);
+		tables_registerBtn.setBounds(121, 267, 197, 36);
 		tables_inputPanel.add(tables_registerBtn);
 
 		
 		tables_registerBtn.setBackground(new Color(0, 102, 102));
 		tables_registerBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 13));
 		
-		JLabel emp_employeeDeleteLbl = new JLabel("Delete an Account");
+		emp_usernameTxt = new JTextField();
+		emp_usernameTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+		emp_usernameTxt.setColumns(10);
+		emp_usernameTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
+		emp_usernameTxt.setBounds(20, 42, 254, 29);
+		tables_inputPanel.add(emp_usernameTxt);
+		
+		JLabel emp_employeeDeleteLbl = new JLabel("Employee Create");
 		emp_employeeDeleteLbl.setBounds(158, 2, 168, 41);
 		getContentPane().add(emp_employeeDeleteLbl);
 		emp_employeeDeleteLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -309,26 +264,23 @@ public class AccountDelete extends JFrame{
 		emp_close.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new AccountManagement().setVisible(true);
 				dispose();
 			}
 		});
-		emp_close.setIcon(new ImageIcon(AccountDelete.class.getResource("/jdl/Assets/button_back.png")));
-		emp_close.setBounds(10, 0, 26, 37);
+		emp_close.setIcon(new ImageIcon(EmployeeCreate.class.getResource("/jdl/Assets/button_close.png")));
+		emp_close.setBounds(452, 2, 26, 37);
 		getContentPane().add(emp_close);
 		
-		JLabel emp_warningLbl = new JLabel("Note: This will also delete the account information associated in this account.");
-		emp_warningLbl.setForeground(new Color(255, 255, 255));
+		JLabel emp_warningLbl = new JLabel("<html><center> Note: You may want to create an employee information later <br> regarding to this account.</center> </br></html>");
+		emp_warningLbl.setForeground(new Color(255, 204, 51));
 		emp_warningLbl.setFont(new Font("Segoe UI", Font.BOLD, 12));
-		emp_warningLbl.setBounds(23, 64, 441, 21);
+		emp_warningLbl.setBounds(79, 48, 343, 39);
 		getContentPane().add(emp_warningLbl);
 		
 		JLabel emp_background = new JLabel("New label");
-		emp_background.setIcon(new ImageIcon(AccountDelete.class.getResource("/jdl/Assets/background_tables4.jpg")));
+		emp_background.setIcon(new ImageIcon(EmployeeCreate.class.getResource("/jdl/Assets/background_tables4.jpg")));
 		emp_background.setBounds(0, 0, 488, 429);
 		getContentPane().add(emp_background);
-		
-		
 
 	}
 }

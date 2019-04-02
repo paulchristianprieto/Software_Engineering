@@ -18,7 +18,6 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-import java.util.Locale;
 import java.util.Properties;
 
 import net.proteanit.sql.DbUtils;
@@ -61,7 +60,6 @@ public class TablesAddClient extends JFrame{
 	private JTextField tables_clientContactTxt;
 	private JTextField tables_clientEmailTxt;
 	private JTable table_1;
-	private JTextField tables_clientCompanyTxt;
 	/**
 	 * Launch the application.
 	 */
@@ -101,7 +99,7 @@ public class TablesAddClient extends JFrame{
 		//Table
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(487, 203, 1040, 673);
+		scrollPane.setBounds(493, 208, 1040, 682);
 		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
 		table_1 = new JTable();
@@ -123,7 +121,7 @@ public class TablesAddClient extends JFrame{
 		//Input Section
 		
 		JPanel tables_inputPanel = new JPanel();
-		tables_inputPanel.setBounds(25, 155, 450, 721);
+		tables_inputPanel.setBounds(25, 169, 450, 721);
 		tables_inputPanel.setBackground(new Color (255, 255, 255, 60));
 		tables_inputPanel.setLayout(null);
 		
@@ -142,8 +140,7 @@ public class TablesAddClient extends JFrame{
 							+ "client_lastname AS 'Lastname'" +
 							", client_firstname AS 'Firstname'" + 
 							", client_alias AS 'Alias' " + 
-							", client_nationality AS 'Country' " + 
-							", client_birthdate AS 'Birthdate' " + 
+							", client_nationality AS 'Nationality' " + 
 							", client_gender AS 'Gender' " + 
 							", client_company AS 'Company' " + 
 							", client_position AS 'Company Position' " + 
@@ -152,7 +149,7 @@ public class TablesAddClient extends JFrame{
 							" FROM jdl_accounts.clients ORDER BY client_id DESC");
 					
 					table_1.setModel(DbUtils.resultSetToTableModel(rs));
-					table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					table_1.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 					
 					TableColumnAdjuster tca = new TableColumnAdjuster(table_1);
 					tca.adjustColumns();
@@ -165,6 +162,18 @@ public class TablesAddClient extends JFrame{
 		});
 		
 		tables_reloadBtn.doClick();
+	
+		JButton tables_orderByBtn = new JButton("Order By");
+		tables_orderByBtn.setBounds(1241, 159, 138, 38);
+		tables_orderByBtn.setForeground(new Color(255, 255, 255));
+		tables_orderByBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		tables_orderByBtn.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/button_sort.png")));
+		tables_orderByBtn.setBackground(new Color(0, 102, 102));
+		tables_orderByBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 		
 		tables_reloadBtn.setBackground(new Color(0, 102, 102));
 		tables_reloadBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
@@ -174,11 +183,12 @@ public class TablesAddClient extends JFrame{
 		//Input Section (Labels and Associated Textfields)
 		
 		JLabel tables_inputSectionLbl = new JLabel("Input Section");
-		tables_inputSectionLbl.setBounds(25, 111, 255, 44);
+		tables_inputSectionLbl.setBounds(25, 125, 255, 44);
 		tables_inputSectionLbl.setForeground(new Color(255, 255, 255));
 		tables_inputSectionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
-		JLabel tables_clientNationalityLbl = new JLabel("Country:");
+		
+		JLabel tables_clientNationalityLbl = new JLabel("Nationality:");
 		tables_clientNationalityLbl.setForeground(new Color(255, 255, 255));
 		tables_clientNationalityLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
 		tables_clientNationalityLbl.setBounds(20, 260, 204, 29);
@@ -190,12 +200,27 @@ public class TablesAddClient extends JFrame{
 		tables_clientBirthdateLbl.setBounds(20, 317, 197, 29);
 		tables_inputPanel.add(tables_clientBirthdateLbl);
 		
-		JComboBox tables_nationalityBox = new JComboBox(getAllCountries());
+		JComboBox tables_nationalityBox = new JComboBox();
+		tables_nationalityBox.setEditable(true);
+		tables_nationalityBox.addItem("");
+		Connection conn1;
+		try {
+			
+			conn1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+			Statement stat=conn1.createStatement();
+			ResultSet rs1=stat.executeQuery("SELECT DISTINCT client_nationality FROM jdl_accounts.clients");
+			 while(rs1.next()){        
+				 	String nationality = rs1.getString("client_nationality");
+				 	tables_nationalityBox.addItem(nationality);
+			    }
+			 
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		tables_nationalityBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
 		tables_nationalityBox.setBounds(20, 290, 400, 25);
 		tables_inputPanel.add(tables_nationalityBox);	
-		tables_nationalityBox.setEditable(true);
-		AutoCompletion.enable(tables_nationalityBox);
+			
 			
 		getContentPane().add(scrollPane);
 		
@@ -327,7 +352,7 @@ public class TablesAddClient extends JFrame{
 		JLabel tables_registeredClientsLbl = new JLabel("Registered Clients");
 		tables_registeredClientsLbl.setForeground(Color.WHITE);
 		tables_registeredClientsLbl.setFont(new Font("Segoe UI", Font.BOLD, 19));
-		tables_registeredClientsLbl.setBounds(489, 155, 255, 37);
+		tables_registeredClientsLbl.setBounds(495, 160, 255, 37);
 		getContentPane().add(tables_registeredClientsLbl);
 		
 		JButton tables_registerBtn = new JButton("Register Client");
@@ -415,6 +440,7 @@ public class TablesAddClient extends JFrame{
 		
 		getContentPane().setLayout(null);
 		getContentPane().add(tables_inputSectionLbl);
+		getContentPane().add(tables_orderByBtn);
 		getContentPane().add(tables_reloadBtn);
 		getContentPane().add(tables_addClientLbl);
 		getContentPane().add(tables_clientCreateTransactionLbl);
@@ -426,24 +452,50 @@ public class TablesAddClient extends JFrame{
 		getContentPane().add(tables_inputPanel);
 		
 		JComboBox tables_genderBox = new JComboBox();
-		tables_genderBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+		tables_genderBox.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
+=======
+		tables_genderBox.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
+=======
+		tables_genderBox.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 		tables_genderBox.setBounds(20, 402, 400, 24);
 		tables_inputPanel.add(tables_genderBox);
 		tables_genderBox.setEditable(false);
 		tables_genderBox.addItem("Male");
 		tables_genderBox.addItem("Female");
-		getContentPane().add(scrollPane);
 		
+		JComboBox tables_companyBox = new JComboBox();
+		tables_companyBox.setBounds(20, 457, 400, 24);
+		tables_inputPanel.add(tables_companyBox);
+		tables_companyBox.setEditable(true);
+		tables_companyBox.addItem("");
+		getContentPane().add(scrollPane);
+		AutoCompletion.enable(tables_companyBox);
+		AutoCompletion.enable(tables_nationalityBox);
+		
+		Connection conn2;
+		try {
+			
+			conn2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdl_accounts?autoReconnect=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC","root","password");
+			Statement stat=conn2.createStatement();
+			ResultSet rs1=stat.executeQuery("SELECT DISTINCT client_company FROM jdl_accounts.clients");
+			 while(rs1.next()){        
+				 	String company = rs1.getString("client_company");
+				 	tables_companyBox.addItem(company);
+			    }
+			 
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		tables_nationalityBox.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
 		tables_nationalityBox.setBounds(20, 290, 400, 25);
 		tables_inputPanel.add(tables_nationalityBox);
-		
-		tables_clientCompanyTxt = new JTextField();
-		tables_clientCompanyTxt.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 15));
-		tables_clientCompanyTxt.setColumns(10);
-		tables_clientCompanyTxt.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tables_clientCompanyTxt.setBounds(20, 459, 400, 23);
-		tables_inputPanel.add(tables_clientCompanyTxt);
 		
 		JLabel tables_back = new JLabel("");
 		tables_back.setBounds(0, 0, 57, 37);
@@ -518,18 +570,13 @@ public class TablesAddClient extends JFrame{
 						statement1.setString(3, tables_nationalityBox.getSelectedItem().toString());
 						statement1.setDate(4, java.sql.Date.valueOf(birthdatePicker.getJFormattedTextField().getText().toString()));
 						statement1.setString(5, tables_genderBox.getSelectedItem().toString());
-						statement1.setString(6, tables_clientCompanyTxt.getText());
+						statement1.setString(6, tables_companyBox.getSelectedItem().toString());
 						statement1.setString(7, tables_clientPositionTxt.getText());
 						statement1.setString(8, tables_clientAliasTxt.getText());
 						statement1.setString(9, tables_clientContactTxt.getText());
 						statement1.setString(10, tables_clientEmailTxt.getText());
 						statement1.executeUpdate();
-						tables_reloadBtn.doClick();
-						
-						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Client has been added successfully.</font color = #ffffff></html>", "Client recorded.", JOptionPane.INFORMATION_MESSAGE);
-						
-						dispose();
-						new TablesAddClient().setVisible(true);
+						tables_inputPanel.revalidate();
 					}
 				}
 
@@ -540,15 +587,18 @@ public class TablesAddClient extends JFrame{
 	});
 	
 	}
+<<<<<<< HEAD
+=======
 	
-	public String[] getAllCountries() {
-	    String[] countries = new String[Locale.getISOCountries().length];
-	    String[] countryCodes = Locale.getISOCountries();
-	    for (int i = 0; i < countryCodes.length; i++) {
-	        Locale obj = new Locale("", countryCodes[i]);
-	        countries[i] = obj.getDisplayCountry();
-	    }
-	    return countries;
-	 }
+	
+<<<<<<< HEAD
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
+=======
+	
+<<<<<<< HEAD
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
+=======
+	
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 }
 
