@@ -454,6 +454,10 @@ public class TablesAddClient extends JFrame{
 		JComboBox tables_genderBox = new JComboBox();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+		tables_genderBox.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 =======
 		tables_genderBox.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
 >>>>>>> parent of 20d4436... Upload now working but still under coding session.
@@ -586,6 +590,10 @@ public class TablesAddClient extends JFrame{
 <<<<<<< HEAD
 =======
 	
+	
+<<<<<<< HEAD
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
+=======
 	
 <<<<<<< HEAD
 >>>>>>> parent of 20d4436... Upload now working but still under coding session.
