@@ -1062,5 +1062,6 @@ public class TablesUpdateTransactions extends JFrame{
     	return this.adminAcc_passwordTxt.getText();
     	}
 	
+    
 }
 

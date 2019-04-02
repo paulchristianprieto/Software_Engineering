@@ -1023,6 +1023,7 @@ public class Tables extends JFrame{
     public String getPass() {
     	return this.adminAcc_passwordTxt.getText();
     	}
+   
     
 }
 

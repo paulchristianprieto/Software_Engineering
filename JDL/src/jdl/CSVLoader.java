@@ -143,5 +143,6 @@ public class CSVLoader {
 	public void setSeprator(char seprator) {
 		this.seprator = seprator;
 	}
+	
 
 }

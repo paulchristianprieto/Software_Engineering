@@ -61,6 +61,7 @@ public class CSVLoaderMain {
 			
 		}catch(Exception exc) {
 			exc.printStackTrace();
+			
 		}
 	} 
 }

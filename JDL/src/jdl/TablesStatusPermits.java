@@ -865,5 +865,6 @@ public class TablesStatusPermits extends JFrame{
 	}
 	
 	
+	
 }
 

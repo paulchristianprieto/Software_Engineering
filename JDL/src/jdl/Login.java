@@ -322,5 +322,6 @@ public class Login extends JFrame {
 		getContentPane().add(login_background);
 		
 		
+		
 	}
 }
