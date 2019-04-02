@@ -574,7 +574,16 @@ public class TablesUpdateTransactions extends JFrame{
 						tables_passportNoTxt.setText(rs1.getString("trans_passportNo"));
 						tables_tinIdTxt.setText(rs1.getString("trans_tinID"));
 						tables_comboBox1.addItem(rs1.getString("trans_transId"));
+<<<<<<< HEAD
 						
+=======
+						if(!(rs1.getString("trans_transVisaType").toString().equals(""))){
+							tables_visaTypeTxt.setText(rs1.getString("trans_transVisaType").toString());
+							visaEndPick.getJFormattedTextField().setValue(rs1.getString("trans_VisaStartDate"));
+							visaStartPick.getJFormattedTextField().setValue(rs1.getString("trans_VisaEndDate"));
+							System.out.print("PASOK");
+						}
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 					}
 					while(rs.next()) {
 						tables_lastnameLbl.setText("Lastname: "+rs.getString("client_lastname"));
@@ -937,5 +946,10 @@ public class TablesUpdateTransactions extends JFrame{
 		getContentPane().add(background_tables);
 		
 	}
+<<<<<<< HEAD
+=======
+	
+	
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 }
 

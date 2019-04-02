@@ -171,10 +171,17 @@ public class OptionList extends JFrame{
 		options_employeeLbl.setBounds(415, 391, 180, 25);
 		getContentPane().add(options_employeeLbl);
 		
+<<<<<<< HEAD
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_upload.png")));
 		lblNewLabel.setBounds(42, 11, 26, 29);
 		getContentPane().add(lblNewLabel);
+=======
+		JLabel options_upload = new JLabel("");
+		options_upload.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_upload.png")));
+		options_upload.setBounds(42, 11, 26, 29);
+		getContentPane().add(options_upload);
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 		
 		JLabel options_background = new JLabel("");
 		options_background.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/background_optionList4.jpg")));

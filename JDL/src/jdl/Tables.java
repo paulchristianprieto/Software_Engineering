@@ -916,6 +916,11 @@ public class Tables extends JFrame{
 		background_tables.setBounds(0, 0, 1550, 870);
 		getContentPane().add(background_tables);
 		
+<<<<<<< HEAD
+=======
+		
+		
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 	}
 }
 

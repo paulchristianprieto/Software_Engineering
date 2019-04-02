@@ -452,6 +452,10 @@ public class TablesAddClient extends JFrame{
 		getContentPane().add(tables_inputPanel);
 		
 		JComboBox tables_genderBox = new JComboBox();
+<<<<<<< HEAD
+=======
+		tables_genderBox.setFont(new Font("Segoe UI Semibold", Font.BOLD, 14));
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 		tables_genderBox.setBounds(20, 402, 400, 24);
 		tables_inputPanel.add(tables_genderBox);
 		tables_genderBox.setEditable(false);
@@ -575,5 +579,10 @@ public class TablesAddClient extends JFrame{
 	});
 	
 	}
+<<<<<<< HEAD
+=======
+	
+	
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 }
 
