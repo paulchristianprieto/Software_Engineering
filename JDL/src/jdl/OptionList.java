@@ -68,10 +68,16 @@ public class OptionList extends JFrame{
 		
 		JLabel options_tableIcon = new JLabel("");
 		options_tableIcon.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseClicked(MouseEvent e) {
-				new Tables().setVisible(true);
-				dispose();
+				
+				String user = adminAcc_usernameTxt.getText();
+				String pass = adminAcc_passwordTxt.getText();
+				Tables transactions = new Tables();
+			    transactions.setUser(user);
+			    transactions.setPass(pass);
+			    
+				transactions.setVisible(true);
+				setVisible(false);
 			}
 		});
 		
@@ -200,6 +206,12 @@ public class OptionList extends JFrame{
 		getContentPane().add(options_employeeLbl);
 		
 		JLabel options_upload = new JLabel("");
+		options_upload.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				CSVLoaderMain csvImport = new CSVLoaderMain();
+				csvImport.run();
+			}
+		});
 		options_upload.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_upload.png")));
 		options_upload.setBounds(42, 11, 26, 29);
 		getContentPane().add(options_upload);

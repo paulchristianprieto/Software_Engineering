@@ -39,6 +39,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.JComboBox;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -95,7 +96,7 @@ public class TablesRemarks extends JFrame{
 		getContentPane().setBackground(new Color(90, 103, 115));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(495, 530, 1036, 309);
+		scrollPane.setBounds(495, 519, 1036, 290);
 		getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -107,7 +108,7 @@ public class TablesRemarks extends JFrame{
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setSize(1036, 280);
-		scrollPane_1.setLocation(495, 209);
+		scrollPane_1.setLocation(495, 183);
 		
 		table_1 = new JTable();
 		table_1.setRowHeight(32);
@@ -131,7 +132,7 @@ public class TablesRemarks extends JFrame{
 		    defaults.put("Table.alternateRowColor", new Color(155, 177, 166));
 		
 		JButton tables_reloadBtn = new JButton("Reload");
-		tables_reloadBtn.setBounds(1389, 159, 138, 38);
+		tables_reloadBtn.setBounds(1393, 137, 138, 38);
 		tables_reloadBtn.setForeground(new Color(255, 255, 255));
 		tables_reloadBtn.setIcon(new ImageIcon(Tables.class.getResource("/jdl/Assets/main_refresh.png")));
 		
@@ -140,11 +141,11 @@ public class TablesRemarks extends JFrame{
 		JLabel tables_clientTransactionsLbl = new JLabel("Client Transactions");
 		tables_clientTransactionsLbl.setForeground(Color.WHITE);
 		tables_clientTransactionsLbl.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		tables_clientTransactionsLbl.setBounds(495, 492, 677, 37);
+		tables_clientTransactionsLbl.setBounds(495, 471, 677, 37);
 		getContentPane().add(tables_clientTransactionsLbl);
 		
 		JPanel tables_inputPanel = new JPanel();
-		tables_inputPanel.setBounds(27, 234, 450, 587);
+		tables_inputPanel.setBounds(25, 183, 450, 626);
 		tables_inputPanel.setBackground(new Color (255, 255, 255, 60));
 		tables_inputPanel.setLayout(null);
 
@@ -284,7 +285,7 @@ public class TablesRemarks extends JFrame{
 		//Input Section (Labels and Associated Textfields)
 		
 		JLabel tables_inputSectionLbl = new JLabel("Input Section:");
-		tables_inputSectionLbl.setBounds(32, 186, 132, 37);
+		tables_inputSectionLbl.setBounds(25, 135, 132, 37);
 		tables_inputSectionLbl.setForeground(new Color(255, 255, 255));
 		tables_inputSectionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
@@ -446,18 +447,20 @@ public class TablesRemarks extends JFrame{
 		tables_updateTransactionLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel tables_addClientLbl = new JLabel("Add New Client", SwingConstants.CENTER);
-		tables_addClientLbl.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
+		tables_addClientLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				new TablesAddClient().setVisible(true);
 				dispose();
 			}
 		});
+
 		tables_addClientLbl.setBounds(25, 48, 295, 37);
 		tables_addClientLbl.setForeground(Color.LIGHT_GRAY);
 		tables_addClientLbl.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		
 		JLabel lblSpecificClient = new JLabel("Client Remarks");
-		lblSpecificClient.setBounds(493, 169, 382, 37);
+		lblSpecificClient.setBounds(495, 136, 382, 37);
 		lblSpecificClient.setForeground(Color.WHITE);
 		lblSpecificClient.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		
@@ -506,6 +509,12 @@ public class TablesRemarks extends JFrame{
 		tables_registerBtn.setForeground(new Color(255, 255, 255));
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				UIManager.put("OptionPane.background",new ColorUIResource(90, 103, 115));
+			 	UIManager.put("Panel.background",new ColorUIResource(90, 103, 115));
+			 	UIManager.put("OptionPane.messageFont", new Font("Segoe UI Semibold", Font.BOLD, 14));
+			 	UIManager.put("Button.background", Color.WHITE);
+			 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
 				Connection conn3;
 				try {
 					String sql = "INSERT INTO jdl_accounts.remarks (remarks_dateReceived, remarks_dateUpdated, remarks_reminders, remarks_toDo, remarks_transaction, client_id, trans_transId)  values (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE remarks_dateReceived = ?, remarks_dateUpdated = ?, remarks_reminders = ?,  remarks_toDo = ?, remarks_transaction = ?, "
@@ -549,6 +558,9 @@ public class TablesRemarks extends JFrame{
 					
 					statement2.executeUpdate();
 					tables_inputPanel.revalidate();
+					tables_reloadBtn.doClick();
+					
+					JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Remark has been made to this transaction.</font color = #ffffff></html>", "Remark Inserted", JOptionPane.INFORMATION_MESSAGE);
 					
 				} catch (SQLException e1) {
 					e1.printStackTrace();

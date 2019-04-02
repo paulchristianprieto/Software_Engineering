@@ -130,7 +130,7 @@ public class AccountManagement extends JFrame{
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBorder(new EmptyBorder(0, 0, 0, 0));
-		scrollPane_1.setBounds(484, 468, 914, 297);
+		scrollPane_1.setBounds(484, 468, 914, 305);
 		getContentPane().add(scrollPane_1);
 	
 		table_1 = new JTable();
@@ -545,6 +545,8 @@ public class AccountManagement extends JFrame{
 						
 						statement1.executeUpdate();
 						tables_inputPanel.revalidate();
+						
+						JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Employee Information has been successfully updated.</font color = #ffffff></html>", "Information Update Successful", JOptionPane.INFORMATION_MESSAGE);
 				}
 				}
 
