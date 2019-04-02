@@ -592,6 +592,7 @@ public class Tables extends JFrame{
 			}
 		});
 <<<<<<< HEAD
+<<<<<<< HEAD
 		
 		JLabel lblClientTransaction = new JLabel("------------------------ Client Transaction Details -----------------------");
 		lblClientTransaction.setHorizontalAlignment(SwingConstants.LEFT);
@@ -602,6 +603,9 @@ public class Tables extends JFrame{
 		
 =======
 		
+=======
+		
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 		JLabel lblClientTransaction = new JLabel("------------------------ Client Transaction Details -----------------------");
 		lblClientTransaction.setHorizontalAlignment(SwingConstants.LEFT);
 		lblClientTransaction.setForeground(Color.WHITE);
@@ -609,6 +613,9 @@ public class Tables extends JFrame{
 		lblClientTransaction.setBounds(20, 106, 400, 41);
 		tables_inputPanel.add(lblClientTransaction);
 		
+<<<<<<< HEAD
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
+=======
 >>>>>>> parent of 20d4436... Upload now working but still under coding session.
 		JButton tables_registerBtn = new JButton("Register Info");
 		tables_registerBtn.setBorder(null);
@@ -930,6 +937,11 @@ public class Tables extends JFrame{
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+		
+		
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 =======
 		
 		
