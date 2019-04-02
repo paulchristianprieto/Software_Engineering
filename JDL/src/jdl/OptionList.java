@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
@@ -20,11 +19,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class OptionList extends JFrame{
-	
-	private JTextField adminAcc_usernameTxt;
-	private String admin_username;
-	private String admin_password;
-	private JTextField adminAcc_passwordTxt;
 
 
 	/**
@@ -68,16 +62,10 @@ public class OptionList extends JFrame{
 		
 		JLabel options_tableIcon = new JLabel("");
 		options_tableIcon.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				String user = adminAcc_usernameTxt.getText();
-				String pass = adminAcc_passwordTxt.getText();
-				Tables transactions = new Tables();
-			    transactions.setUser(user);
-			    transactions.setPass(pass);
-			    
-				transactions.setVisible(true);
-				setVisible(false);
+				new Tables().setVisible(true);
+				dispose();
 			}
 		});
 		
@@ -92,21 +80,6 @@ public class OptionList extends JFrame{
 		options_close.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_minimizer.png")));
 		
 		JLabel options_profileView = new JLabel("");
-		options_profileView.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				
-				String user = adminAcc_usernameTxt.getText();
-				String pass = adminAcc_passwordTxt.getText();
-				
-				ViewAdministratorAccount viewAccount = new ViewAdministratorAccount();
-			    viewAccount.setUser(user);
-			    viewAccount.setPass(pass);
-			    
-				viewAccount.setVisible(true);
-				setVisible(false);
-			}
-		});
-		
 		options_profileView.setBounds(10, 11, 26, 29);
 		getContentPane().add(options_profileView);
 		options_profileView.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_viewUser.png")));
@@ -123,7 +96,7 @@ public class OptionList extends JFrame{
 				 	UIManager.put("OptionPane.foreground",new ColorUIResource(90, 103, 115));
 				 	
 				 
-			    int reply = JOptionPane.showConfirmDialog(null, "<html><font color = #ffffff> Are you sure you want to logout of the system? </font color = #ffffff></html>", "Logout?", JOptionPane.YES_NO_OPTION);
+			    int reply = JOptionPane.showConfirmDialog(null, "<html><font color = #ffffff> Are you sure you want to logout of the system? </font color = #ffffff></html>", "Error in Registration", JOptionPane.YES_NO_OPTION);
 			    	if (reply == JOptionPane.YES_OPTION) {
 			    		new Login().setVisible(true);
 			    		dispose();
@@ -149,15 +122,8 @@ public class OptionList extends JFrame{
 		JLabel options_manageIcon = new JLabel("");
 		options_manageIcon.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				String user = adminAcc_usernameTxt.getText();
-				String pass = adminAcc_passwordTxt.getText();
-				
-				AccountManagement manager = new AccountManagement();
-			    manager.setUser(user);
-			    manager.setPass(pass);
-			    
-				manager.setVisible(true);
-				setVisible(false);
+				new EmployeeManagement().setVisible(true);
+				dispose();
 			}
 		});
 		options_manageIcon.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/options_management.png")));
@@ -191,11 +157,11 @@ public class OptionList extends JFrame{
 		options_generateLbl.setBounds(429, 220, 166, 25);
 		getContentPane().add(options_generateLbl);
 		
-		JLabel options_manageLbl = new JLabel("MANAGE ACCOUNTS");
+		JLabel options_manageLbl = new JLabel("MANAGE EMPLOYEES");
 		options_manageLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		options_manageLbl.setForeground(Color.WHITE);
 		options_manageLbl.setFont(new Font("Segoe UI Semibold", Font.BOLD, 18));
-		options_manageLbl.setBounds(92, 391, 188, 25);
+		options_manageLbl.setBounds(92, 391, 180, 25);
 		getContentPane().add(options_manageLbl);
 		
 		JLabel options_employeeLbl = new JLabel("EMPLOYEE ACTIVITY");
@@ -205,49 +171,22 @@ public class OptionList extends JFrame{
 		options_employeeLbl.setBounds(415, 391, 180, 25);
 		getContentPane().add(options_employeeLbl);
 		
+<<<<<<< HEAD
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_upload.png")));
+		lblNewLabel.setBounds(42, 11, 26, 29);
+		getContentPane().add(lblNewLabel);
+=======
 		JLabel options_upload = new JLabel("");
-		options_upload.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				CSVLoaderMain csvImport = new CSVLoaderMain();
-				csvImport.run();
-			}
-		});
 		options_upload.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/button_upload.png")));
 		options_upload.setBounds(42, 11, 26, 29);
 		getContentPane().add(options_upload);
+>>>>>>> parent of 20d4436... Upload now working but still under coding session.
 		
 		JLabel options_background = new JLabel("");
 		options_background.setIcon(new ImageIcon(OptionList.class.getResource("/jdl/Assets/background_optionList4.jpg")));
 		options_background.setBounds(0, 0, 690, 480);
 		getContentPane().add(options_background);
 		
-		adminAcc_usernameTxt = new JTextField();
-		adminAcc_usernameTxt.setBounds(10, 464, 0, 0);
-		getContentPane().add(adminAcc_usernameTxt);
-		adminAcc_usernameTxt.setColumns(10);
-		
-		adminAcc_passwordTxt = new JTextField();
-		adminAcc_passwordTxt.setColumns(10);
-		adminAcc_passwordTxt.setBounds(675, 464, 0, 0);
-		getContentPane().add(adminAcc_passwordTxt);
-		
 	}
-	
-	//Username
-    public void setUser(String user) {
-    	this.adminAcc_usernameTxt.setText(user);
-    	}
-    public String getUser() {
-    	return this.adminAcc_usernameTxt.getText();
-    	}
-    
-    //Password
-    public void setPass(String pass) {
-    	this.adminAcc_passwordTxt.setText(pass);
-    	}
-    public String getPass() {
-    	return this.adminAcc_passwordTxt.getText();
-    	}
-    
-    
 }
