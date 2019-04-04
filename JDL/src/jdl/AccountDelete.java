@@ -80,7 +80,7 @@ public class AccountDelete extends JFrame{
 		
 		//Main Panel
 	
-		setTitle("JDL: Employee Management");
+		setTitle("JDL: Account Delete");
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);

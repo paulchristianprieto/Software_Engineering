@@ -109,7 +109,7 @@ public class AccountManagement extends JFrame{
 		
 		//Main Panel
 	
-		setTitle("JDL: Employee Management");
+		setTitle("JDL: Account Management");
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);

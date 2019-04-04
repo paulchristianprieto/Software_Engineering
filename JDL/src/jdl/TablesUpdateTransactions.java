@@ -853,7 +853,7 @@ public class TablesUpdateTransactions extends JFrame{
 				statement1.executeUpdate();
 				tables_inputPanel.revalidate();
 				
-				JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Transaction has been updated./font color = #ffffff></html>", "Update Successful", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "<html><font color = #ffffff>Transaction has been updated.</font color = #ffffff></html>", "Update Successful", JOptionPane.INFORMATION_MESSAGE);
 			}
 
 			 catch (SQLException e1) {

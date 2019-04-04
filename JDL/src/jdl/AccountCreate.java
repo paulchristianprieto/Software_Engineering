@@ -80,7 +80,7 @@ public class AccountCreate extends JFrame{
 		
 		//Main Panel
 	
-		setTitle("JDL: Employee Management");
+		setTitle("JDL: Account Create");
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
